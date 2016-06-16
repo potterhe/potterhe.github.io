@@ -1,1 +1,8 @@
+#source:      _post
+#destination: _site
+
+markdown: kramdown
 timezone: Asia/Shanghai
+
+redcarpet:
+  extensions: [fenced_code_blocks]
