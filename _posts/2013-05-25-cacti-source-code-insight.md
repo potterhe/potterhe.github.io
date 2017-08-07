@@ -32,7 +32,7 @@ poller进程由cron启动，在其生命周期内，负责编排所有的数据�
 poller进程启动后，在进行一系列cacti的初始化后，从系统中检索出数据采集任务集，然后将它们持久化到数据库(poller_output表)中,每一项数据指标一条记录。
 
 ### 并发控制
-cacti提供了两种并发模型来提升数据采集的效率，cmd.php和spine。其中cmd.php是多进程模型，用php语言实现; spine是多线程模型，具体实现不详。这里我们只讨论cmd.php方式的并发。下面的引文来自cacti的配置界面说明，大意是说，当使用cmd.php抓取数据时，可以通过增加进行数来提高性能（多进程模型）；当使用spine时，应该通过增加“Maximum Threads per Process”的值，提升性能（多线程模型）。
+cacti提供了两种并发模型来提升数据采集的效率，cmd.php和spine。其中cmd.php是多进程模型，用php语言实现; spine是多线程模型，具体实现不详。这里我们只讨论cmd.php方式的并发。下面的引文来自cacti的配置界面说明，大意是说，当使用cmd.php抓取数据时，可以通过增加进程数来提高性能（多进程模型）；当使用spine时，应该通过增加“Maximum Threads per Process”的值，提升性能（多线程模型）。
 
 >    "The number of concurrent processes to execute. Using a higher number when using cmd.php will improve performance. Performance improvements in spine are best resolved with the threads parameter"
 
@@ -43,13 +43,13 @@ cacti提供了两种并发模型来提升数据采集的效率，cmd.php和spine
 
 为了方便描述并发进程的任务分配，我们设计一个简化的场景。
 
-    +-----------+--------+
-    | 主机标识  | 任务数 |
-    +-----------+--------+
-    | host1     |   2    |
-    | host2     |   3    |
-    | host3     |   3    |
-    +-----------+--------+
+    +-----------+-----------+--------+
+    | 主机编号  | 主机标识  | 任务数 |
+    +-----------+-----------+--------+
+    | 1         | host1     |   2    |
+    | 2         | host2     |   3    |
+    | 3         | host3     |   3    |
+    +-----------+-----------+--------+
 
 设置发进程数为 $concurrent_processes = 2, 那么cacti的分配过程如下
 
@@ -85,7 +85,7 @@ cmd.php进程启动后，通过主机编号参数检索出任务集, 然后逐�
 
 
 ### 数据汇总，趋势图表
-poller进程把任务分配给cmd.php进程后，就一直不停的(usleep(500))轮询数据库(poller_output表),当发现有完成的任务时，它就把数据写入rrd文件，并把poller_output表中的记录删除。界面查看到的趋势图表等的数据源都是从rrd文件获取的。同时poller进程会关注完成所有采集任务的cmd.php进程，当所有进程都完成后(成功完成的进程（end_time）数 >= 启动的后台进程数)，本轮采集就结束了。
+poller进程把主机(host)分配给cmd.php进程后，就一直不停的(usleep(500))轮询数据库(poller_output表),当发现有完成的任务时，它就把数据写入rrd文件，并把poller_output表中的记录删除。界面查看到的趋势图表等的数据源都是从rrd文件获取的。同时poller进程会关注完成所有采集任务的cmd.php进程，当所有进程都完成后(成功完成的进程（end_time）数 >= 启动的后台进程数)，本轮采集就结束了。
 
 rrd相关的代码如下:
 
