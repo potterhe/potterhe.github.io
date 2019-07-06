@@ -1,6 +1,6 @@
 ---
 layout: post
-title: cdh-5.13 quickstart vm
+title: cdh-5.13 quickstart vm 使用笔记
 tags: cdh quickstart vm 5.13
 ---
 
