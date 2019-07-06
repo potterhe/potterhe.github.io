@@ -6,8 +6,8 @@ tags: cdh quickstart vm 5.13
 
 ## 下载和导入虚拟机.
 
-[下载 cdh-quickstart-vm](https://www.cloudera.com/downloads/quickstart_vms/5-13.html)
-[导入](https://www.cloudera.com/documentation/enterprise/5-13-x/topics/quickstart_vm_administrative_information.html)
+- [下载 cdh-quickstart-vm](https://www.cloudera.com/downloads/quickstart_vms/5-13.html)
+- [导入](https://www.cloudera.com/documentation/enterprise/5-13-x/topics/quickstart_vm_administrative_information.html)
 
 ## vm初始信息收集
 
@@ -100,7 +100,7 @@ drwxrwx---   1 root vboxsf   96 7月   4 19:00 sf_vbox-shared-folders
 [root@quickstart ~]# usermod -a -G vboxsf cloudera
 ```
 
-3. 重登陆，查看权限组.
+3. 重登陆，查看权限组. 如果重新登陆不行，就重启下vm
 
 ```sh
 [cloudera@quickstart ~]$ id
