@@ -19,7 +19,7 @@ tags: kube-proxy ipvs "no route to host"
 1.14也压测了一样有这个问题。已经找到根因，这个问题在最新版仍然存在，还在 Open 状态的 issue 81775 描述的正是这个问题: https://github.com/kubernetes/kubernetes/issues/81775
 
 
-观察到现象是服务滚动更新后，新的 pod ip:port 加入 rs 列表，权重为1，旧的 rs 对应 pod ip:port 权重变为0，并且通过 ipvsadm -lnc | grep <old-podip> 发现大量 TIME_WAIT 状态连接。当旧的 rs 完全没有连接后才会被踢掉(ActiveConn+InactiveConn=0)，这个是 kube-proxy 的逻辑，通过这里的代码可以确认：https://github.com/kubernetes/kubernetes/blob/master/pkg/proxy/ipvs/graceful_termination.go#L170
+观察到现象是服务滚动更新后，新的 pod ip:port 加入 rs 列表，权重为1，旧的 rs 对应 pod ip:port 权重变为0，并且通过`ipvsadm -lnc | grep <old-podip> `发现大量 TIME_WAIT 状态连接。当旧的 rs 完全没有连接后才会被踢掉(ActiveConn+InactiveConn=0)，这个是 kube-proxy 的逻辑，通过这里的代码可以确认：https://github.com/kubernetes/kubernetes/blob/master/pkg/proxy/ipvs/graceful_termination.go#L170
 
 kube-proxy 没有立即踢掉旧 rs 的原因是 ipvs 模式支持连接的 graceful termination，等存量连接完全 close 了才踢掉 rs。
 
@@ -43,3 +43,4 @@ kube-proxy 没有立即踢掉旧 rs 的原因是 ipvs 模式支持连接的 grac
 
 - https://engineering.dollarshaveclub.com/kubernetes-fixing-delayed-service-endpoint-updates-fd4d0a31852c
 - https://fuckcloudnative.io/posts/kubernetes-fixing-delayed-service-endpoint-updates/ 中文版本
+- 五元组：源IP地址，源端口，目的IP地址，目的端口，和传输层协议这五个量组成的一个集合
