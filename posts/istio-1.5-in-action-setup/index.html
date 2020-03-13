@@ -43,7 +43,7 @@ apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: i
 $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-override-default.">
 <meta itemprop="datePublished" content="2020-03-11T23:59:50&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-11T23:59:50&#43;08:00" />
-<meta itemprop="wordCount" content="1084">
+<meta itemprop="wordCount" content="1086">
 
 
 
@@ -321,7 +321,7 @@ COMMAND PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
 envoy    <span style="color:#ae81ff">19</span> root   32u  IPv4 <span style="color:#ae81ff">236714</span>      0t0  TCP *:15090 <span style="color:#f92672">(</span>LISTEN<span style="color:#f92672">)</span>
 </code></pre></div><p>通过以上的观察</p>
 <ul>
-<li>Pod 的15020端口，pilot-agent 监听，就绪探针使用。</li>
+<li>Pod 的15020端口，pilot-agent 监听，就绪探针使用 path: /healthz/ready。</li>
 <li>Pod 的15090端口，envoy的prometheus metric 端口，metrics_path: /stats/prometheus，这从prometheus的配置文件和 istio-ingressgateway 的 Deployment 定义的端口name: http-envoy-prom 确认。Pod 内访问 <code>curl http://localhost:15090/stats/prometheus</code> 可以获取数据。</li>
 <li>15000端口，<code>--proxyAdminPort</code> 已经很明确的标识了语义。</li>
 <li>Pod 无443端口监听。因为还没有添加port 443 的 Gateway 对象。</li>

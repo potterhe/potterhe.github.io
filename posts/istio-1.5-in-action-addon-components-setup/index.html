@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Potterhe&#39;s Site  | Istio 1.5.0 实战：“体验”监控，观测</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.60.1" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.1cb140d8ba31d5b2f1114537dd04802a.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="Istio 1.5.0 实战：“体验”监控，观测" />
+<meta property="og:description" content="本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习只是用于体验，切不可用于生产，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:
+ 安全。在没有应用“认证”、“授权”机制前，这些服务裸奔在公网是危险的，即使有的系统有帐密。 存储。这些服务都是有状态的，涉及状态数据的存储，如：promethues、grafana、kiali、tracing。这些 Pod 一旦重建，数据就会丢失。一般地，需要我们适配 k8s 标准化的存储机制，如：storageClass、pv、pvc等。  组件部署 grafana 在 override 文件中添加 addonComponents.grafana.enabled=true 项后，应用到集群。
+apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default addonComponents: grafana: enabled: true values: gateways: istio-ingressgateway: serviceAnnotations: # https://cloud.tencent.com/document/product/457/18210 service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=true nodeSelector: company.com/ingressgateway: true ports: # 公网lb控制暴露的端口. - name: http2 port: 80 targetPort: 80 - name: https port: 443 查看现场，预期会增加以下对象
+$ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc9c87cdf-j6ml8 1/1 Running 0 3d9h NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/grafana ClusterIP 172." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://potterhe.github.io/posts/istio-1.5-in-action-addon-components-setup/" />
+<meta property="article:published_time" content="2020-03-12T12:52:00+08:00" />
+<meta property="article:modified_time" content="2020-03-12T12:52:00+08:00" />
+<meta itemprop="name" content="Istio 1.5.0 实战：“体验”监控，观测">
+<meta itemprop="description" content="本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习只是用于体验，切不可用于生产，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:
+ 安全。在没有应用“认证”、“授权”机制前，这些服务裸奔在公网是危险的，即使有的系统有帐密。 存储。这些服务都是有状态的，涉及状态数据的存储，如：promethues、grafana、kiali、tracing。这些 Pod 一旦重建，数据就会丢失。一般地，需要我们适配 k8s 标准化的存储机制，如：storageClass、pv、pvc等。  组件部署 grafana 在 override 文件中添加 addonComponents.grafana.enabled=true 项后，应用到集群。
+apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default addonComponents: grafana: enabled: true values: gateways: istio-ingressgateway: serviceAnnotations: # https://cloud.tencent.com/document/product/457/18210 service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=true nodeSelector: company.com/ingressgateway: true ports: # 公网lb控制暴露的端口. - name: http2 port: 80 targetPort: 80 - name: https port: 443 查看现场，预期会增加以下对象
+$ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc9c87cdf-j6ml8 1/1 Running 0 3d9h NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/grafana ClusterIP 172.">
+<meta itemprop="datePublished" content="2020-03-12T12:52:00&#43;08:00" />
+<meta itemprop="dateModified" content="2020-03-12T12:52:00&#43;08:00" />
+<meta itemprop="wordCount" content="650">
+
+
+
+<meta itemprop="keywords" content="istio,实战,观测,安装," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Istio 1.5.0 实战：“体验”监控，观测"/>
+<meta name="twitter:description" content="本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习只是用于体验，切不可用于生产，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:
+ 安全。在没有应用“认证”、“授权”机制前，这些服务裸奔在公网是危险的，即使有的系统有帐密。 存储。这些服务都是有状态的，涉及状态数据的存储，如：promethues、grafana、kiali、tracing。这些 Pod 一旦重建，数据就会丢失。一般地，需要我们适配 k8s 标准化的存储机制，如：storageClass、pv、pvc等。  组件部署 grafana 在 override 文件中添加 addonComponents.grafana.enabled=true 项后，应用到集群。
+apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default addonComponents: grafana: enabled: true values: gateways: istio-ingressgateway: serviceAnnotations: # https://cloud.tencent.com/document/product/457/18210 service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=true nodeSelector: company.com/ingressgateway: true ports: # 公网lb控制暴露的端口. - name: http2 port: 80 targetPort: 80 - name: https port: 443 查看现场，预期会增加以下对象
+$ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc9c87cdf-j6ml8 1/1 Running 0 3d9h NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/grafana ClusterIP 172."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://potterhe.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Potterhe&#39;s Site
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        POSTS
+      </aside>
+      
+
+
+
+
+  <div id="sharing" class="mt3">
+
+    
+    <a href="https://www.facebook.com/sharer.php?u=https://potterhe.github.io/posts/istio-1.5-in-action-addon-components-setup/" class="facebook no-underline" aria-label="share on Facebook">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765,50.32h6.744V33.998h4.499l0.596-5.624h-5.095  l0.007-2.816c0-1.466,0.14-2.253,2.244-2.253h2.812V17.68h-4.5c-5.405,0-7.307,2.729-7.307,7.317v3.377h-3.369v5.625h3.369V50.32z   M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+
+    </a>
+
+    
+    
+    <a href="https://twitter.com/share?url=https://potterhe.github.io/posts/istio-1.5-in-action-addon-components-setup/&amp;text=Istio%201.5.0%20%e5%ae%9e%e6%88%98%ef%bc%9a%e2%80%9c%e4%bd%93%e9%aa%8c%e2%80%9d%e7%9b%91%e6%8e%a7%ef%bc%8c%e8%a7%82%e6%b5%8b" class="twitter no-underline" aria-label="share on Twitter">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+    </a>
+
+    
+    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://potterhe.github.io/posts/istio-1.5-in-action-addon-components-setup/&amp;title=Istio%201.5.0%20%e5%ae%9e%e6%88%98%ef%bc%9a%e2%80%9c%e4%bd%93%e9%aa%8c%e2%80%9d%e7%9b%91%e6%8e%a7%ef%bc%8c%e8%a7%82%e6%b5%8b" class="linkedin no-underline" aria-label="share on LinkedIn">
+      <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+    </a>
+  </div>
+
+      <h1 class="f1 athelas mt3 mb1">Istio 1.5.0 实战：“体验”监控，观测</h1>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2020-03-12T12:52:00&#43;08:00">March 12, 2020</time>
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习<strong>只是用于体验，切不可用于生产</strong>，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:</p>
+<ul>
+<li>安全。在没有应用“认证”、“授权”机制前，这些服务裸奔在公网是危险的，即使有的系统有帐密。</li>
+<li>存储。这些服务都是有状态的，涉及状态数据的存储，如：promethues、grafana、kiali、tracing。这些 Pod 一旦重建，数据就会丢失。一般地，需要我们适配 k8s 标准化的存储机制，如：storageClass、pv、pvc等。</li>
+</ul>
+<h2 id="heading">组件部署</h2>
+<h3 id="grafana">grafana</h3>
+<p>在 override 文件中添加 <code>addonComponents.grafana.enabled=true</code> 项后，应用到集群。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+spec:
+  profile: default
+  addonComponents:
+    grafana:
+      enabled: <span style="color:#66d9ef">true</span>
+  values:
+    gateways:
+      istio-ingressgateway:
+        serviceAnnotations:
+          <span style="color:#75715e"># https://cloud.tencent.com/document/product/457/18210</span>
+          service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=<span style="color:#66d9ef">true</span>
+        nodeSelector:
+          company.com/ingressgateway: <span style="color:#66d9ef">true</span>
+        ports:
+          <span style="color:#75715e"># 公网lb控制暴露的端口.</span>
+        - name: http2
+          port: <span style="color:#ae81ff">80</span>
+          targetPort: <span style="color:#ae81ff">80</span>
+        - name: https
+          port: <span style="color:#ae81ff">443</span>
+</code></pre></div><p>查看现场，预期会增加以下对象</p>
+<pre><code>$ kubectl get all -n istio-system
+NAME                                        READY   STATUS    RESTARTS   AGE
+pod/grafana-5dc9c87cdf-j6ml8                1/1     Running   0          3d9h
+
+NAME                                TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                                    AGE
+service/grafana                     ClusterIP      172.24.31.223   &lt;none&gt;          3000/TCP                                                   3d9h
+
+NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/grafana                1/1     1            1           3d9h
+
+NAME                                              DESIRED   CURRENT   READY   AGE
+replicaset.apps/grafana-5dc9c87cdf                1         1         1       3d9h
+</code></pre><p>定义 Gateway 暴露服务。保存以下内容到 istio-addon-components-gateway.yaml。</p>
+<pre><code>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-addon-components-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - &quot;grafana.company.com&quot;
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-grafana
+spec:
+  hosts:
+  - &quot;grafana.company.com&quot;
+  gateways:
+  - istio-addon-components-gateway
+  http:
+  - route:
+    - destination:
+        host: grafana
+        port:
+          number: 3000
+</code></pre><p>应用到集群。注意：Gateway 对象要和工作负载定义在同一个 namespace。</p>
+<pre><code>$ kubectl apply -f istio-addon-components-gateway.yaml -n istio-system
+</code></pre><p>体验。绑定 hosts 后，浏览器访问 <a href="http://grafana.company.com">http://grafana.company.com</a> ，完成后执行清理。</p>
+<pre><code>$ kubectl delete -f istio-addon-components-gateway.yaml -n istio-system
+</code></pre><h3 id="tracing">tracing</h3>
+<p>同 grafana 类似的部署流程，修改 override 文件，添加 <code>addonComponents.tracing.enabled=true</code>，<code>values.pilot.traceSampling=100</code> 这个选项是为提升采样率到100%，以采样更多数据，体验tracing的功能，生产默认值是1。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+spec:
+  profile: default
+  addonComponents:
+    grafana:
+      enabled: <span style="color:#66d9ef">true</span>
+    tracing:
+      enabled: <span style="color:#66d9ef">true</span>
+  values:
+    gateways:
+      istio-ingressgateway:
+        serviceAnnotations:
+          <span style="color:#75715e"># https://cloud.tencent.com/document/product/457/18210</span>
+          service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=<span style="color:#66d9ef">true</span>
+        nodeSelector:
+          company.com/ingressgateway: <span style="color:#66d9ef">true</span>
+        ports:
+          <span style="color:#75715e"># 公网lb控制暴露的端口.</span>
+        - name: http2
+          port: <span style="color:#ae81ff">80</span>
+          targetPort: <span style="color:#ae81ff">80</span>
+        - name: https
+          port: <span style="color:#ae81ff">443</span>
+    pilot:
+      traceSampling: <span style="color:#ae81ff">100</span>
+</code></pre></div><p>查看现场，预期会新增以下对象。</p>
+<pre><code>$ kubectl get all -n istio-system
+NAME                                        READY   STATUS    RESTARTS   AGE
+pod/istio-tracing-8648c56f59-qmcgk          1/1     Running   0          3d9h
+
+NAME                                TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                                    AGE
+service/jaeger-agent                ClusterIP      None            &lt;none&gt;          5775/UDP,6831/UDP,6832/UDP                                 3d9h
+service/jaeger-collector            ClusterIP      172.24.29.164   &lt;none&gt;          14267/TCP,14268/TCP,14250/TCP                              3d9h
+service/jaeger-collector-headless   ClusterIP      None            &lt;none&gt;          14250/TCP                                                  3d9h
+service/jaeger-query                ClusterIP      172.24.30.229   &lt;none&gt;          16686/TCP                                                  3d9h
+service/tracing                     ClusterIP      172.24.30.249   &lt;none&gt;          80/TCP                                                     3d9h
+service/zipkin                      ClusterIP      172.24.31.112   &lt;none&gt;          9411/TCP                                                   3d9h
+
+NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/istio-tracing          1/1     1            1           3d9h
+
+NAME                                              DESIRED   CURRENT   READY   AGE
+replicaset.apps/istio-tracing-8648c56f59          1         1         1       3d9h
+</code></pre><p>定义 Gateway 暴露服务。</p>
+<pre><code>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-addon-components-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - &quot;grafana.company.com&quot;
+    - &quot;tracing.company.com&quot;
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-grafana
+spec:
+  hosts:
+  - &quot;grafana.company.com&quot;
+  gateways:
+  - istio-addon-components-gateway
+  http:
+  - route:
+    - destination:
+        host: grafana
+        port:
+          number: 3000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-tracing
+spec:
+  hosts:
+  - &quot;tracing.company.com&quot;
+  gateways:
+  - istio-addon-components-gateway
+  http:
+  - route:
+    - destination:
+        host: tracing
+        port:
+          number: 80
+</code></pre><p>体验，清理步骤与 grafana 节描述的一致。</p>
+<h3 id="kiali">kiali</h3>
+<p>kiali 有帐号、密码验证，登陆的帐号和密码保存在 k8s 的名为 kiali (名字可变，通过 <code>values.kiali.dashboard.secretName</code> 设置) 的 Secret 对象中，这个 Secret 对象通过 volume 机制挂载到 Pod，所以需要事先创建，变更内容后，需要重建 Pod。通过设置 <code>values.kiali.createDemoSecret=true</code> 可以自动创建一个 Secret 对象（帐号，密码均为 “admin”），请谨慎决策。Secret 对象准备好后，在 override 文件中添加 <code>addonComponents.kiali.enabled=true</code> 项，应用到集群。</p>
+<p><a href="https://aws.amazon.com/cn/blogs/china/observe-service-mesh-kiali/">使用 Kiali 观察您的服务网格</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">kind: IstioOperator
+metadata:
+  namespace: istio-system
+spec:
+  profile: default
+  addonComponents:
+    grafana:
+      enabled: <span style="color:#66d9ef">true</span>
+    kiali:
+      enabled: <span style="color:#66d9ef">true</span>
+    tracing:
+      enabled: <span style="color:#66d9ef">true</span>
+  values:
+    gateways:
+      istio-ingressgateway:
+        serviceAnnotations:
+          <span style="color:#75715e"># https://cloud.tencent.com/document/product/457/18210</span>
+          service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=<span style="color:#66d9ef">true</span>
+        nodeSelector:
+          company.com/ingressgateway: <span style="color:#66d9ef">true</span>
+        ports:
+          <span style="color:#75715e"># 公网lb控制暴露的端口.</span>
+        - name: http2
+          port: <span style="color:#ae81ff">80</span>
+          targetPort: <span style="color:#ae81ff">80</span>
+        - name: https
+          port: <span style="color:#ae81ff">443</span>
+    pilot:
+      traceSampling: <span style="color:#ae81ff">100</span>
+</code></pre></div><p>查看现场，预期会新增以下对象。</p>
+<pre><code>$ kubectl get all -n istio-system
+NAME                                        READY   STATUS    RESTARTS   AGE
+pod/kiali-7469f7b56d-l55q4                  1/1     Running   0          3d5h
+
+NAME                                TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                                    AGE
+service/kiali                       ClusterIP      172.24.29.8     &lt;none&gt;          20001/TCP                                                  3d9h
+
+NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/kiali                  1/1     1            1           3d9h
+
+NAME                                              DESIRED   CURRENT   READY   AGE
+replicaset.apps/kiali-7469f7b56d                  1         1         1       3d9h
+</code></pre><p>定义 Gateway 暴露服务。</p>
+<pre><code>apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-addon-components-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - &quot;grafana.company.com&quot;
+    - &quot;tracing.company.com&quot;
+    - &quot;kiali.company.com&quot;
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-grafana
+spec:
+  hosts:
+  - &quot;grafana.company.com&quot;
+  gateways:
+  - istio-addon-components-gateway
+  http:
+  - route:
+    - destination:
+        host: grafana
+        port:
+          number: 3000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-tracing
+spec:
+  hosts:
+  - &quot;tracing.company.com&quot;
+  gateways:
+  - istio-addon-components-gateway
+  http:
+  - route:
+    - destination:
+        host: tracing
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-kiali
+spec:
+  hosts:
+  - &quot;kiali.company.com&quot;
+  gateways:
+  - istio-addon-components-gateway
+  http:
+  - route:
+    - destination:
+        host: kiali
+        port:
+          number: 20001
+</code></pre><p>体验，清理步骤与 grafana 节描述的一致。</p>
+<h2 id="heading1">小结</h2>
+<p>很粗放的部署了以“体验”为目的观测服务，后续我们将实现“认证”、“授权”机制来保护这些服务，Gateway 支持 https 服务。</p>
+<ul class="pa0">
+  
+   <li class="list">
+     <a href="/tags/istio" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">istio</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/%E5%AE%9E%E6%88%98" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">实战</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/%E8%A7%82%E6%B5%8B" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">观测</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/%E5%AE%89%E8%A3%85" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">安装</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/istio-1.5-in-action-setup/">Istio 1.5.0 实战：安装</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://potterhe.github.io/" >
+    &copy;  Potterhe's Site 2020 
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

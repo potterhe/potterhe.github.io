@@ -6,10 +6,22 @@
     <description>Recent content in 安装 on Potterhe&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 11 Mar 2020 23:59:50 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 12 Mar 2020 12:52:00 +0800</lastBuildDate>
     
 	<atom:link href="https://potterhe.github.io/tags/%E5%AE%89%E8%A3%85/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Istio 1.5.0 实战：“体验”监控，观测</title>
+      <link>https://potterhe.github.io/posts/istio-1.5-in-action-addon-components-setup/</link>
+      <pubDate>Thu, 12 Mar 2020 12:52:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/istio-1.5-in-action-addon-components-setup/</guid>
+      <description>本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习只是用于体验，切不可用于生产，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:
+ 安全。在没有应用“认证”、“授权”机制前，这些服务裸奔在公网是危险的，即使有的系统有帐密。 存储。这些服务都是有状态的，涉及状态数据的存储，如：promethues、grafana、kiali、tracing。这些 Pod 一旦重建，数据就会丢失。一般地，需要我们适配 k8s 标准化的存储机制，如：storageClass、pv、pvc等。  组件部署 grafana 在 override 文件中添加 addonComponents.grafana.enabled=true 项后，应用到集群。
+apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default addonComponents: grafana: enabled: true values: gateways: istio-ingressgateway: serviceAnnotations: # https://cloud.tencent.com/document/product/457/18210 service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=true nodeSelector: company.com/ingressgateway: true ports: # 公网lb控制暴露的端口. - name: http2 port: 80 targetPort: 80 - name: https port: 443 查看现场，预期会增加以下对象
+$ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc9c87cdf-j6ml8 1/1 Running 0 3d9h NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/grafana ClusterIP 172.</description>
+    </item>
     
     <item>
       <title>Istio 1.5.0 实战：安装</title>
