@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Potterhe&#39;s Site  | 源码分析</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.60.1" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.1cb140d8ba31d5b2f1114537dd04802a.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+      <link href="/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      
+    
+    
+    <meta property="og:title" content="源码分析" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://potterhe.github.io/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" />
+<meta property="og:updated_time" content="2013-05-25T23:59:50+08:00" />
+<meta itemprop="name" content="源码分析">
+<meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="源码分析"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+  <header>
+    <div class="pb3-m pb6-l bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://potterhe.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Potterhe&#39;s Site
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv3 ph3 ph4-ns">
+        <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
+          源码分析
+        </h1>
+        
+      </div>
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+  <article class="cf pa3 pa4-m pa4-l">
+    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
+      <p>Below you will find pages that utilize the taxonomy term “源码分析”</p>
+    </div>
+  </article>
+  <div class="mw8 center">    
+    <section class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100  mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/cacti-source-code-insight/" class="link black dim">
+        cacti源码分析－数据采集
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      cacti用于监控系统的各项运行指标，提供了交互界面和图表，是一个整合工具集，它完成两个核心任务： 1)指标数据的采集，2) 将数据通过数图进行展示。其中图表的绘制、图表数据的存储是通过rrdtool工具实现的，《RRDtool简体中文教程》对rrdtool工具进行了介绍，是很好的资料。本文分析指标数据采集的实现。
+如何获取目标数据 我们需要按照目标数据的暴露方式去采集相应的数据. 基于主机(host)的数据，如：系统负载，网卡流量，磁盘IO，TCP连接等已通过SNMP标准化，需要使用SNMP方式获取。应用级的数据要按照应用暴露数据的方式去获取,如: 如果要监控nginx（stub_status）数据,该项数据是通过http方式暴露，需使用http获取数据;如果要监控mysql-server（show status）数据，需要可以连接到mysql服务器，并有权限打印数据。
+cacti由cron驱动 cacti不是一个daemon进程，它由cron驱动。通常我们需要配置如下的cron: 下面的典型配置为每5分钟运行一次cacti的轮换数据进程。
+*/5 * * * * /PATH/TO/php /PATH/TO/cacti/poller.php &gt; /dev/null 2&gt;&amp;1 cron任务的运行频率，影响cacti采集数据周期，但cron的运行频率，并不是cacti最终的采集频率。举例来说，如果cron的运行频率为每5分钟触发一次，但我们希望每分钟采集一次数据，cacti是可以做到的，这要求我们将cron的运行频率正确的配置到cacti，这样cacti会在一次cron进程生命周期内，尽可能的按照预期的频率，进行多次数据采集。
+实现 涉及 $cron_interval，$poller_interval 两项参数，比如cron的周期是5分钟，poller周期是1分钟，则cron触发的poller.php进程，要负责安排5次数据轮询，以满足poller粒度。
+$poller_runs = intval($cron_interval / $poller_interval); define(&#34;MAX_POLLER_RUNTIME&#34;, $poller_runs * $poller_interval - 2); // poller.php进程的最大运行时间（比计划任务周期少2秒） poller进程(poller.php) poller进程由cron启动，在其生命周期内，负责编排所有的数据采集任务.
+任务初始化 poller进程启动后，在进行一系列cacti的初始化后，从系统中检索出数据采集任务集，然后将它们持久化到数据库(poller_output表)中,每一项数据指标一条记录。
+并发控制 cacti提供了两种并发模型来提升数据采集的效率，cmd.php和spine。其中cmd.php是多进程模型，用php语言实现; spine是多线程模型，具体实现不详。这里我们只讨论cmd.php方式的并发。下面的引文来自cacti的配置界面说明，大意是说，当使用cmd.php抓取数据时，可以通过增加进程数来提高性能（多进程模型）；当使用spine时，应该通过增加“Maximum Threads per Process”的值，提升性能（多线程模型）。
+ &ldquo;The number of concurrent processes to execute. Using a higher number when using cmd.php will improve performance. Performance improvements in spine are best resolved with the threads parameter&rdquo;
+    </div>
+  </div>
+</div>
+
+        </div>
+      
+    </section>
+  </div>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://potterhe.github.io/" >
+    &copy;  Potterhe's Site 2020 
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

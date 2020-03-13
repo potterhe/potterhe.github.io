@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cdh on Potterhe&#39;s Site</title>
+    <link>https://potterhe.github.io/tags/cdh/</link>
+    <description>Recent content in cdh on Potterhe&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 06 Jul 2019 23:59:59 +0800</lastBuildDate>
+    
+	<atom:link href="https://potterhe.github.io/tags/cdh/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>cdh-5.13 quickstart vm 使用笔记</title>
+      <link>https://potterhe.github.io/posts/cdh-quick-start-vm/</link>
+      <pubDate>Sat, 06 Jul 2019 23:59:59 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/cdh-quick-start-vm/</guid>
+      <description>下载和导入虚拟机.  下载 cdh-quickstart-vm 导入  vm初始信息收集 [cloudera@quickstart ~]$ uname -a Linux quickstart.cloudera 2.6.32-573.el6.x86_64 #1 SMP Thu Jul 23 15:44:03 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux $ cat /etc/issue CentOS release 6.7 (Final) Kernel \r on an \m vm里的cdh服务当前是使用操作系统的init系统管理的，而不是&amp;quot;Cloudera Manager&amp;rdquo;
+By default, the Cloudera QuickStart VM run Cloudera&#39;s Distribution including Apache Hadoop (CDH) under Linux&#39;s service and configuration management. If you wish to migrate to Cloudera Manager, you must run one of the following commands.</description>
+    </item>
+    
+  </channel>
+</rss>

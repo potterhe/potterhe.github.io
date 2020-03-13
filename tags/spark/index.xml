@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>spark on Potterhe&#39;s Site</title>
+    <link>https://potterhe.github.io/tags/spark/</link>
+    <description>Recent content in spark on Potterhe&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 21 Feb 2019 23:59:59 +0800</lastBuildDate>
+    
+	<atom:link href="https://potterhe.github.io/tags/spark/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Spark调研笔记</title>
+      <link>https://potterhe.github.io/posts/spark-note/</link>
+      <pubDate>Thu, 21 Feb 2019 23:59:59 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/spark-note/</guid>
+      <description>理论  streaming 101 streaming 102  spark  子雨大数据之Spark入门教程(Python版) RDD、DataFrame和DataSet的区别 Spark Streaming 不同Batch任务可以并行计算么？ Spark Streaming 管理 Kafka Offsets 的方式探讨 Spark Streaming容错性和零数据丢失 Structured Streaming Programming Guide结构化流编程指南 是时候放弃 Spark Streaming, 转向 Structured Streaming 了  选项  spark.io.compression.codec snappy (lz4依赖冲突) spark.streaming.concurrentjobs (spark streaming实时大数据分析4.4.4) spark.streaming.receiver.writeaheadlog.enable (spark streaming实时大数据分析5.6节) spark.sql.shuffle.partitions (default 200, 在单节点测试时,会造成极大的延迟).  pyspark  Improving PySpark performance: Spark Performance Beyond the JVM Python最佳实践指南  本地环境搭建 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8) export SPARK_HOME=&amp;#34;$HOME/opt/spark-2.3.2-bin-hadoop2.6&amp;#34; export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.</description>
+    </item>
+    
+  </channel>
+</rss>

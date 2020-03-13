@@ -43,6 +43,116 @@
   </url>
   
   <url>
+    <loc>https://potterhe.github.io/tags/ipvs/</loc>
+    <lastmod>2019-12-13T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/kube-proxy/</loc>
+    <lastmod>2019-12-13T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/posts/k8s-no-route-to-host/</loc>
+    <lastmod>2019-12-13T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/no-route-to-host/</loc>
+    <lastmod>2019-12-13T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/expire/</loc>
+    <lastmod>2019-12-03T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/posts/k8s-ipvs-udp-rule-expire-5min/</loc>
+    <lastmod>2019-12-03T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/udp/</loc>
+    <lastmod>2019-12-03T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/5.13/</loc>
+    <lastmod>2019-07-06T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/cdh/</loc>
+    <lastmod>2019-07-06T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/posts/cdh-quick-start-vm/</loc>
+    <lastmod>2019-07-06T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/quickstart/</loc>
+    <lastmod>2019-07-06T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/vm/</loc>
+    <lastmod>2019-07-06T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/spark/</loc>
+    <lastmod>2019-02-21T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/posts/spark-note/</loc>
+    <lastmod>2019-02-21T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/posts/paper-collect/</loc>
+    <lastmod>2019-02-09T23:59:50+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/%E8%AE%BA%E6%96%87/</loc>
+    <lastmod>2019-02-09T23:59:50+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/cacti/</loc>
+    <lastmod>2013-05-25T23:59:50+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/posts/cacti-source-code-insight/</loc>
+    <lastmod>2013-05-25T23:59:50+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/php/</loc>
+    <lastmod>2013-05-25T23:59:50+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/%E5%A4%9A%E8%BF%9B%E7%A8%8B/</loc>
+    <lastmod>2013-05-25T23:59:50+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/</loc>
+    <lastmod>2013-05-25T23:59:50+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</loc>
+    <lastmod>2013-05-25T23:59:50+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://potterhe.github.io/categories/</loc>
   </url>
   

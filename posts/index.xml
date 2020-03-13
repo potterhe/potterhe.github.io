@@ -24,5 +24,71 @@ apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: i
 $ istioctl manifest generate -f profile-override-default.yaml &amp;gt; manifest-override-default.</description>
     </item>
     
+    <item>
+      <title>Kubernetes &#34;no route to host&#34;问题</title>
+      <link>https://potterhe.github.io/posts/k8s-no-route-to-host/</link>
+      <pubDate>Fri, 13 Dec 2019 23:59:59 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/k8s-no-route-to-host/</guid>
+      <description>我们在使用腾讯云容器服务(tke)的过程中，遇到&amp;quot;no route to host&amp;quot;问题，这里记录为运维日志。
+环境  tke 1.12.4(1.14.3) 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64 kube-proxy ipvs模式 /usr/bin/kube-proxy &amp;ndash;proxy-mode=ipvs &amp;ndash;ipvs-min-sync-period=1s &amp;ndash;ipvs-sync-period=5s &amp;ndash;ipvs-scheduler=rr &amp;ndash;masquerade-all=true &amp;ndash;kubeconfig=/etc/kubernetes/kubeproxy-kubeconfig &amp;ndash;hostname-override=172.21.128.111 &amp;ndash;v=2 运行时：Docker version 18.06.3-ce, build d7080c1  排查过程 请详见tke团队roc的文章Kubernetes 疑难杂症排查分享: 诡异的 No route to host
+其它找到的一些有用的文章  https://engineering.dollarshaveclub.com/kubernetes-fixing-delayed-service-endpoint-updates-fd4d0a31852c https://fuckcloudnative.io/posts/kubernetes-fixing-delayed-service-endpoint-updates/ 中文版本 五元组：源IP地址，源端口，目的IP地址，目的端口，和传输层协议这五个量组成的一个集合  </description>
+    </item>
+    
+    <item>
+      <title>kube-proxy的ipvs模式udp转发规则过期问题</title>
+      <link>https://potterhe.github.io/posts/k8s-ipvs-udp-rule-expire-5min/</link>
+      <pubDate>Tue, 03 Dec 2019 23:59:59 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/k8s-ipvs-udp-rule-expire-5min/</guid>
+      <description>我们在使用腾讯云容器服务(tke)的过程中，遭遇了kube-proxy的ipvs模式udp转发规则过期问题，过程记录。
+环境  tke 1.12.4 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64 kube-proxy ipvs模式 /usr/bin/kube-proxy &amp;ndash;proxy-mode=ipvs &amp;ndash;ipvs-min-sync-period=1s &amp;ndash;ipvs-sync-period=5s &amp;ndash;ipvs-scheduler=rr &amp;ndash;masquerade-all=true &amp;ndash;kubeconfig=/etc/kubernetes/kubeproxy-kubeconfig &amp;ndash;hostname-override=172.21.128.111 &amp;ndash;v=2 运行时：Docker version 18.06.3-ce, build d7080c1  操作和现象  目标节点：172.21.128.109, 该节点有coredns, coredns的svc ClusterIP: 172.23.127.235。执行封锁后，执行drain操作。操作后的现象：业务大量报错“getaddrinfo failed: Name or service not known (10.010s)”,持续约8分钟. 和腾讯云的伙伴复盘时关注dns的变化.操作后会看到新的pod在172.21.128.111节点生成，在集群的任意节点上查看ipvs规则,发现tcp规则已更新成新podip，但udp规则还是老的podip。  # kubectl drain 172.21.128.109 # kubectl get pod -n kube-system -o wide|grep dns coredns-568cfc555b-4vdgk 1/1 Running 0 66s 172.23.3.41 172.21.128.111 &amp;lt;none&amp;gt; coredns-568cfc555b-7zkfz 1/1 Running 0 77d 172.23.0.144 172.21.128.10 &amp;lt;none&amp;gt; # ipvsadm -Ln|grep -A2 172.</description>
+    </item>
+    
+    <item>
+      <title>cdh-5.13 quickstart vm 使用笔记</title>
+      <link>https://potterhe.github.io/posts/cdh-quick-start-vm/</link>
+      <pubDate>Sat, 06 Jul 2019 23:59:59 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/cdh-quick-start-vm/</guid>
+      <description>下载和导入虚拟机.  下载 cdh-quickstart-vm 导入  vm初始信息收集 [cloudera@quickstart ~]$ uname -a Linux quickstart.cloudera 2.6.32-573.el6.x86_64 #1 SMP Thu Jul 23 15:44:03 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux $ cat /etc/issue CentOS release 6.7 (Final) Kernel \r on an \m vm里的cdh服务当前是使用操作系统的init系统管理的，而不是&amp;quot;Cloudera Manager&amp;rdquo;
+By default, the Cloudera QuickStart VM run Cloudera&#39;s Distribution including Apache Hadoop (CDH) under Linux&#39;s service and configuration management. If you wish to migrate to Cloudera Manager, you must run one of the following commands.</description>
+    </item>
+    
+    <item>
+      <title>Spark调研笔记</title>
+      <link>https://potterhe.github.io/posts/spark-note/</link>
+      <pubDate>Thu, 21 Feb 2019 23:59:59 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/spark-note/</guid>
+      <description>理论  streaming 101 streaming 102  spark  子雨大数据之Spark入门教程(Python版) RDD、DataFrame和DataSet的区别 Spark Streaming 不同Batch任务可以并行计算么？ Spark Streaming 管理 Kafka Offsets 的方式探讨 Spark Streaming容错性和零数据丢失 Structured Streaming Programming Guide结构化流编程指南 是时候放弃 Spark Streaming, 转向 Structured Streaming 了  选项  spark.io.compression.codec snappy (lz4依赖冲突) spark.streaming.concurrentjobs (spark streaming实时大数据分析4.4.4) spark.streaming.receiver.writeaheadlog.enable (spark streaming实时大数据分析5.6节) spark.sql.shuffle.partitions (default 200, 在单节点测试时,会造成极大的延迟).  pyspark  Improving PySpark performance: Spark Performance Beyond the JVM Python最佳实践指南  本地环境搭建 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8) export SPARK_HOME=&amp;#34;$HOME/opt/spark-2.3.2-bin-hadoop2.6&amp;#34; export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.</description>
+    </item>
+    
+    <item>
+      <title>收藏的一些论文</title>
+      <link>https://potterhe.github.io/posts/paper-collect/</link>
+      <pubDate>Sat, 09 Feb 2019 23:59:50 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/paper-collect/</guid>
+      <description>分布式系统  寻找一种易于理解的一致性算法（扩展版） (raft) Dapper，大规模分布式系统的跟踪系统  大数据  streaming 101 streaming 102(翻译)  </description>
+    </item>
+    
+    <item>
+      <title>cacti源码分析－数据采集</title>
+      <link>https://potterhe.github.io/posts/cacti-source-code-insight/</link>
+      <pubDate>Sat, 25 May 2013 23:59:50 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/cacti-source-code-insight/</guid>
+      <description>cacti用于监控系统的各项运行指标，提供了交互界面和图表，是一个整合工具集，它完成两个核心任务： 1)指标数据的采集，2) 将数据通过数图进行展示。其中图表的绘制、图表数据的存储是通过rrdtool工具实现的，《RRDtool简体中文教程》对rrdtool工具进行了介绍，是很好的资料。本文分析指标数据采集的实现。
+如何获取目标数据 我们需要按照目标数据的暴露方式去采集相应的数据. 基于主机(host)的数据，如：系统负载，网卡流量，磁盘IO，TCP连接等已通过SNMP标准化，需要使用SNMP方式获取。应用级的数据要按照应用暴露数据的方式去获取,如: 如果要监控nginx（stub_status）数据,该项数据是通过http方式暴露，需使用http获取数据;如果要监控mysql-server（show status）数据，需要可以连接到mysql服务器，并有权限打印数据。
+cacti由cron驱动 cacti不是一个daemon进程，它由cron驱动。通常我们需要配置如下的cron: 下面的典型配置为每5分钟运行一次cacti的轮换数据进程。
+*/5 * * * * /PATH/TO/php /PATH/TO/cacti/poller.php &amp;gt; /dev/null 2&amp;gt;&amp;amp;1 cron任务的运行频率，影响cacti采集数据周期，但cron的运行频率，并不是cacti最终的采集频率。举例来说，如果cron的运行频率为每5分钟触发一次，但我们希望每分钟采集一次数据，cacti是可以做到的，这要求我们将cron的运行频率正确的配置到cacti，这样cacti会在一次cron进程生命周期内，尽可能的按照预期的频率，进行多次数据采集。
+实现 涉及 $cron_interval，$poller_interval 两项参数，比如cron的周期是5分钟，poller周期是1分钟，则cron触发的poller.php进程，要负责安排5次数据轮询，以满足poller粒度。
+$poller_runs = intval($cron_interval / $poller_interval); define(&amp;#34;MAX_POLLER_RUNTIME&amp;#34;, $poller_runs * $poller_interval - 2); // poller.php进程的最大运行时间（比计划任务周期少2秒） poller进程(poller.php) poller进程由cron启动，在其生命周期内，负责编排所有的数据采集任务.
+任务初始化 poller进程启动后，在进行一系列cacti的初始化后，从系统中检索出数据采集任务集，然后将它们持久化到数据库(poller_output表)中,每一项数据指标一条记录。
+并发控制 cacti提供了两种并发模型来提升数据采集的效率，cmd.php和spine。其中cmd.php是多进程模型，用php语言实现; spine是多线程模型，具体实现不详。这里我们只讨论cmd.php方式的并发。下面的引文来自cacti的配置界面说明，大意是说，当使用cmd.php抓取数据时，可以通过增加进程数来提高性能（多进程模型）；当使用spine时，应该通过增加“Maximum Threads per Process”的值，提升性能（多线程模型）。
+ &amp;ldquo;The number of concurrent processes to execute. Using a higher number when using cmd.php will improve performance. Performance improvements in spine are best resolved with the threads parameter&amp;rdquo;</description>
+    </item>
+    
   </channel>
 </rss>

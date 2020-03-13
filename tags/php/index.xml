@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>php on Potterhe&#39;s Site</title>
+    <link>https://potterhe.github.io/tags/php/</link>
+    <description>Recent content in php on Potterhe&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 25 May 2013 23:59:50 +0800</lastBuildDate>
+    
+	<atom:link href="https://potterhe.github.io/tags/php/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>cacti源码分析－数据采集</title>
+      <link>https://potterhe.github.io/posts/cacti-source-code-insight/</link>
+      <pubDate>Sat, 25 May 2013 23:59:50 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/cacti-source-code-insight/</guid>
+      <description>cacti用于监控系统的各项运行指标，提供了交互界面和图表，是一个整合工具集，它完成两个核心任务： 1)指标数据的采集，2) 将数据通过数图进行展示。其中图表的绘制、图表数据的存储是通过rrdtool工具实现的，《RRDtool简体中文教程》对rrdtool工具进行了介绍，是很好的资料。本文分析指标数据采集的实现。
+如何获取目标数据 我们需要按照目标数据的暴露方式去采集相应的数据. 基于主机(host)的数据，如：系统负载，网卡流量，磁盘IO，TCP连接等已通过SNMP标准化，需要使用SNMP方式获取。应用级的数据要按照应用暴露数据的方式去获取,如: 如果要监控nginx（stub_status）数据,该项数据是通过http方式暴露，需使用http获取数据;如果要监控mysql-server（show status）数据，需要可以连接到mysql服务器，并有权限打印数据。
+cacti由cron驱动 cacti不是一个daemon进程，它由cron驱动。通常我们需要配置如下的cron: 下面的典型配置为每5分钟运行一次cacti的轮换数据进程。
+*/5 * * * * /PATH/TO/php /PATH/TO/cacti/poller.php &amp;gt; /dev/null 2&amp;gt;&amp;amp;1 cron任务的运行频率，影响cacti采集数据周期，但cron的运行频率，并不是cacti最终的采集频率。举例来说，如果cron的运行频率为每5分钟触发一次，但我们希望每分钟采集一次数据，cacti是可以做到的，这要求我们将cron的运行频率正确的配置到cacti，这样cacti会在一次cron进程生命周期内，尽可能的按照预期的频率，进行多次数据采集。
+实现 涉及 $cron_interval，$poller_interval 两项参数，比如cron的周期是5分钟，poller周期是1分钟，则cron触发的poller.php进程，要负责安排5次数据轮询，以满足poller粒度。
+$poller_runs = intval($cron_interval / $poller_interval); define(&amp;#34;MAX_POLLER_RUNTIME&amp;#34;, $poller_runs * $poller_interval - 2); // poller.php进程的最大运行时间（比计划任务周期少2秒） poller进程(poller.php) poller进程由cron启动，在其生命周期内，负责编排所有的数据采集任务.
+任务初始化 poller进程启动后，在进行一系列cacti的初始化后，从系统中检索出数据采集任务集，然后将它们持久化到数据库(poller_output表)中,每一项数据指标一条记录。
+并发控制 cacti提供了两种并发模型来提升数据采集的效率，cmd.php和spine。其中cmd.php是多进程模型，用php语言实现; spine是多线程模型，具体实现不详。这里我们只讨论cmd.php方式的并发。下面的引文来自cacti的配置界面说明，大意是说，当使用cmd.php抓取数据时，可以通过增加进程数来提高性能（多进程模型）；当使用spine时，应该通过增加“Maximum Threads per Process”的值，提升性能（多线程模型）。
+ &amp;ldquo;The number of concurrent processes to execute. Using a higher number when using cmd.php will improve performance. Performance improvements in spine are best resolved with the threads parameter&amp;rdquo;</description>
+    </item>
+    
+  </channel>
+</rss>
