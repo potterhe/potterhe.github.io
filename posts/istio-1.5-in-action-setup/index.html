@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Potterhe&#39;s Site  | Istio 1.5.0 实战：安装</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.60.1" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.1cb140d8ba31d5b2f1114537dd04802a.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="Istio 1.5.0 实战：安装" />
+<meta property="og:description" content="istio 1.5.0 于北京时间2020年3月6日发布，该版本在架构上有很大的变化(Istio 1.5 新特性解读)，做出这些改变的原因及其重大意义这里不做赘述，有大量的文章做了阐述，本文聚焦于探索 istio-1.5.0 的行为。文中的练习是在腾讯云的容器服务 tke-1.16.3 上进行的，会涉及到一些云平台相关的实现。
+安装istio 使用 istioctl 安装是官方推荐的方式(Customizable Install with Istioctl)，helm 安装方式已经被标记为 deprecated，且已经不支持 helm3。istioctl 安装实践，一般选择一个profile（生产环境，社区推荐基于 default），然后用自定义的值进行覆盖，一般而言，我们只需要编写这个 override 文件(这里的文件名是 profile-override-default.yaml)，不需要修改 charts （当然charts是可以被修改的）。
+apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default 另一面，override 文件中的项，以及项的节点层次怎么找呢？建议两种方式：1，通过 istioctl profile dump default 命令可以打印一些，但不够全；2，查看 charts （install/kubernetes/operator/charts/） 里各子项目的 values 文件定义，这种方式最可靠，对值的行为还可以辅以 templates 文件更深入的了解，推荐这种。
+有了 override 文件后，就可以使用下面的命令生成 manifest，manifest 是 k8s 的定义。建议把 override 文件和生成的 manifest 文件都通过版本控制工具维护起来，在每次对 override 操作后，对比前后的差异。
+$ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-override-default." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" />
+<meta property="article:published_time" content="2020-03-11T23:59:50+08:00" />
+<meta property="article:modified_time" content="2020-03-11T23:59:50+08:00" />
+<meta itemprop="name" content="Istio 1.5.0 实战：安装">
+<meta itemprop="description" content="istio 1.5.0 于北京时间2020年3月6日发布，该版本在架构上有很大的变化(Istio 1.5 新特性解读)，做出这些改变的原因及其重大意义这里不做赘述，有大量的文章做了阐述，本文聚焦于探索 istio-1.5.0 的行为。文中的练习是在腾讯云的容器服务 tke-1.16.3 上进行的，会涉及到一些云平台相关的实现。
+安装istio 使用 istioctl 安装是官方推荐的方式(Customizable Install with Istioctl)，helm 安装方式已经被标记为 deprecated，且已经不支持 helm3。istioctl 安装实践，一般选择一个profile（生产环境，社区推荐基于 default），然后用自定义的值进行覆盖，一般而言，我们只需要编写这个 override 文件(这里的文件名是 profile-override-default.yaml)，不需要修改 charts （当然charts是可以被修改的）。
+apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default 另一面，override 文件中的项，以及项的节点层次怎么找呢？建议两种方式：1，通过 istioctl profile dump default 命令可以打印一些，但不够全；2，查看 charts （install/kubernetes/operator/charts/） 里各子项目的 values 文件定义，这种方式最可靠，对值的行为还可以辅以 templates 文件更深入的了解，推荐这种。
+有了 override 文件后，就可以使用下面的命令生成 manifest，manifest 是 k8s 的定义。建议把 override 文件和生成的 manifest 文件都通过版本控制工具维护起来，在每次对 override 操作后，对比前后的差异。
+$ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-override-default.">
+<meta itemprop="datePublished" content="2020-03-11T23:59:50&#43;08:00" />
+<meta itemprop="dateModified" content="2020-03-11T23:59:50&#43;08:00" />
+<meta itemprop="wordCount" content="1083">
+
+
+
+<meta itemprop="keywords" content="istio,1.5.0,实战,安装," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Istio 1.5.0 实战：安装"/>
+<meta name="twitter:description" content="istio 1.5.0 于北京时间2020年3月6日发布，该版本在架构上有很大的变化(Istio 1.5 新特性解读)，做出这些改变的原因及其重大意义这里不做赘述，有大量的文章做了阐述，本文聚焦于探索 istio-1.5.0 的行为。文中的练习是在腾讯云的容器服务 tke-1.16.3 上进行的，会涉及到一些云平台相关的实现。
+安装istio 使用 istioctl 安装是官方推荐的方式(Customizable Install with Istioctl)，helm 安装方式已经被标记为 deprecated，且已经不支持 helm3。istioctl 安装实践，一般选择一个profile（生产环境，社区推荐基于 default），然后用自定义的值进行覆盖，一般而言，我们只需要编写这个 override 文件(这里的文件名是 profile-override-default.yaml)，不需要修改 charts （当然charts是可以被修改的）。
+apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default 另一面，override 文件中的项，以及项的节点层次怎么找呢？建议两种方式：1，通过 istioctl profile dump default 命令可以打印一些，但不够全；2，查看 charts （install/kubernetes/operator/charts/） 里各子项目的 values 文件定义，这种方式最可靠，对值的行为还可以辅以 templates 文件更深入的了解，推荐这种。
+有了 override 文件后，就可以使用下面的命令生成 manifest，manifest 是 k8s 的定义。建议把 override 文件和生成的 manifest 文件都通过版本控制工具维护起来，在每次对 override 操作后，对比前后的差异。
+$ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-override-default."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://potterhe.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Potterhe&#39;s Site
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        POSTS
+      </aside>
+      
+
+
+
+
+  <div id="sharing" class="mt3">
+
+    
+    <a href="https://www.facebook.com/sharer.php?u=https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="facebook no-underline" aria-label="share on Facebook">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765,50.32h6.744V33.998h4.499l0.596-5.624h-5.095  l0.007-2.816c0-1.466,0.14-2.253,2.244-2.253h2.812V17.68h-4.5c-5.405,0-7.307,2.729-7.307,7.317v3.377h-3.369v5.625h3.369V50.32z   M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+
+    </a>
+
+    
+    
+    <a href="https://twitter.com/share?url=https://potterhe.github.io/posts/istio-1.5-in-action-setup/&amp;text=Istio%201.5.0%20%e5%ae%9e%e6%88%98%ef%bc%9a%e5%ae%89%e8%a3%85" class="twitter no-underline" aria-label="share on Twitter">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+    </a>
+
+    
+    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://potterhe.github.io/posts/istio-1.5-in-action-setup/&amp;title=Istio%201.5.0%20%e5%ae%9e%e6%88%98%ef%bc%9a%e5%ae%89%e8%a3%85" class="linkedin no-underline" aria-label="share on LinkedIn">
+      <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+    </a>
+  </div>
+
+      <h1 class="f1 athelas mt3 mb1">Istio 1.5.0 实战：安装</h1>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2020-03-11T23:59:50&#43;08:00">March 11, 2020</time>
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>istio 1.5.0 于北京时间2020年3月6日发布，该版本在架构上有很大的变化(<a href="https://www.servicemesher.com/blog/istio-1-5-explanation/">Istio 1.5 新特性解读</a>)，做出这些改变的原因及其重大意义这里不做赘述，有大量的文章做了阐述，本文聚焦于探索 istio-1.5.0 的行为。文中的练习是在腾讯云的容器服务 tke-1.16.3 上进行的，会涉及到一些云平台相关的实现。</p>
+<h2 id="istio">安装istio</h2>
+<p>使用 istioctl 安装是官方推荐的方式(<a href="https://istio.io/docs/setup/install/istioctl/">Customizable Install with Istioctl</a>)，helm 安装方式已经被标记为 deprecated，且已经不支持 helm3。istioctl 安装实践，一般选择一个profile（生产环境，社区推荐基于 default），然后用自定义的值进行覆盖，一般而言，我们只需要编写这个 override 文件(这里的文件名是 profile-override-default.yaml)，不需要修改 charts （当然charts是可以被修改的）。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+spec:
+  profile: default
+</code></pre></div><p>另一面，override 文件中的项，以及项的节点层次怎么找呢？建议两种方式：1，通过 <code>istioctl profile dump default</code> 命令可以打印一些，但不够全；2，查看 charts （install/kubernetes/operator/charts/） 里各子项目的 values 文件定义，这种方式最可靠，对值的行为还可以辅以 templates 文件更深入的了解，推荐这种。</p>
+<p>有了 override 文件后，就可以使用下面的命令生成 manifest，manifest 是 k8s 的定义。建议把 override 文件和生成的 manifest 文件都通过版本控制工具维护起来，在每次对 override 操作后，对比前后的差异。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ istioctl manifest generate -f profile-override-default.yaml  &gt;  manifest-override-default.yaml
+</code></pre></div><p>如果一切准备好后，就可以执行安装到集群操作，下面的两条命令是一样的效果。但这里我们先不操作，还有一些细节。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ istioctl manifest apply -f profile-override-default.yaml
+$ kubectl apply -f manifest-override-default.yaml
+</code></pre></div><h3 id="istioingressgateway">istio-ingressgateway</h3>
+<p>istio-ingressgateway 是网格的入口，其实现是一个 k8s 的 Service，云上一般我们只需要将其类型声明为 LoadBalancer，就可以创建一个公网的lb作为公网入口，但各个云厂商对其实现是不一样的。</p>
+<h3 id="heading">腾讯云的实现</h3>
+<ul>
+<li>腾讯云 LoadBalancer 类型的 Service 有以下的实现细节：声明为 LoadBalancer 类型的 Service 会以 NodePort 相同行为的方式暴露(类型还是LoadBalancer, 只是行为同NodePort，如果你去查看集群中 Service 的 yaml文件，会发现每个端口都有NodePort声明)，lb自动挂载集群所有（也支持node label 指定）节点作为后端，Service 的端口绑定到节点的 NodePort 端口。这些都是自动的，行为是透明的。</li>
+<li><a href="https://cloud.tencent.com/document/product/457/18210">腾讯云-容器服务-创建 Service</a> 描述了腾讯云定义的 annotations, 实现了多种行为：“公网服务”，“内网服务”，“指定 Loadbalance 只绑定指定节点”等。腾讯云公网lb只会把公网流量代理到“购买有公网带宽”的节点，创建公网的 istio-ingressgateway 时，我们用到了这些annotations，我们只希望购买了公网带宽的机器挂载到公网lb后端。</li>
+<li>tke支持istio-cni</li>
+</ul>
+<p>通过覆盖 serviceAnnotations, nodeSelector和给公网带宽节点打上 label，实现了以下行为。且这些行为是保留客户端IP的必要条件，这是后话。</p>
+<ul>
+<li>公网lb只挂载有公网带宽的节点作为后端。</li>
+<li>istio-ingressgateway 的 Pod 只部署在有公网带宽的节点上。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+spec:
+  profile: default
+  values:
+    gateways:
+      istio-ingressgateway:
+        serviceAnnotations:
+          <span style="color:#75715e"># https://cloud.tencent.com/document/product/457/18210</span>
+          service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=<span style="color:#66d9ef">true</span>
+        nodeSelector:
+          company.com/ingressgateway: <span style="color:#66d9ef">true</span>
+</code></pre></div><p>给购买了公网带宽的 node 打上 label</p>
+<pre><code>$ kubectl label node 172.21.128.82 company.com/ingressgateway=true
+</code></pre><h3 id="heading1">安装到集群</h3>
+<pre><code>$ istioctl manifest apply -f profile-override-default.yaml
+proto: tag has too few fields: &quot;-&quot;
+Detected that your cluster does not support third party JWT authentication. Falling back to less secure first party JWT. See https://istio.io/docs/ops/best-practices/security/#configure-third-party-service-account-tokens for details.
+- Applying manifest for component Base...
+✔ Finished applying manifest for component Base.
+- Applying manifest for component Pilot...
+✔ Finished applying manifest for component Pilot.
+  Waiting for resources to become ready...
+  Waiting for resources to become ready...
+  Waiting for resources to become ready...
+  Waiting for resources to become ready...
+  Waiting for resources to become ready...
+  Waiting for resources to become ready...
+  Waiting for resources to become ready...
+- Applying manifest for component AddonComponents...
+- Applying manifest for component Cni...
+- Applying manifest for component IngressGateways...
+✔ Finished applying manifest for component IngressGateways.
+✔ Finished applying manifest for component AddonComponents.
+✔ Finished applying manifest for component Cni.
+
+
+✔ Installation complete
+</code></pre><h3 id="heading2">确认安装现场</h3>
+<pre><code>$ kubectl get crd |grep istio
+adapters.config.istio.io                   2020-03-09T16:07:39Z
+attributemanifests.config.istio.io         2020-03-09T16:07:39Z
+authorizationpolicies.security.istio.io    2020-03-09T16:07:39Z
+clusterrbacconfigs.rbac.istio.io           2020-03-09T16:07:39Z
+destinationrules.networking.istio.io       2020-03-09T16:07:39Z
+envoyfilters.networking.istio.io           2020-03-09T16:07:39Z
+gateways.networking.istio.io               2020-03-09T16:07:39Z
+handlers.config.istio.io                   2020-03-09T16:07:39Z
+httpapispecbindings.config.istio.io        2020-03-09T16:07:39Z
+httpapispecs.config.istio.io               2020-03-09T16:07:39Z
+instances.config.istio.io                  2020-03-09T16:07:39Z
+meshpolicies.authentication.istio.io       2020-03-09T16:07:39Z
+peerauthentications.security.istio.io      2020-03-09T16:07:41Z
+policies.authentication.istio.io           2020-03-09T16:07:41Z
+quotaspecbindings.config.istio.io          2020-03-09T16:07:41Z
+quotaspecs.config.istio.io                 2020-03-09T16:07:41Z
+rbacconfigs.rbac.istio.io                  2020-03-09T16:07:41Z
+requestauthentications.security.istio.io   2020-03-09T16:07:41Z
+rules.config.istio.io                      2020-03-09T16:07:41Z
+serviceentries.networking.istio.io         2020-03-09T16:07:41Z
+servicerolebindings.rbac.istio.io          2020-03-09T16:07:41Z
+serviceroles.rbac.istio.io                 2020-03-09T16:07:41Z
+sidecars.networking.istio.io               2020-03-09T16:07:42Z
+templates.config.istio.io                  2020-03-09T16:07:42Z
+virtualservices.networking.istio.io        2020-03-09T16:07:42Z
+
+$ kubectl api-resources |grep istio
+NAME                              SHORTNAMES   APIGROUP                       NAMESPACED   KIND
+meshpolicies                                   authentication.istio.io        false        MeshPolicy
+policies                                       authentication.istio.io        true         Policy
+adapters                                       config.istio.io                true         adapter
+attributemanifests                             config.istio.io                true         attributemanifest
+handlers                                       config.istio.io                true         handler
+httpapispecbindings                            config.istio.io                true         HTTPAPISpecBinding
+httpapispecs                                   config.istio.io                true         HTTPAPISpec
+instances                                      config.istio.io                true         instance
+quotaspecbindings                              config.istio.io                true         QuotaSpecBinding
+quotaspecs                                     config.istio.io                true         QuotaSpec
+rules                                          config.istio.io                true         rule
+templates                                      config.istio.io                true         template
+destinationrules                  dr           networking.istio.io            true         DestinationRule
+envoyfilters                                   networking.istio.io            true         EnvoyFilter
+gateways                          gw           networking.istio.io            true         Gateway
+serviceentries                    se           networking.istio.io            true         ServiceEntry
+sidecars                                       networking.istio.io            true         Sidecar
+virtualservices                   vs           networking.istio.io            true         VirtualService
+clusterrbacconfigs                             rbac.istio.io                  false        ClusterRbacConfig
+rbacconfigs                                    rbac.istio.io                  true         RbacConfig
+servicerolebindings                            rbac.istio.io                  true         ServiceRoleBinding
+serviceroles                                   rbac.istio.io                  true         ServiceRole
+authorizationpolicies                          security.istio.io              true         AuthorizationPolicy
+peerauthentications                            security.istio.io              true         PeerAuthentication
+requestauthentications                         security.istio.io              true         RequestAuthentication
+
+$ kubectl get all -n istio-system
+NAME                                        READY   STATUS    RESTARTS   AGE
+pod/istio-ingressgateway-78ff7c44f4-sccbj   1/1     Running   0          10h
+pod/istiod-7f7c6fcbfd-kjzp8                 1/1     Running   0          10h
+pod/prometheus-8b96f989b-7xqgk              2/2     Running   0          10h
+
+NAME                           TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                                                                                                      AGE
+service/istio-ingressgateway   LoadBalancer   172.24.30.242   x.x.x.x         15020:30438/TCP,80:30552/TCP,443:30120/TCP,15029:31267/TCP,15030:30278/TCP,15031:32237/TCP,15032:31853/TCP,15443:30194/TCP   10h
+service/istio-pilot            ClusterIP      172.24.31.229   &lt;none&gt;          15010/TCP,15011/TCP,15012/TCP,8080/TCP,15014/TCP,443/TCP                                                                     10h
+service/istiod                 ClusterIP      172.24.28.18    &lt;none&gt;          15012/TCP,443/TCP                                                                                                            10h
+service/prometheus             ClusterIP      172.24.28.131   &lt;none&gt;          9090/TCP                                                                                                                     10h
+
+NAME                                   READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/istio-ingressgateway   1/1     1            1           10h
+deployment.apps/istiod                 1/1     1            1           10h
+deployment.apps/prometheus             1/1     1            1           10h
+
+NAME                                              DESIRED   CURRENT   READY   AGE
+replicaset.apps/istio-ingressgateway-78ff7c44f4   1         1         1       10h
+replicaset.apps/istiod-7f7c6fcbfd                 1         1         1       10h
+replicaset.apps/prometheus-8b96f989b              1         1         1       10h
+
+NAME                                                       REFERENCE                         TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+horizontalpodautoscaler.autoscaling/istio-ingressgateway   Deployment/istio-ingressgateway   4%/80%    1         5         1          10h
+horizontalpodautoscaler.autoscaling/istiod                 Deployment/istiod                 0%/80%    1         5         1          10h
+</code></pre><h4 id="-istioingressgateway">再探 istio-ingressgateway</h4>
+<p>istio-ingressgateway 这个服务我们需要特别关注，我们知道这是一个公网入口，它暴露了非常多的端口(这些端口的name语义在 <code>istioctl profile dump default --config-path values.gateways.istio-ingressgateway.ports</code> 的输出中有显示)，我们需要确认这些端口的用途和风险，预期中我们只需要暴露80和443端口。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl exec -it istio-ingressgateway-78ff7c44f4-sccbj bash -n istio-system
+
+root@istio-ingressgateway-78ff7c44f4-sccbj:/# ps -efww
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         <span style="color:#ae81ff">1</span>     <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span> Mar09 ?        00:00:29 /usr/local/bin/pilot-agent proxy router --domain istio-system.svc.cluster.local --proxyLogLevel<span style="color:#f92672">=</span>warning --proxyComponentLogLevel<span style="color:#f92672">=</span>misc:error --log_output_level<span style="color:#f92672">=</span>default:info --drainDuration 45s --parentShutdownDuration 1m0s --connectTimeout 10s --serviceCluster istio-ingressgateway --zipkinAddress zipkin.istio-system:9411 --proxyAdminPort <span style="color:#ae81ff">15000</span> --statusPort <span style="color:#ae81ff">15020</span> --controlPlaneAuthPolicy NONE --discoveryAddress istio-pilot.istio-system.svc:15012 --trust-domain<span style="color:#f92672">=</span>cluster.local
+root        <span style="color:#ae81ff">19</span>     <span style="color:#ae81ff">1</span>  <span style="color:#ae81ff">0</span> Mar09 ?        00:02:07 /usr/local/bin/envoy -c /etc/istio/proxy/envoy-rev0.json --restart-epoch <span style="color:#ae81ff">0</span> --drain-time-s <span style="color:#ae81ff">45</span> --parent-shutdown-time-s <span style="color:#ae81ff">60</span> --service-cluster istio-ingressgateway --service-node router~172.24.0.68~istio-ingressgateway-78ff7c44f4-sccbj.istio-system~istio-system.svc.cluster.local --max-obj-name-len <span style="color:#ae81ff">189</span> --local-address-ip-version v4 --log-format <span style="color:#f92672">[</span>Envoy <span style="color:#f92672">(</span>Epoch 0<span style="color:#f92672">)</span><span style="color:#f92672">]</span> <span style="color:#f92672">[</span>%Y-%m-%d %T.%e<span style="color:#f92672">]</span><span style="color:#f92672">[</span>%t<span style="color:#f92672">]</span><span style="color:#f92672">[</span>%l<span style="color:#f92672">]</span><span style="color:#f92672">[</span>%n<span style="color:#f92672">]</span> %v -l warning --component-log-level misc:error
+root        <span style="color:#ae81ff">59</span>     <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">0</span> 03:28 pts/0    00:00:00 bash
+root        <span style="color:#ae81ff">68</span>    <span style="color:#ae81ff">59</span>  <span style="color:#ae81ff">0</span> 03:28 pts/0    00:00:00 ps -efww
+
+root@istio-ingressgateway-78ff7c44f4-sccbj:/# netstat -l
+Active Internet connections <span style="color:#f92672">(</span>only servers<span style="color:#f92672">)</span>
+Proto Recv-Q Send-Q Local Address           Foreign Address         State
+tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 0.0.0.0:80              0.0.0.0:*               LISTEN
+tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> 0.0.0.0:15090           0.0.0.0:*               LISTEN
+tcp        <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> localhost:15000         0.0.0.0:*               LISTEN
+tcp6       <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> <span style="color:#f92672">[</span>::<span style="color:#f92672">]</span>:15020              <span style="color:#f92672">[</span>::<span style="color:#f92672">]</span>:*                  LISTEN
+Active UNIX domain sockets <span style="color:#f92672">(</span>only servers<span style="color:#f92672">)</span>
+Proto RefCnt Flags       Type       State         I-Node   Path
+unix  <span style="color:#ae81ff">2</span>      <span style="color:#f92672">[</span> ACC <span style="color:#f92672">]</span>     STREAM     LISTENING     <span style="color:#ae81ff">236671</span>   /var/run/ingress_gateway/sds
+unix  <span style="color:#ae81ff">2</span>      <span style="color:#f92672">[</span> ACC <span style="color:#f92672">]</span>     STREAM     LISTENING     <span style="color:#ae81ff">235977</span>   /etc/istio/proxy/SDS
+
+/# lsof -i:15090
+COMMAND PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+envoy    <span style="color:#ae81ff">19</span> root   32u  IPv4 <span style="color:#ae81ff">236714</span>      0t0  TCP *:15090 <span style="color:#f92672">(</span>LISTEN<span style="color:#f92672">)</span>
+</code></pre></div><p>通过以上的观察</p>
+<ul>
+<li>Pod 的15020端口，pilot-agent 监听，就绪探针使用。</li>
+<li>Pod 的15090端口，envoy的prometheus metric 端口，metrics_path: /stats/prometheus，这从prometheus的配置文件和 istio-ingressgateway 的 Deployment 定义的端口name: http-envoy-prom 确认。Pod 内访问 <code>curl http://localhost:15090/stats/prometheus</code> 可以获取数据。</li>
+<li>15000端口，<code>--proxyAdminPort</code> 已经很明确的标识了语义。</li>
+<li>Pod 无443端口监听。因为还没有添加port 443 的 Gateway 对象。</li>
+<li>其它 Service 上的端口在 Pod 上没有监听。通过设置 <code>values.gateways.istio-ingressgateway.telemetry_addon_gateways.tracing_gateway.enabled=true</code> 等配置项簇，可以启用这些端口，本质上是定义了一批 Gateway 对象。<strong>但强烈不建议这么做，监控、观测的系统必须要做足够的访问控制，暴露这些系统也可以在80，443端口上通过域名来实现，但仍需要做到足够的访问控制</strong>。访问控制是服务网格的重要能力，在 istio-1.5 之前的版本中，由 mixer 负责，从1.5开始已经明确表示要废弃，新机制在<a href="https://istio.io/docs/concepts/security/">security</a>章节进行了描述。</li>
+</ul>
+<p>调整 override 选项后，应用到集群。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+spec:
+  profile: default
+  values:
+    gateways:
+      istio-ingressgateway:
+        serviceAnnotations:
+          <span style="color:#75715e"># https://cloud.tencent.com/document/product/457/18210</span>
+          service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=<span style="color:#66d9ef">true</span>
+        nodeSelector:
+          company.com/ingressgateway: <span style="color:#66d9ef">true</span>
+        ports:
+          <span style="color:#75715e"># 公网lb控制暴露的端口.</span>
+        - name: http2
+          port: <span style="color:#ae81ff">80</span>
+          targetPort: <span style="color:#ae81ff">80</span>
+        - name: https
+          port: <span style="color:#ae81ff">443</span>
+</code></pre></div><pre><code>$ istioctl manifest apply -f profile-override-default.yaml
+proto: tag has too few fields: &quot;-&quot;
+Detected that your cluster does not support third party JWT authentication. Falling back to less secure first party JWT. See https://istio.io/docs/ops/best-practices/security/#configure-third-party-service-account-tokens for details.
+- Applying manifest for component Base...
+✔ Finished applying manifest for component Base.
+- Applying manifest for component Pilot...
+✔ Finished applying manifest for component Pilot.
+- Applying manifest for component Cni...
+- Applying manifest for component IngressGateways...
+- Applying manifest for component AddonComponents...
+✔ Finished applying manifest for component IngressGateways.
+✔ Finished applying manifest for component Cni.
+✔ Finished applying manifest for component AddonComponents.
+
+
+✔ Installation complete
+</code></pre><p>再次确认安装现场</p>
+<pre><code>$ kubectl get svc -n istio-system |grep istio-ingressgateway
+istio-ingressgateway        LoadBalancer   172.24.30.242   x.x.x.x   80:30552/TCP,443:30120/TCP                                 2d12h
+</code></pre><p>从公网lb访问 http://your-lb-ip/，会得到404响应。</p>
+<h2 id="-bookinfo">部署 bookinfo</h2>
+<p>创建新的 namespace，并标记 <code> istio-injection=enabled</code> 以应用自动注入 sidecar。</p>
+<pre><code>$ kubectl create namespace test-mesh
+namespace/test-mesh created
+
+$ kubectl label namespace test-mesh istio-injection=enabled
+namespace/test-mesh labeled
+</code></pre><p>部署 bookinfo 到这个 namespace。</p>
+<pre><code>$ kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml -n test-mesh
+service/details created
+serviceaccount/bookinfo-details created
+deployment.apps/details-v1 created
+service/ratings created
+serviceaccount/bookinfo-ratings created
+deployment.apps/ratings-v1 created
+service/reviews created
+serviceaccount/bookinfo-reviews created
+deployment.apps/reviews-v1 created
+deployment.apps/reviews-v2 created
+deployment.apps/reviews-v3 created
+service/productpage created
+serviceaccount/bookinfo-productpage created
+deployment.apps/productpage-v1 created
+
+$ kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml -n test-mesh
+gateway.networking.istio.io/bookinfo-gateway created
+virtualservice.networking.istio.io/bookinfo created
+</code></pre><p>从公网lb访问 http://your-lb-ip/productpage。不出意外，已经可以正常的展示官方的bookinfo示例页面了。</p>
+<h2 id="heading3">小结</h2>
+<p>我们完成了网格的安装，并可以通过公网访问到示例应用。下一步我们将实现监控，观测组件(grafana, kiali, tracing)的部署，以及使用认证、授权机制来保护它们。</p>
+<ul class="pa0">
+  
+   <li class="list">
+     <a href="/tags/istio" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">istio</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/1.5.0" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">1.5.0</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/%E5%AE%9E%E6%88%98" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">实战</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/%E5%AE%89%E8%A3%85" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">安装</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://potterhe.github.io/" >
+    &copy;  Potterhe's Site 2020 
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>
