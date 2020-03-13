@@ -41,7 +41,7 @@ apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: i
 $ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc9c87cdf-j6ml8 1/1 Running 0 3d9h NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/grafana ClusterIP 172.">
 <meta itemprop="datePublished" content="2020-03-12T12:52:00&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-12T12:52:00&#43;08:00" />
-<meta itemprop="wordCount" content="650">
+<meta itemprop="wordCount" content="652">
 
 
 
@@ -317,7 +317,7 @@ spec:
         host: tracing
         port:
           number: 80
-</code></pre><p>体验，清理步骤与 grafana 节描述的一致。</p>
+</code></pre><p>体验之前，请执行一些 bookinfo 示例页面的访问，以触发采样。清理步骤与 grafana 节描述的一致。</p>
 <h3 id="kiali">kiali</h3>
 <p>kiali 有帐号、密码验证，登陆的帐号和密码保存在 k8s 的名为 kiali (名字可变，通过 <code>values.kiali.dashboard.secretName</code> 设置) 的 Secret 对象中，这个 Secret 对象通过 volume 机制挂载到 Pod，所以需要事先创建，变更内容后，需要重建 Pod。通过设置 <code>values.kiali.createDemoSecret=true</code> 可以自动创建一个 Secret 对象（帐号，密码均为 “admin”），请谨慎决策。Secret 对象准备好后，在 override 文件中添加 <code>addonComponents.kiali.enabled=true</code> 项，应用到集群。</p>
 <p><a href="https://aws.amazon.com/cn/blogs/china/observe-service-mesh-kiali/">使用 Kiali 观察您的服务网格</a></p>
@@ -430,7 +430,7 @@ spec:
           number: 20001
 </code></pre><p>体验，清理步骤与 grafana 节描述的一致。</p>
 <h2 id="heading1">小结</h2>
-<p>很粗放的部署了以“体验”为目的观测服务，后续我们将实现“认证”、“授权”机制来保护这些服务，Gateway 支持 https 服务。</p>
+<p>很粗放的部署了以“体验”为目的的观测服务，后续我们将应用“认证”、“授权”机制来保护这些服务，Gateway 支持 https 服务。</p>
 <ul class="pa0">
   
    <li class="list">
