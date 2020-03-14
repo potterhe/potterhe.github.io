@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>集群 on Potterhe&#39;s Site</title>
+    <link>https://potterhe.github.io/tags/%E9%9B%86%E7%BE%A4/</link>
+    <description>Recent content in 集群 on Potterhe&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 22 Sep 2013 00:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://potterhe.github.io/tags/%E9%9B%86%E7%BE%A4/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Discuz!X集群部署的系统方案和优化方式</title>
+      <link>https://potterhe.github.io/posts/discuz-cluster-optimize/</link>
+      <pubDate>Sun, 22 Sep 2013 00:00:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/discuz-cluster-optimize/</guid>
+      <description>多 web 部署时，面临的核心问题是 web 服务器间的数据共享和同步。就数据存储的方式而言，Discuz 数据包含两部分：一部分存储在 MySQL 数据库中（用户、帖子等文本类、结构化的数据），一部分存储在文件系统（附件、缓存文件等）。其中存储在 MySQL 中的数据可以方便地在多服务器间共享，扩展和冗余也已经有比较成熟的方案。这里我们主要讨论 Discuz 文件类型的数据，部分涉及到多台服务器的内容。
+数据梳理 Discuz 文件类型的数据都存储于 DISCUZ_ROOT/data 目录，各目录主要功能如下：
+   目录 数据说明     data/attachment 附件类   data/log 运行日志   data/cache 配置参数类缓存文件（默认是sql，配置参数通过pre_common_syscache表缓存）、CSS缓存、部分JS缓存   data/template 模板缓存   data/threadcache 论坛页面缓存（针对游客的优化）    DISCUZ_ROOT/data目录下有几个重要的文件（文件锁）
+ data/install.lock，安装程序锁定。如果该文件存在，DISCUZ_ROOT/install/ 中的安装程序不能执行。 data/sendmail.lock， 发送邮件锁。Discuz 默认通过类似 home.php?mod=misc&amp;amp;ac=sendmail&amp;amp;rand=1379315574 这个隐藏页面调用，由用户的浏览行为触发邮件发送流程（浏览器侧用一个300秒的 cookie 控制频率，服务器侧通过 sendmail.lock 文件的 mtime 控制频率5秒）。如果可以控制服务器，应该优化掉这个机制。 data/updatetime.lock， 某管理后台使用的锁。 data/update.lock， 系统升级锁。执行版本升级程序（如x2升级到x3）时，会生成这个文件锁。  下面这些功能会涉及到多 web 服务器间的数据共享和同步，默认 Discuz 通过 MySQL 实现。</description>
+    </item>
+    
+  </channel>
+</rss>
