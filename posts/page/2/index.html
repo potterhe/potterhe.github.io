@@ -25,19 +25,19 @@
 
     
     
-      <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
-      <link href="/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/posts/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/posts/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
       
     
     
-    <meta property="og:title" content="Potterhe&#39;s Site" />
+    <meta property="og:title" content="Posts" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://potterhe.github.io/" />
+<meta property="og:url" content="https://potterhe.github.io/posts/" />
 <meta property="og:updated_time" content="2020-03-12T12:52:00+08:00" />
-<meta itemprop="name" content="Potterhe&#39;s Site">
+<meta itemprop="name" content="Posts">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Potterhe&#39;s Site"/>
+<meta name="twitter:title" content="Posts"/>
 <meta name="twitter:description" content=""/>
 
   </head>
@@ -98,7 +98,7 @@
 
       <div class="tc-l pv4 pv6-l ph3 ph4-ns">
         <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-          Potterhe&#39;s Site
+          Posts
         </h1>
         
       </div>
@@ -108,154 +108,95 @@
 
     <main class="pb7" role="main">
       
-  <article class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray">
-    
-  </article>
-  
-  
-  
-  
-  
-  
-  
-    
-    
-
-    <div class="pa3 pa4-ns w-100 w-70-ns center">
+  <article class="pa3 pa4-ns nested-copy-line-height nested-img">
+    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
+    <section class="flex-ns flex-wrap justify-around mt5">
       
-       
-          <h1 class="flex-none">
-            Recent Posts
-          </h1>
-        
-
-      
-
-      <section class="w-100 mw8">
-        
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-addon-components-setup/" class="color-inherit dim link">
-            Istio 1.5.0 实战：“体验”监控，观测
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习只是用于体验，切不可用于生产，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:
- 安全。在没有应用“认证”、“授权”机制前，这些服务裸奔在公网是危险的，即使有的系统有帐密。 存储。这些服务都是有状态的，涉及状态数据的存储，如：promethues、grafana、kiali、tracing。这些 Pod 一旦重建，数据就会丢失。一般地，需要我们适配 k8s 标准化的存储机制，如：storageClass、pv、pvc等。  组件部署 grafana 在 override 文件中添加 addonComponents.grafana.enabled=true 项后，应用到集群。
-apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default addonComponents: grafana: enabled: true values: gateways: istio-ingressgateway: serviceAnnotations: # https://cloud.tencent.com/document/product/457/18210 service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=true nodeSelector: company.com/ingressgateway: true ports: # 公网lb控制暴露的端口. - name: http2 port: 80 targetPort: 80 - name: https port: 443 查看现场，预期会增加以下对象
-$ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc9c87cdf-j6ml8 1/1 Running 0 3d9h NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/grafana ClusterIP 172.
-        </div>
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-addon-components-setup/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/paper-collect/" class="link black dim">
+        收藏的一些论文
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      分布式系统  寻找一种易于理解的一致性算法（扩展版） (raft) Dapper，大规模分布式系统的跟踪系统  大数据  streaming 101 streaming 102(翻译)  
     </div>
   </div>
-</article>
-
-          </div>
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
+</div>
+</div>
       
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="color-inherit dim link">
-            Istio 1.5.0 实战：安装
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          istio 1.5.0 于北京时间2020年3月6日发布，该版本在架构上有很大的变化(Istio 1.5 新特性解读)，做出这些改变的原因及其重大意义这里不做赘述，有大量的文章做了阐述，本文聚焦于探索 istio-1.5.0 的行为。文中的练习是在腾讯云的容器服务 tke-1.16.3 上进行的，会涉及到一些云平台相关的实现。
-安装istio 使用 istioctl 安装是官方推荐的方式(Customizable Install with Istioctl)，helm 安装方式已经被标记为 deprecated，且已经不支持 helm3。istioctl 安装实践，一般选择一个profile（生产环境，社区推荐基于 default），然后用自定义的值进行覆盖，一般而言，我们只需要编写这个 override 文件(这里的文件名是 profile-override-default.yaml)，不需要修改 charts （当然charts是可以被修改的）。
-apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default 另一面，override 文件中的项，以及项的节点层次怎么找呢？建议两种方式：1，通过 istioctl profile dump default 命令可以打印一些，但不够全；2，查看 charts （install/kubernetes/operator/charts/） 里各子项目的 values 文件定义，这种方式最可靠，对值的行为还可以辅以 templates 文件更深入的了解，推荐这种。
-有了 override 文件后，就可以使用下面的命令生成 manifest，manifest 是 k8s 的定义。建议把 override 文件和生成的 manifest 文件都通过版本控制工具维护起来，在每次对 override 操作后，对比前后的差异。
-$ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-override-default.
-        </div>
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/cacti-source-code-insight/" class="link black dim">
+        cacti源码分析－数据采集
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      cacti用于监控系统的各项运行指标，提供了交互界面和图表，是一个整合工具集，它完成两个核心任务： 1)指标数据的采集，2) 将数据通过数图进行展示。其中图表的绘制、图表数据的存储是通过rrdtool工具实现的，《RRDtool简体中文教程》对rrdtool工具进行了介绍，是很好的资料。本文分析指标数据采集的实现。
+如何获取目标数据 我们需要按照目标数据的暴露方式去采集相应的数据. 基于主机(host)的数据，如：系统负载，网卡流量，磁盘IO，TCP连接等已通过SNMP标准化，需要使用SNMP方式获取。应用级的数据要按照应用暴露数据的方式去获取,如: 如果要监控nginx（stub_status）数据,该项数据是通过http方式暴露，需使用http获取数据;如果要监控mysql-server（show status）数据，需要可以连接到mysql服务器，并有权限打印数据。
+cacti由cron驱动 cacti不是一个daemon进程，它由cron驱动。通常我们需要配置如下的cron: 下面的典型配置为每5分钟运行一次cacti的轮换数据进程。
+*/5 * * * * /PATH/TO/php /PATH/TO/cacti/poller.php &gt; /dev/null 2&gt;&amp;1 cron任务的运行频率，影响cacti采集数据周期，但cron的运行频率，并不是cacti最终的采集频率。举例来说，如果cron的运行频率为每5分钟触发一次，但我们希望每分钟采集一次数据，cacti是可以做到的，这要求我们将cron的运行频率正确的配置到cacti，这样cacti会在一次cron进程生命周期内，尽可能的按照预期的频率，进行多次数据采集。
+实现 涉及 $cron_interval，$poller_interval 两项参数，比如cron的周期是5分钟，poller周期是1分钟，则cron触发的poller.php进程，要负责安排5次数据轮询，以满足poller粒度。
+$poller_runs = intval($cron_interval / $poller_interval); define(&#34;MAX_POLLER_RUNTIME&#34;, $poller_runs * $poller_interval - 2); // poller.php进程的最大运行时间（比计划任务周期少2秒） poller进程(poller.php) poller进程由cron启动，在其生命周期内，负责编排所有的数据采集任务.
+任务初始化 poller进程启动后，在进行一系列cacti的初始化后，从系统中检索出数据采集任务集，然后将它们持久化到数据库(poller_output表)中,每一项数据指标一条记录。
+并发控制 cacti提供了两种并发模型来提升数据采集的效率，cmd.php和spine。其中cmd.php是多进程模型，用php语言实现; spine是多线程模型，具体实现不详。这里我们只讨论cmd.php方式的并发。下面的引文来自cacti的配置界面说明，大意是说，当使用cmd.php抓取数据时，可以通过增加进程数来提高性能（多进程模型）；当使用spine时，应该通过增加“Maximum Threads per Process”的值，提升性能（多线程模型）。
+ &ldquo;The number of concurrent processes to execute. Using a higher number when using cmd.php will improve performance. Performance improvements in spine are best resolved with the threads parameter&rdquo;
     </div>
   </div>
+</div>
+</div>
+      
+    </section>
+
+<ul class="pagination">
+    
+    <li class="page-item">
+        <a href="/posts/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li class="page-item">
+    <a href="/posts/" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="/posts/">1</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item active"><a class="page-link" href="/posts/page/2/">2</a></li>
+    
+    
+    <li class="page-item disabled">
+    <a  class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li class="page-item">
+        <a href="/posts/page/2/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
 </article>
-
-          </div>
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="https://potterhe.github.io/posts/k8s-no-route-to-host/" class="color-inherit dim link">
-            Kubernetes &#34;no route to host&#34;问题
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          我们在使用腾讯云容器服务(tke)的过程中，遇到&quot;no route to host&quot;问题，这里记录为运维日志。
-环境  tke 1.12.4(1.14.3) 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64 kube-proxy ipvs模式 /usr/bin/kube-proxy &ndash;proxy-mode=ipvs &ndash;ipvs-min-sync-period=1s &ndash;ipvs-sync-period=5s &ndash;ipvs-scheduler=rr &ndash;masquerade-all=true &ndash;kubeconfig=/etc/kubernetes/kubeproxy-kubeconfig &ndash;hostname-override=172.21.128.111 &ndash;v=2 运行时：Docker version 18.06.3-ce, build d7080c1  排查过程 请详见tke团队roc的文章Kubernetes 疑难杂症排查分享: 诡异的 No route to host
-其它找到的一些有用的文章  https://engineering.dollarshaveclub.com/kubernetes-fixing-delayed-service-endpoint-updates-fd4d0a31852c https://fuckcloudnative.io/posts/kubernetes-fixing-delayed-service-endpoint-updates/ 中文版本 五元组：源IP地址，源端口，目的IP地址，目的端口，和传输层协议这五个量组成的一个集合  
-        </div>
-          <a href="https://potterhe.github.io/posts/k8s-no-route-to-host/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
-      </section>
-
-      
-      <section class="w-100">
-        <h1 class="f3">More</h1>
-        
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/k8s-ipvs-udp-rule-expire-5min/" class="link black dim">
-              kube-proxy的ipvs模式udp转发规则过期问题
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/cdh-quick-start-vm/" class="link black dim">
-              cdh-5.13 quickstart vm 使用笔记
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/spark-note/" class="link black dim">
-              Spark调研笔记
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/paper-collect/" class="link black dim">
-              收藏的一些论文
-            </a>
-          </h2>
-        
-
-        
-        
-          <a href="https://potterhe.github.io/posts/" class="link db f6 pa2 br3 bg-mid-gray white dim w4 tc">All Posts</a>
-        
-        </section>
-      
-
-      </div>
-  
 
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
