@@ -98,6 +98,19 @@ By default, the Cloudera QuickStart VM run Cloudera&#39;s Distribution including
     </item>
     
     <item>
+      <title>Discuz!顶置贴、帖子列表优化建议</title>
+      <link>https://potterhe.github.io/posts/discuz-threads-list-optimize/</link>
+      <pubDate>Mon, 22 Jul 2013 00:00:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/discuz-threads-list-optimize/</guid>
+      <description>顶置贴的存储 表 pre_forum_thread 字段 displayorder
+4 多版块顶置。Disczu!7.2引入的一个特性，操作入口在“论坛”－“版块/群组顶置” 3 3级置顶、全局顶置 2 2级置顶、分区顶置 1 1级置顶、版块顶置 0 正常 -1 回收站 -2 审核中 -3 审核忽略 -4 草稿   顶置2、3类的tid会被保存在pre_common_syscache的cname=&amp;quot;globalstick&amp;quot;记录中 顶置2 $_G[&#39;cache&#39;][&#39;globalstick&#39;][&#39;categories&#39;][分区ID] 顶置3 $_G[&amp;lsquo;cache&amp;rsquo;][&amp;lsquo;globalstick&amp;rsquo;][&amp;lsquo;global&amp;rsquo;][&amp;lsquo;tids&amp;rsquo;] 多版块顶置数据（4）被保存在pre_common_syscache的cname=&amp;quot;forumstick&amp;quot;记录中 $_G[&amp;lsquo;cache&amp;rsquo;][&amp;lsquo;forumstick&amp;rsquo;][版块ID]  帖子列表页对顶置贴的显示逻辑。 Discuz!通过下面的SQL查询检索上面3种置顶帖子数据。
+第一页
+SELECT * FROM pre_forum_thread WHERE `tid` IN(&#39;3&#39;,&#39;13&#39;,&#39;12&#39;,&#39;5&#39;) AND `displayorder` IN(&#39;2&#39;,&#39;3&#39;,&#39;4&#39;) ORDER BY displayorder DESC, lastpost DESC LIMIT 20 Using where; Using filesort 第二页
+SELECT * FROM pre_forum_thread WHERE `tid` IN(&#39;3&#39;,&#39;13&#39;,&#39;12&#39;,&#39;5&#39;) AND `displayorder` IN(&#39;2&#39;,&#39;3&#39;,&#39;4&#39;) ORDER BY displayorder DESC, lastpost DESC LIMIT 20, 20 Using where; Using filesort 可以看到，即使第二页没有需要显示的顶置贴，但仍然会执行查询，这里可以做个小小的优化，计算一下IN（）表达式中的tid的数量。 然后是排序部分，如果条件允许的话，建议通过PHP脚本来排序。是否使用这一项优化，主要受版块中顶置贴的数量影响。如果顶置贴数量较多，必须要通过分页来显示，就需要在数据库中排序后，才能确定在指定页面要显示的顶置贴是哪些。不过按通常的情况来看，版块中顶置贴的数量都还是比较少，很少会出现顶置贴翻页的情况。</description>
+    </item>
+    
+    <item>
       <title>cacti源码分析－数据采集</title>
       <link>https://potterhe.github.io/posts/cacti-source-code-insight/</link>
       <pubDate>Sat, 25 May 2013 23:59:50 +0800</pubDate>

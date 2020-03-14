@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>Potterhe&#39;s Site  | discuz</title>
+    <title>Potterhe&#39;s Site  | 帖子列表</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="generator" content="Hugo 0.60.1" />
     
@@ -25,19 +25,19 @@
 
     
     
-      <link href="/tags/discuz/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
-      <link href="/tags/discuz/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/tags/%E5%B8%96%E5%AD%90%E5%88%97%E8%A1%A8/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/tags/%E5%B8%96%E5%AD%90%E5%88%97%E8%A1%A8/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
       
     
     
-    <meta property="og:title" content="discuz" />
+    <meta property="og:title" content="帖子列表" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://potterhe.github.io/tags/discuz/" />
-<meta property="og:updated_time" content="2013-09-22T00:00:00+08:00" />
-<meta itemprop="name" content="discuz">
+<meta property="og:url" content="https://potterhe.github.io/tags/%E5%B8%96%E5%AD%90%E5%88%97%E8%A1%A8/" />
+<meta property="og:updated_time" content="2013-07-22T00:00:00+08:00" />
+<meta itemprop="name" content="帖子列表">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="discuz"/>
+<meta name="twitter:title" content="帖子列表"/>
 <meta name="twitter:description" content=""/>
 
       
@@ -100,7 +100,7 @@
 
       <div class="tc-l pv4 pv6-l ph3 ph4-ns">
         <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-          discuz
+          帖子列表
         </h1>
         
       </div>
@@ -112,31 +112,11 @@
       
   <article class="cf pa3 pa4-m pa4-l">
     <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
-      <p>Below you will find pages that utilize the taxonomy term “discuz”</p>
+      <p>Below you will find pages that utilize the taxonomy term “帖子列表”</p>
     </div>
   </article>
   <div class="mw8 center">    
     <section class="flex-ns flex-wrap justify-around mt5">
-      
-        <div class="relative w-100  mb4 bg-white">
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/discuz-cluster-optimize/" class="link black dim">
-        Discuz!X集群部署的系统方案和优化方式
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      多 web 部署时，面临的核心问题是 web 服务器间的数据共享和同步。就数据存储的方式而言，Discuz 数据包含两部分：一部分存储在 MySQL 数据库中（用户、帖子等文本类、结构化的数据），一部分存储在文件系统（附件、缓存文件等）。其中存储在 MySQL 中的数据可以方便地在多服务器间共享，扩展和冗余也已经有比较成熟的方案。这里我们主要讨论 Discuz 文件类型的数据，部分涉及到多台服务器的内容。
-数据梳理 Discuz 文件类型的数据都存储于 DISCUZ_ROOT/data 目录，各目录主要功能如下：
-   目录 数据说明     data/attachment 附件类   data/log 运行日志   data/cache 配置参数类缓存文件（默认是sql，配置参数通过pre_common_syscache表缓存）、CSS缓存、部分JS缓存   data/template 模板缓存   data/threadcache 论坛页面缓存（针对游客的优化）    DISCUZ_ROOT/data目录下有几个重要的文件（文件锁）
- data/install.lock，安装程序锁定。如果该文件存在，DISCUZ_ROOT/install/ 中的安装程序不能执行。 data/sendmail.lock， 发送邮件锁。Discuz 默认通过类似 home.php?mod=misc&amp;ac=sendmail&amp;rand=1379315574 这个隐藏页面调用，由用户的浏览行为触发邮件发送流程（浏览器侧用一个300秒的 cookie 控制频率，服务器侧通过 sendmail.lock 文件的 mtime 控制频率5秒）。如果可以控制服务器，应该优化掉这个机制。 data/updatetime.lock， 某管理后台使用的锁。 data/update.lock， 系统升级锁。执行版本升级程序（如x2升级到x3）时，会生成这个文件锁。  下面这些功能会涉及到多 web 服务器间的数据共享和同步，默认 Discuz 通过 MySQL 实现。
-    </div>
-  </div>
-</div>
-
-        </div>
       
         <div class="relative w-100  mb4 bg-white">
           <div class="relative w-100 mb4 bg-white nested-copy-line-height">
