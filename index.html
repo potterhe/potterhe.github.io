@@ -9,7 +9,7 @@
     <meta name="generator" content="Hugo 0.60.1" />
     
     
-      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+      <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
     
 
     
@@ -40,6 +40,8 @@
 <meta name="twitter:title" content="Potterhe&#39;s Site"/>
 <meta name="twitter:description" content=""/>
 
+      
+    
   </head>
 
   <body class="ma0 avenir bg-near-white">
@@ -142,7 +144,7 @@
       
       <div class="blah w-100">
         <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-addon-components-setup/" class="color-inherit dim link">
+          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/" class="color-inherit dim link">
             Istio 1.5.0 实战：“体验”监控，观测
             </a>
         </h1>
@@ -152,7 +154,7 @@
 apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default addonComponents: grafana: enabled: true values: gateways: istio-ingressgateway: serviceAnnotations: # https://cloud.tencent.com/document/product/457/18210 service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=true nodeSelector: company.com/ingressgateway: true ports: # 公网lb控制暴露的端口. - name: http2 port: 80 targetPort: 80 - name: https port: 443 查看现场，预期会增加以下对象
 $ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc9c87cdf-j6ml8 1/1 Running 0 3d9h NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/grafana ClusterIP 172.
         </div>
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-addon-components-setup/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
         
       </div>
     </div>

@@ -9,7 +9,7 @@
     <meta name="generator" content="Hugo 0.60.1" />
     
     
-      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+      <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
     
 
     
@@ -55,6 +55,8 @@ apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: i
 有了 override 文件后，就可以使用下面的命令生成 manifest，manifest 是 k8s 的定义。建议把 override 文件和生成的 manifest 文件都通过版本控制工具维护起来，在每次对 override 操作后，对比前后的差异。
 $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-override-default."/>
 
+      
+    
   </head>
 
   <body class="ma0 avenir bg-near-white">

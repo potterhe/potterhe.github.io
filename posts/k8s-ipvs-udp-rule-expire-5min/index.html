@@ -9,7 +9,7 @@
     <meta name="generator" content="Hugo 0.60.1" />
     
     
-      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+      <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
     
 
     
@@ -41,11 +41,13 @@
 
 
 
-<meta itemprop="keywords" content="kube-proxy,ipvs,udp,expire," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="kubernetes,kube-proxy,ipvs,udp,expire," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="kube-proxy的ipvs模式udp转发规则过期问题"/>
 <meta name="twitter:description" content="我们在使用腾讯云容器服务(tke)的过程中，遭遇了kube-proxy的ipvs模式udp转发规则过期问题，过程记录。
 环境  tke 1.12.4 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64 kube-proxy ipvs模式 /usr/bin/kube-proxy &ndash;proxy-mode=ipvs &ndash;ipvs-min-sync-period=1s &ndash;ipvs-sync-period=5s &ndash;ipvs-scheduler=rr &ndash;masquerade-all=true &ndash;kubeconfig=/etc/kubernetes/kubeproxy-kubeconfig &ndash;hostname-override=172.21.128.111 &ndash;v=2 运行时：Docker version 18.06.3-ce, build d7080c1  操作和现象  目标节点：172.21.128.109, 该节点有coredns, coredns的svc ClusterIP: 172.23.127.235。执行封锁后，执行drain操作。操作后的现象：业务大量报错“getaddrinfo failed: Name or service not known (10.010s)”,持续约8分钟. 和腾讯云的伙伴复盘时关注dns的变化.操作后会看到新的pod在172.21.128.111节点生成，在集群的任意节点上查看ipvs规则,发现tcp规则已更新成新podip，但udp规则还是老的podip。  # kubectl drain 172.21.128.109 # kubectl get pod -n kube-system -o wide|grep dns coredns-568cfc555b-4vdgk 1/1 Running 0 66s 172.23.3.41 172.21.128.111 &lt;none&gt; coredns-568cfc555b-7zkfz 1/1 Running 0 77d 172.23.0.144 172.21.128.10 &lt;none&gt; # ipvsadm -Ln|grep -A2 172."/>
 
+      
+    
   </head>
 
   <body class="ma0 avenir bg-near-white">
@@ -192,6 +194,10 @@ kube-proxy在清除旧的ipvs规则时，如果InActConn不等于0的话，就�
 </code></pre><h2 id="heading2">结论</h2>
 <p>ipvs的udp规则问题导致，所有的udp服务都有这个问题. 5分钟的服务不可用对于生产系统来说，不可接受。</p>
 <ul class="pa0">
+  
+   <li class="list">
+     <a href="/tags/kubernetes" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">kubernetes</a>
+   </li>
   
    <li class="list">
      <a href="/tags/kube-proxy" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">kube-proxy</a>

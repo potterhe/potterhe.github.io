@@ -8,7 +8,7 @@
   </url>
   
   <url>
-    <loc>https://potterhe.github.io/posts/istio-1.5-in-action-addon-components-setup/</loc>
+    <loc>https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/</loc>
     <lastmod>2020-03-12T12:52:00+08:00</lastmod>
   </url>
   
@@ -59,6 +59,11 @@
   
   <url>
     <loc>https://potterhe.github.io/tags/kube-proxy/</loc>
+    <lastmod>2019-12-13T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/kubernetes/</loc>
     <lastmod>2019-12-13T23:59:59+08:00</lastmod>
   </url>
   
