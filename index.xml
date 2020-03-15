@@ -111,6 +111,21 @@ SELECT * FROM pre_forum_thread WHERE `tid` IN(&#39;3&#39;,&#39;13&#39;,&#39;12&#
     </item>
     
     <item>
+      <title>shell算术展开、按位运算</title>
+      <link>https://potterhe.github.io/posts/shell-bit-computing/</link>
+      <pubDate>Fri, 05 Jul 2013 00:00:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/shell-bit-computing/</guid>
+      <description>《shell脚本学习指南》6.1.3节描述了 shell 的算术展开，其支持的运算与C语言差不多，语法 $((...))
+$ echo $(( 3 * 4 )) 12 在某些场景特别方便，可以免去写程序的烦琐，如验证某些运算。 下面是验证《深入理解计算系统》练习题2.12的场景
+表达式 ~0 将生成一个全1的掩码，不管机器的字大小是多少，可移植。
+$ printf &amp;#34;%x\n&amp;#34; $(( ~0 )) ffffffffffffffff $ printf &amp;#34;%#x\n&amp;#34; $(( ~0 )) 0xffffffffffffffff 上面的测试显示，shell中，0按位取反后的值是64位的。 shell 的 printf 命令前导字符打印：《shell脚本学习指南》表7－4：printf 的标志中描述了格式参数中&amp;rdquo;#&amp;ldquo;号的意义，&amp;quot;#&amp;ldquo;可以用以输出前导&amp;quot;0x&amp;rdquo;(16进制)、&amp;ldquo;0&amp;rdquo;(8进制)
+x &amp;amp; 0xFF 生成一个由x的最低有效字节组成的值
+$ printf &amp;#34;%#x\n&amp;#34; $(( 0x89ABCDEF &amp;amp; 0xFF )) 0xef $ printf &amp;#34;%#.8x\n&amp;#34; $(( 0x89ABCDEF &amp;amp; 0xFF )) 0x000000ef 以下x = 0x87654321 A.x的最低有效字节，其他位均置为0
+$ printf &amp;#34;%#.8x\n&amp;#34; $(( 0x87654321 &amp;amp; 0xFF )) 0x00000021 $ printf &amp;#34;%#.</description>
+    </item>
+    
+    <item>
       <title>cacti源码分析－数据采集</title>
       <link>https://potterhe.github.io/posts/cacti-source-code-insight/</link>
       <pubDate>Sat, 25 May 2013 23:59:50 +0800</pubDate>

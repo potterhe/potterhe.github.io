@@ -61,6 +61,16 @@
       
 
       
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/posts/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
       
 
 
@@ -523,6 +533,34 @@ $poller_runs = intval($cron_interval / $poller_interval); define(&#34;MAX_POLLER
     <div class="nested-links f5 lh-copy nested-copy-line-height">
       下载和导入虚拟机.  下载 cdh-quickstart-vm 导入  vm初始信息收集 [cloudera@quickstart ~]$ uname -a Linux quickstart.cloudera 2.6.32-573.el6.x86_64 #1 SMP Thu Jul 23 15:44:03 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux $ cat /etc/issue CentOS release 6.7 (Final) Kernel \r on an \m vm里的cdh服务当前是使用操作系统的init系统管理的，而不是&quot;Cloudera Manager&rdquo;
 By default, the Cloudera QuickStart VM run Cloudera's Distribution including Apache Hadoop (CDH) under Linux's service and configuration management. If you wish to migrate to Cloudera Manager, you must run one of the following commands.
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/shell" class="link blue hover-black">
+            Tag: shell
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/shell-bit-computing/" class="link black dim">
+        shell算术展开、按位运算
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      《shell脚本学习指南》6.1.3节描述了 shell 的算术展开，其支持的运算与C语言差不多，语法 $((...))
+$ echo $(( 3 * 4 )) 12 在某些场景特别方便，可以免去写程序的烦琐，如验证某些运算。 下面是验证《深入理解计算系统》练习题2.12的场景
+表达式 ~0 将生成一个全1的掩码，不管机器的字大小是多少，可移植。
+$ printf &#34;%x\n&#34; $(( ~0 )) ffffffffffffffff $ printf &#34;%#x\n&#34; $(( ~0 )) 0xffffffffffffffff 上面的测试显示，shell中，0按位取反后的值是64位的。 shell 的 printf 命令前导字符打印：《shell脚本学习指南》表7－4：printf 的标志中描述了格式参数中&rdquo;#&ldquo;号的意义，&quot;#&ldquo;可以用以输出前导&quot;0x&rdquo;(16进制)、&ldquo;0&rdquo;(8进制)
+x &amp; 0xFF 生成一个由x的最低有效字节组成的值
+$ printf &#34;%#x\n&#34; $(( 0x89ABCDEF &amp; 0xFF )) 0xef $ printf &#34;%#.8x\n&#34; $(( 0x89ABCDEF &amp; 0xFF )) 0x000000ef 以下x = 0x87654321 A.x的最低有效字节，其他位均置为0
+$ printf &#34;%#.8x\n&#34; $(( 0x87654321 &amp; 0xFF )) 0x00000021 $ printf &#34;%#.
     </div>
   </div>
 </div>
