@@ -463,6 +463,31 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
         
       
         <h2 class="f1">
+          <a href="/tags/mac-os-x" class="link blue hover-black">
+            Tag: mac-os-x
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/macosx-conf-preloaded-php-fpm/" class="link black dim">
+        Mac OS X 10.9 自带 php-fpm 的配置使用和扩展安装
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Mac OS X 10.9 自带有 php-fpm，本文把预装的 php-fpm 配置起来。
+直接运行，有报错找不到配置文件。
+$ php-fpm [11-Jan-2014 16:03:03] ERROR: failed to open configuration file &#39;/private/etc/php-fpm.conf&#39;: No such file or directory (2) [11-Jan-2014 16:03:03] ERROR: failed to load configuration file &#39;/private/etc/php-fpm.conf&#39; [11-Jan-2014 16:03:03] ERROR: FPM initialization failed 可以在 /private/etc/ 目录下生成配置文件，需要 root 权限(sudo) 或者在普通用户有权限的目录里放置配置文件，通过 --fpm-config 参数指定配置文件的位置，如下：
+$ cp /private/etc/php-fpm.conf.default /usr/local/etc/php-fpm.conf $ php-fpm --fpm-config /usr/local/etc/php-fpm.conf [11-Jan-2014 16:10:49] ERROR: failed to open error_log (/usr/var/log/php-fpm.log): No such file or directory (2) [11-Jan-2014 16:10:49] ERROR: failed to post process the configuration [11-Jan-2014 16:10:49] ERROR: FPM initialization failed 错误信息显示：不能正确的打开”日志“文件，原因是默认在 /usr/var 目录下工作，可以修改配置文件指定正确的日志文件路径。修改 /usr/local/etc/php-fpm.
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
           <a href="/tags/no-route-to-host" class="link blue hover-black">
             Tag: no-route-to-host
           </a>
@@ -491,6 +516,24 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
             Tag: php
           </a>
         </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/macosx-conf-preloaded-php-fpm/" class="link black dim">
+        Mac OS X 10.9 自带 php-fpm 的配置使用和扩展安装
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Mac OS X 10.9 自带有 php-fpm，本文把预装的 php-fpm 配置起来。
+直接运行，有报错找不到配置文件。
+$ php-fpm [11-Jan-2014 16:03:03] ERROR: failed to open configuration file &#39;/private/etc/php-fpm.conf&#39;: No such file or directory (2) [11-Jan-2014 16:03:03] ERROR: failed to load configuration file &#39;/private/etc/php-fpm.conf&#39; [11-Jan-2014 16:03:03] ERROR: FPM initialization failed 可以在 /private/etc/ 目录下生成配置文件，需要 root 权限(sudo) 或者在普通用户有权限的目录里放置配置文件，通过 --fpm-config 参数指定配置文件的位置，如下：
+$ cp /private/etc/php-fpm.conf.default /usr/local/etc/php-fpm.conf $ php-fpm --fpm-config /usr/local/etc/php-fpm.conf [11-Jan-2014 16:10:49] ERROR: failed to open error_log (/usr/var/log/php-fpm.log): No such file or directory (2) [11-Jan-2014 16:10:49] ERROR: failed to post process the configuration [11-Jan-2014 16:10:49] ERROR: FPM initialization failed 错误信息显示：不能正确的打开”日志“文件，原因是默认在 /usr/var 目录下工作，可以修改配置文件指定正确的日志文件路径。修改 /usr/local/etc/php-fpm.
+    </div>
+  </div>
+</div>
+
         
           <div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
@@ -950,6 +993,31 @@ $ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
       分布式系统  寻找一种易于理解的一致性算法（扩展版） (raft) Dapper，大规模分布式系统的跟踪系统  大数据  streaming 101 streaming 102(翻译)  
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/%E9%85%8D%E7%BD%AE" class="link blue hover-black">
+            Tag: 配置
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/macosx-conf-preloaded-php-fpm/" class="link black dim">
+        Mac OS X 10.9 自带 php-fpm 的配置使用和扩展安装
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Mac OS X 10.9 自带有 php-fpm，本文把预装的 php-fpm 配置起来。
+直接运行，有报错找不到配置文件。
+$ php-fpm [11-Jan-2014 16:03:03] ERROR: failed to open configuration file &#39;/private/etc/php-fpm.conf&#39;: No such file or directory (2) [11-Jan-2014 16:03:03] ERROR: failed to load configuration file &#39;/private/etc/php-fpm.conf&#39; [11-Jan-2014 16:03:03] ERROR: FPM initialization failed 可以在 /private/etc/ 目录下生成配置文件，需要 root 权限(sudo) 或者在普通用户有权限的目录里放置配置文件，通过 --fpm-config 参数指定配置文件的位置，如下：
+$ cp /private/etc/php-fpm.conf.default /usr/local/etc/php-fpm.conf $ php-fpm --fpm-config /usr/local/etc/php-fpm.conf [11-Jan-2014 16:10:49] ERROR: failed to open error_log (/usr/var/log/php-fpm.log): No such file or directory (2) [11-Jan-2014 16:10:49] ERROR: failed to post process the configuration [11-Jan-2014 16:10:49] ERROR: FPM initialization failed 错误信息显示：不能正确的打开”日志“文件，原因是默认在 /usr/var 目录下工作，可以修改配置文件指定正确的日志文件路径。修改 /usr/local/etc/php-fpm.
     </div>
   </div>
 </div>

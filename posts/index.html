@@ -225,6 +225,76 @@ By default, the Cloudera QuickStart VM run Cloudera's Distribution including Apa
 </div>
 </div>
       
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/paper-collect/" class="link black dim">
+        收藏的一些论文
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      分布式系统  寻找一种易于理解的一致性算法（扩展版） (raft) Dapper，大规模分布式系统的跟踪系统  大数据  streaming 101 streaming 102(翻译)  
+    </div>
+  </div>
+</div>
+</div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/macosx-conf-preloaded-php-fpm/" class="link black dim">
+        Mac OS X 10.9 自带 php-fpm 的配置使用和扩展安装
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Mac OS X 10.9 自带有 php-fpm，本文把预装的 php-fpm 配置起来。
+直接运行，有报错找不到配置文件。
+$ php-fpm [11-Jan-2014 16:03:03] ERROR: failed to open configuration file &#39;/private/etc/php-fpm.conf&#39;: No such file or directory (2) [11-Jan-2014 16:03:03] ERROR: failed to load configuration file &#39;/private/etc/php-fpm.conf&#39; [11-Jan-2014 16:03:03] ERROR: FPM initialization failed 可以在 /private/etc/ 目录下生成配置文件，需要 root 权限(sudo) 或者在普通用户有权限的目录里放置配置文件，通过 --fpm-config 参数指定配置文件的位置，如下：
+$ cp /private/etc/php-fpm.conf.default /usr/local/etc/php-fpm.conf $ php-fpm --fpm-config /usr/local/etc/php-fpm.conf [11-Jan-2014 16:10:49] ERROR: failed to open error_log (/usr/var/log/php-fpm.log): No such file or directory (2) [11-Jan-2014 16:10:49] ERROR: failed to post process the configuration [11-Jan-2014 16:10:49] ERROR: FPM initialization failed 错误信息显示：不能正确的打开”日志“文件，原因是默认在 /usr/var 目录下工作，可以修改配置文件指定正确的日志文件路径。修改 /usr/local/etc/php-fpm.
+    </div>
+  </div>
+</div>
+</div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/discuz-cluster-optimize/" class="link black dim">
+        Discuz!X集群部署的系统方案和优化方式
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      多 web 部署时，面临的核心问题是 web 服务器间的数据共享和同步。就数据存储的方式而言，Discuz 数据包含两部分：一部分存储在 MySQL 数据库中（用户、帖子等文本类、结构化的数据），一部分存储在文件系统（附件、缓存文件等）。其中存储在 MySQL 中的数据可以方便地在多服务器间共享，扩展和冗余也已经有比较成熟的方案。这里我们主要讨论 Discuz 文件类型的数据，部分涉及到多台服务器的内容。
+数据梳理 Discuz 文件类型的数据都存储于 DISCUZ_ROOT/data 目录，各目录主要功能如下：
+   目录 数据说明     data/attachment 附件类   data/log 运行日志   data/cache 配置参数类缓存文件（默认是sql，配置参数通过pre_common_syscache表缓存）、CSS缓存、部分JS缓存   data/template 模板缓存   data/threadcache 论坛页面缓存（针对游客的优化）    DISCUZ_ROOT/data目录下有几个重要的文件（文件锁）
+ data/install.lock，安装程序锁定。如果该文件存在，DISCUZ_ROOT/install/ 中的安装程序不能执行。 data/sendmail.lock， 发送邮件锁。Discuz 默认通过类似 home.php?mod=misc&amp;ac=sendmail&amp;rand=1379315574 这个隐藏页面调用，由用户的浏览行为触发邮件发送流程（浏览器侧用一个300秒的 cookie 控制频率，服务器侧通过 sendmail.lock 文件的 mtime 控制频率5秒）。如果可以控制服务器，应该优化掉这个机制。 data/updatetime.lock， 某管理后台使用的锁。 data/update.lock， 系统升级锁。执行版本升级程序（如x2升级到x3）时，会生成这个文件锁。  下面这些功能会涉及到多 web 服务器间的数据共享和同步，默认 Discuz 通过 MySQL 实现。
+    </div>
+  </div>
+</div>
+</div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/discuz-threads-list-optimize/" class="link black dim">
+        Discuz!顶置贴、帖子列表优化建议
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      顶置贴的存储 表 pre_forum_thread 字段 displayorder
+4 多版块顶置。Disczu!7.2引入的一个特性，操作入口在“论坛”－“版块/群组顶置” 3 3级置顶、全局顶置 2 2级置顶、分区顶置 1 1级置顶、版块顶置 0 正常 -1 回收站 -2 审核中 -3 审核忽略 -4 草稿   顶置2、3类的tid会被保存在pre_common_syscache的cname=&quot;globalstick&quot;记录中 顶置2 $_G['cache']['globalstick']['categories'][分区ID] 顶置3 $_G[&lsquo;cache&rsquo;][&lsquo;globalstick&rsquo;][&lsquo;global&rsquo;][&lsquo;tids&rsquo;] 多版块顶置数据（4）被保存在pre_common_syscache的cname=&quot;forumstick&quot;记录中 $_G[&lsquo;cache&rsquo;][&lsquo;forumstick&rsquo;][版块ID]  帖子列表页对顶置贴的显示逻辑。 Discuz!通过下面的SQL查询检索上面3种置顶帖子数据。
+第一页
+SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayorder` IN('2','3','4') ORDER BY displayorder DESC, lastpost DESC LIMIT 20 Using where; Using filesort 第二页
+SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayorder` IN('2','3','4') ORDER BY displayorder DESC, lastpost DESC LIMIT 20, 20 Using where; Using filesort 可以看到，即使第二页没有需要显示的顶置贴，但仍然会执行查询，这里可以做个小小的优化，计算一下IN（）表达式中的tid的数量。 然后是排序部分，如果条件允许的话，建议通过PHP脚本来排序。是否使用这一项优化，主要受版块中顶置贴的数量影响。如果顶置贴数量较多，必须要通过分页来显示，就需要在数据库中排序后，才能确定在指定页面要显示的顶置贴是哪些。不过按通常的情况来看，版块中顶置贴的数量都还是比较少，很少会出现顶置贴翻页的情况。
+    </div>
+  </div>
+</div>
+</div>
+      
     </section>
 
 <ul class="pagination">
