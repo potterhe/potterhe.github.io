@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>Potterhe&#39;s Site  | kubernetes</title>
+    <title>Potterhe&#39;s Site  | 发布系统</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="generator" content="Hugo 0.60.1" />
     
@@ -25,19 +25,19 @@
 
     
     
-      <link href="/tags/kubernetes/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
-      <link href="/tags/kubernetes/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/tags/%E5%8F%91%E5%B8%83%E7%B3%BB%E7%BB%9F/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/tags/%E5%8F%91%E5%B8%83%E7%B3%BB%E7%BB%9F/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
       
     
     
-    <meta property="og:title" content="kubernetes" />
+    <meta property="og:title" content="发布系统" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://potterhe.github.io/tags/kubernetes/" />
+<meta property="og:url" content="https://potterhe.github.io/tags/%E5%8F%91%E5%B8%83%E7%B3%BB%E7%BB%9F/" />
 <meta property="og:updated_time" content="2020-03-14T11:52:00+08:00" />
-<meta itemprop="name" content="kubernetes">
+<meta itemprop="name" content="发布系统">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="kubernetes"/>
+<meta name="twitter:title" content="发布系统"/>
 <meta name="twitter:description" content=""/>
 
       
@@ -110,7 +110,7 @@
 
       <div class="tc-l pv4 pv6-l ph3 ph4-ns">
         <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-          kubernetes
+          发布系统
         </h1>
         
       </div>
@@ -122,7 +122,7 @@
       
   <article class="cf pa3 pa4-m pa4-l">
     <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
-      <p>Below you will find pages that utilize the taxonomy term “kubernetes”</p>
+      <p>Below you will find pages that utilize the taxonomy term “发布系统”</p>
     </div>
   </article>
   <div class="mw8 center">    
@@ -142,43 +142,6 @@
 需求&amp;痛点  私有的统一认证，授权。角色，权限管控。 审计合规。主要包括测试人员发版，发版有历史，可审计追溯。 多云，多集群。 功能产品化。如：发版，扩容，回滚，下线。 “回滚”机制要求“编排文件”也需要用版本控制工具管理起来，版本化。  选型  rancher drone spinnaker helm 生态  为什么选择 Kubeapps Kubeapps
 在整理这篇的时候，特意确认了 kubeapps 的最新架构，一些组件的名字已经发生了改变。   需求描述中的“编排文件版本化”，这正是 helm 的特性，虽然社区有其它的解决方案，但 helm 目前仍是那个应用最广泛的，成熟且有丰富的生态。 kubeapps 基于 helm。 kubeapps 是产品化的，而不是一个“轮子”。 封装良好的 api，极容易复用和扩展。这些 api 包括：整合了chartmuseum，并提供了chartsvc；tiller-proxy api；apprepository api；搜索 api，基于mongo的缓存，定时同步。 权限透明。它的权限完全是基于 Kubernetes 的 RBAC 机制，是透明的。 前端 React。  chartmuseum chartmuseum 是 helm 的 charts 仓库。
  无状态 几乎支持所有云的对象存储作为后端，简单，安全。  由于我们的业务主要是在腾讯云，我们希望用其 cos 服务作为存储 backend。我们为社区提供了两个pr，完善了 chartmuseum 对腾讯云 cos 的支持。
-    </div>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="relative w-100  mb4 bg-white">
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/k8s-no-route-to-host/" class="link black dim">
-        Kubernetes &#34;no route to host&#34;问题
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      我们在使用腾讯云容器服务(tke)的过程中，遇到&quot;no route to host&quot;问题，这里记录为运维日志。
-环境  tke 1.12.4(1.14.3) 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64 kube-proxy ipvs模式 /usr/bin/kube-proxy &ndash;proxy-mode=ipvs &ndash;ipvs-min-sync-period=1s &ndash;ipvs-sync-period=5s &ndash;ipvs-scheduler=rr &ndash;masquerade-all=true &ndash;kubeconfig=/etc/kubernetes/kubeproxy-kubeconfig &ndash;hostname-override=172.21.128.111 &ndash;v=2 运行时：Docker version 18.06.3-ce, build d7080c1  排查过程 请详见tke团队roc的文章Kubernetes 疑难杂症排查分享: 诡异的 No route to host
-其它找到的一些有用的文章  https://engineering.dollarshaveclub.com/kubernetes-fixing-delayed-service-endpoint-updates-fd4d0a31852c https://fuckcloudnative.io/posts/kubernetes-fixing-delayed-service-endpoint-updates/ 中文版本 五元组：源IP地址，源端口，目的IP地址，目的端口，和传输层协议这五个量组成的一个集合  
-    </div>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="relative w-100  mb4 bg-white">
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/k8s-ipvs-udp-rule-expire-5min/" class="link black dim">
-        kube-proxy的ipvs模式udp转发规则过期问题
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      我们在使用腾讯云容器服务(tke)的过程中，遭遇了kube-proxy的ipvs模式udp转发规则过期问题，过程记录。
-环境  tke 1.12.4 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64 kube-proxy ipvs模式 /usr/bin/kube-proxy &ndash;proxy-mode=ipvs &ndash;ipvs-min-sync-period=1s &ndash;ipvs-sync-period=5s &ndash;ipvs-scheduler=rr &ndash;masquerade-all=true &ndash;kubeconfig=/etc/kubernetes/kubeproxy-kubeconfig &ndash;hostname-override=172.21.128.111 &ndash;v=2 运行时：Docker version 18.06.3-ce, build d7080c1  操作和现象  目标节点：172.21.128.109, 该节点有coredns, coredns的svc ClusterIP: 172.23.127.235。执行封锁后，执行drain操作。操作后的现象：业务大量报错“getaddrinfo failed: Name or service not known (10.010s)”,持续约8分钟. 和腾讯云的伙伴复盘时关注dns的变化.操作后会看到新的pod在172.21.128.111节点生成，在集群的任意节点上查看ipvs规则,发现tcp规则已更新成新podip，但udp规则还是老的podip。  # kubectl drain 172.21.128.109 # kubectl get pod -n kube-system -o wide|grep dns coredns-568cfc555b-4vdgk 1/1 Running 0 66s 172.23.3.41 172.21.128.111 &lt;none&gt; coredns-568cfc555b-7zkfz 1/1 Running 0 77d 172.23.0.144 172.21.128.10 &lt;none&gt; # ipvsadm -Ln|grep -A2 172.
     </div>
   </div>
 </div>

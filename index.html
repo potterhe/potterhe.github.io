@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/" />
-<meta property="og:updated_time" content="2020-03-12T12:52:00+08:00" />
+<meta property="og:updated_time" content="2020-03-14T11:52:00+08:00" />
 <meta itemprop="name" content="Potterhe&#39;s Site">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Potterhe&#39;s Site"/>
@@ -154,6 +154,33 @@
       
       <div class="blah w-100">
         <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="https://potterhe.github.io/posts/a-kubeapps-based-application-deploying-and-managing-system/" class="color-inherit dim link">
+            基于 Kubeapps 的应用管理、发布系统
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          在引入 Kubernetes 时，我们需要提供对应的 CI/CD 方案。
+需求&amp;痛点  私有的统一认证，授权。角色，权限管控。 审计合规。主要包括测试人员发版，发版有历史，可审计追溯。 多云，多集群。 功能产品化。如：发版，扩容，回滚，下线。 “回滚”机制要求“编排文件”也需要用版本控制工具管理起来，版本化。  选型  rancher drone spinnaker helm 生态  为什么选择 Kubeapps Kubeapps
+在整理这篇的时候，特意确认了 kubeapps 的最新架构，一些组件的名字已经发生了改变。   需求描述中的“编排文件版本化”，这正是 helm 的特性，虽然社区有其它的解决方案，但 helm 目前仍是那个应用最广泛的，成熟且有丰富的生态。 kubeapps 基于 helm。 kubeapps 是产品化的，而不是一个“轮子”。 封装良好的 api，极容易复用和扩展。这些 api 包括：整合了chartmuseum，并提供了chartsvc；tiller-proxy api；apprepository api；搜索 api，基于mongo的缓存，定时同步。 权限透明。它的权限完全是基于 Kubernetes 的 RBAC 机制，是透明的。 前端 React。  chartmuseum chartmuseum 是 helm 的 charts 仓库。
+ 无状态 几乎支持所有云的对象存储作为后端，简单，安全。  由于我们的业务主要是在腾讯云，我们希望用其 cos 服务作为存储 backend。我们为社区提供了两个pr，完善了 chartmuseum 对腾讯云 cos 的支持。
+        </div>
+          <a href="https://potterhe.github.io/posts/a-kubeapps-based-application-deploying-and-managing-system/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="relative w-100 mb4">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
+    <div class="flex flex-column flex-row-ns">
+      
+      <div class="blah w-100">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
           <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/" class="color-inherit dim link">
             Istio 1.5.0 实战：“体验”监控，观测
             </a>
@@ -201,38 +228,18 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
 
           </div>
         
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="https://potterhe.github.io/posts/k8s-no-route-to-host/" class="color-inherit dim link">
-            Kubernetes &#34;no route to host&#34;问题
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          我们在使用腾讯云容器服务(tke)的过程中，遇到&quot;no route to host&quot;问题，这里记录为运维日志。
-环境  tke 1.12.4(1.14.3) 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64 kube-proxy ipvs模式 /usr/bin/kube-proxy &ndash;proxy-mode=ipvs &ndash;ipvs-min-sync-period=1s &ndash;ipvs-sync-period=5s &ndash;ipvs-scheduler=rr &ndash;masquerade-all=true &ndash;kubeconfig=/etc/kubernetes/kubeproxy-kubeconfig &ndash;hostname-override=172.21.128.111 &ndash;v=2 运行时：Docker version 18.06.3-ce, build d7080c1  排查过程 请详见tke团队roc的文章Kubernetes 疑难杂症排查分享: 诡异的 No route to host
-其它找到的一些有用的文章  https://engineering.dollarshaveclub.com/kubernetes-fixing-delayed-service-endpoint-updates-fd4d0a31852c https://fuckcloudnative.io/posts/kubernetes-fixing-delayed-service-endpoint-updates/ 中文版本 五元组：源IP地址，源端口，目的IP地址，目的端口，和传输层协议这五个量组成的一个集合  
-        </div>
-          <a href="https://potterhe.github.io/posts/k8s-no-route-to-host/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
       </section>
 
       
       <section class="w-100">
         <h1 class="f3">More</h1>
         
+        
+          <h2 class="f5 fw4 mb4 dib mr3">
+            <a href="https://potterhe.github.io/posts/k8s-no-route-to-host/" class="link black dim">
+              Kubernetes &#34;no route to host&#34;问题
+            </a>
+          </h2>
         
           <h2 class="f5 fw4 mb4 dib mr3">
             <a href="https://potterhe.github.io/posts/k8s-ipvs-udp-rule-expire-5min/" class="link black dim">
@@ -249,12 +256,6 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
           <h2 class="f5 fw4 mb4 dib mr3">
             <a href="https://potterhe.github.io/posts/spark-note/" class="link black dim">
               Spark调研笔记
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/paper-collect/" class="link black dim">
-              收藏的一些论文
             </a>
           </h2>
         

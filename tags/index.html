@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/tags/" />
-<meta property="og:updated_time" content="2020-03-12T12:52:00+08:00" />
+<meta property="og:updated_time" content="2020-03-14T11:52:00+08:00" />
 <meta itemprop="name" content="Tags">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tags"/>
@@ -225,6 +225,31 @@ $poller_runs = intval($cron_interval / $poller_interval); define(&#34;MAX_POLLER
     <div class="nested-links f5 lh-copy nested-copy-line-height">
       下载和导入虚拟机.  下载 cdh-quickstart-vm 导入  vm初始信息收集 [cloudera@quickstart ~]$ uname -a Linux quickstart.cloudera 2.6.32-573.el6.x86_64 #1 SMP Thu Jul 23 15:44:03 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux $ cat /etc/issue CentOS release 6.7 (Final) Kernel \r on an \m vm里的cdh服务当前是使用操作系统的init系统管理的，而不是&quot;Cloudera Manager&rdquo;
 By default, the Cloudera QuickStart VM run Cloudera's Distribution including Apache Hadoop (CDH) under Linux's service and configuration management. If you wish to migrate to Cloudera Manager, you must run one of the following commands.
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/chartmuseum" class="link blue hover-black">
+            Tag: chartmuseum
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/a-kubeapps-based-application-deploying-and-managing-system/" class="link black dim">
+        基于 Kubeapps 的应用管理、发布系统
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      在引入 Kubernetes 时，我们需要提供对应的 CI/CD 方案。
+需求&amp;痛点  私有的统一认证，授权。角色，权限管控。 审计合规。主要包括测试人员发版，发版有历史，可审计追溯。 多云，多集群。 功能产品化。如：发版，扩容，回滚，下线。 “回滚”机制要求“编排文件”也需要用版本控制工具管理起来，版本化。  选型  rancher drone spinnaker helm 生态  为什么选择 Kubeapps Kubeapps
+在整理这篇的时候，特意确认了 kubeapps 的最新架构，一些组件的名字已经发生了改变。   需求描述中的“编排文件版本化”，这正是 helm 的特性，虽然社区有其它的解决方案，但 helm 目前仍是那个应用最广泛的，成熟且有丰富的生态。 kubeapps 基于 helm。 kubeapps 是产品化的，而不是一个“轮子”。 封装良好的 api，极容易复用和扩展。这些 api 包括：整合了chartmuseum，并提供了chartsvc；tiller-proxy api；apprepository api；搜索 api，基于mongo的缓存，定时同步。 权限透明。它的权限完全是基于 Kubernetes 的 RBAC 机制，是透明的。 前端 React。  chartmuseum chartmuseum 是 helm 的 charts 仓库。
+ 无状态 几乎支持所有云的对象存储作为后端，简单，安全。  由于我们的业务主要是在腾讯云，我们希望用其 cos 服务作为存储 backend。我们为社区提供了两个pr，完善了 chartmuseum 对腾讯云 cos 的支持。
     </div>
   </div>
 </div>
@@ -423,10 +448,53 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
         
       
         <h2 class="f1">
+          <a href="/tags/kubeapps" class="link blue hover-black">
+            Tag: kubeapps
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/a-kubeapps-based-application-deploying-and-managing-system/" class="link black dim">
+        基于 Kubeapps 的应用管理、发布系统
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      在引入 Kubernetes 时，我们需要提供对应的 CI/CD 方案。
+需求&amp;痛点  私有的统一认证，授权。角色，权限管控。 审计合规。主要包括测试人员发版，发版有历史，可审计追溯。 多云，多集群。 功能产品化。如：发版，扩容，回滚，下线。 “回滚”机制要求“编排文件”也需要用版本控制工具管理起来，版本化。  选型  rancher drone spinnaker helm 生态  为什么选择 Kubeapps Kubeapps
+在整理这篇的时候，特意确认了 kubeapps 的最新架构，一些组件的名字已经发生了改变。   需求描述中的“编排文件版本化”，这正是 helm 的特性，虽然社区有其它的解决方案，但 helm 目前仍是那个应用最广泛的，成熟且有丰富的生态。 kubeapps 基于 helm。 kubeapps 是产品化的，而不是一个“轮子”。 封装良好的 api，极容易复用和扩展。这些 api 包括：整合了chartmuseum，并提供了chartsvc；tiller-proxy api；apprepository api；搜索 api，基于mongo的缓存，定时同步。 权限透明。它的权限完全是基于 Kubernetes 的 RBAC 机制，是透明的。 前端 React。  chartmuseum chartmuseum 是 helm 的 charts 仓库。
+ 无状态 几乎支持所有云的对象存储作为后端，简单，安全。  由于我们的业务主要是在腾讯云，我们希望用其 cos 服务作为存储 backend。我们为社区提供了两个pr，完善了 chartmuseum 对腾讯云 cos 的支持。
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
           <a href="/tags/kubernetes" class="link blue hover-black">
             Tag: kubernetes
           </a>
         </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/a-kubeapps-based-application-deploying-and-managing-system/" class="link black dim">
+        基于 Kubeapps 的应用管理、发布系统
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      在引入 Kubernetes 时，我们需要提供对应的 CI/CD 方案。
+需求&amp;痛点  私有的统一认证，授权。角色，权限管控。 审计合规。主要包括测试人员发版，发版有历史，可审计追溯。 多云，多集群。 功能产品化。如：发版，扩容，回滚，下线。 “回滚”机制要求“编排文件”也需要用版本控制工具管理起来，版本化。  选型  rancher drone spinnaker helm 生态  为什么选择 Kubeapps Kubeapps
+在整理这篇的时候，特意确认了 kubeapps 的最新架构，一些组件的名字已经发生了改变。   需求描述中的“编排文件版本化”，这正是 helm 的特性，虽然社区有其它的解决方案，但 helm 目前仍是那个应用最广泛的，成熟且有丰富的生态。 kubeapps 基于 helm。 kubeapps 是产品化的，而不是一个“轮子”。 封装良好的 api，极容易复用和扩展。这些 api 包括：整合了chartmuseum，并提供了chartsvc；tiller-proxy api；apprepository api；搜索 api，基于mongo的缓存，定时同步。 权限透明。它的权限完全是基于 Kubernetes 的 RBAC 机制，是透明的。 前端 React。  chartmuseum chartmuseum 是 helm 的 charts 仓库。
+ 无状态 几乎支持所有云的对象存储作为后端，简单，安全。  由于我们的业务主要是在腾讯云，我们希望用其 cos 服务作为存储 backend。我们为社区提供了两个pr，完善了 chartmuseum 对腾讯云 cos 的支持。
+    </div>
+  </div>
+</div>
+
         
           <div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
@@ -716,6 +784,31 @@ By default, the Cloudera QuickStart VM run Cloudera's Distribution including Apa
 第一页
 SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayorder` IN('2','3','4') ORDER BY displayorder DESC, lastpost DESC LIMIT 20 Using where; Using filesort 第二页
 SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayorder` IN('2','3','4') ORDER BY displayorder DESC, lastpost DESC LIMIT 20, 20 Using where; Using filesort 可以看到，即使第二页没有需要显示的顶置贴，但仍然会执行查询，这里可以做个小小的优化，计算一下IN（）表达式中的tid的数量。 然后是排序部分，如果条件允许的话，建议通过PHP脚本来排序。是否使用这一项优化，主要受版块中顶置贴的数量影响。如果顶置贴数量较多，必须要通过分页来显示，就需要在数据库中排序后，才能确定在指定页面要显示的顶置贴是哪些。不过按通常的情况来看，版块中顶置贴的数量都还是比较少，很少会出现顶置贴翻页的情况。
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/%E5%8F%91%E5%B8%83%E7%B3%BB%E7%BB%9F" class="link blue hover-black">
+            Tag: 发布系统
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/a-kubeapps-based-application-deploying-and-managing-system/" class="link black dim">
+        基于 Kubeapps 的应用管理、发布系统
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      在引入 Kubernetes 时，我们需要提供对应的 CI/CD 方案。
+需求&amp;痛点  私有的统一认证，授权。角色，权限管控。 审计合规。主要包括测试人员发版，发版有历史，可审计追溯。 多云，多集群。 功能产品化。如：发版，扩容，回滚，下线。 “回滚”机制要求“编排文件”也需要用版本控制工具管理起来，版本化。  选型  rancher drone spinnaker helm 生态  为什么选择 Kubeapps Kubeapps
+在整理这篇的时候，特意确认了 kubeapps 的最新架构，一些组件的名字已经发生了改变。   需求描述中的“编排文件版本化”，这正是 helm 的特性，虽然社区有其它的解决方案，但 helm 目前仍是那个应用最广泛的，成熟且有丰富的生态。 kubeapps 基于 helm。 kubeapps 是产品化的，而不是一个“轮子”。 封装良好的 api，极容易复用和扩展。这些 api 包括：整合了chartmuseum，并提供了chartsvc；tiller-proxy api；apprepository api；搜索 api，基于mongo的缓存，定时同步。 权限透明。它的权限完全是基于 Kubernetes 的 RBAC 机制，是透明的。 前端 React。  chartmuseum chartmuseum 是 helm 的 charts 仓库。
+ 无状态 几乎支持所有云的对象存储作为后端，简单，安全。  由于我们的业务主要是在腾讯云，我们希望用其 cos 服务作为存储 backend。我们为社区提供了两个pr，完善了 chartmuseum 对腾讯云 cos 的支持。
     </div>
   </div>
 </div>
