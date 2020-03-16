@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/" />
-<meta property="og:updated_time" content="2020-03-14T11:52:00+08:00" />
+<meta property="og:updated_time" content="2020-03-16T10:52:00+08:00" />
 <meta itemprop="name" content="Potterhe&#39;s Site">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Potterhe&#39;s Site"/>
@@ -154,6 +154,32 @@
       
       <div class="blah w-100">
         <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="color-inherit dim link">
+            Istio 1.5.0 实战：授权(Authorization)
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          在进行本节练习之前，先按照官方用例 Authorization on Ingress Gateway 完成 httpbin 的部署，httpbin 这个应用真的很好用。
+$ kubectl apply -f samples/httpbin/httpbin.yaml -n test-mesh $ kubectl apply -f samples/httpbin/httpbin-gateway.yaml -n test-mesh 从公网访问 http://your-lb-ip/，预期显示的是 httbin 的 swagger ui。/ip，/anything，/headers 等 restful api 会给我们调试验证带来极大的帮助。如下面的 /anything 请求，其行为是 “Returns anything that is passed to request”。
+$ curl http://your-lb-ip/anything { &#34;args&#34;: {}, &#34;data&#34;: &#34;&#34;, &#34;files&#34;: {}, &#34;form&#34;: {}, &#34;headers&#34;: { &#34;Accept&#34;: &#34;*/*&#34;, &#34;Content-Length&#34;: &#34;0&#34;, &#34;Host&#34;: &#34;your-lb-ip&#34;, &#34;User-Agent&#34;: &#34;curl/7.54.0&#34;, &#34;X-B3-Parentspanid&#34;: &#34;7d83460f9c0bb319&#34;, &#34;X-B3-Sampled&#34;: &#34;1&#34;, &#34;X-B3-Spanid&#34;: &#34;e2a3c9482108d0b5&#34;, &#34;X-B3-Traceid&#34;: &#34;149ddcb0970898197d83460f9c0bb319&#34;, &#34;X-Envoy-Internal&#34;: &#34;true&#34;, &#34;X-Forwarded-Client-Cert&#34;: &#34;By=spiffe://cluster.
+        </div>
+          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="relative w-100 mb4">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
+    <div class="flex flex-column flex-row-ns">
+      
+      <div class="blah w-100">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
           <a href="https://potterhe.github.io/posts/a-kubeapps-based-application-deploying-and-managing-system/" class="color-inherit dim link">
             基于 Kubeapps 的应用管理、发布系统
             </a>
@@ -200,40 +226,18 @@ $ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc
 
           </div>
         
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="color-inherit dim link">
-            Istio 1.5.0 实战：安装
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          istio 1.5.0 于北京时间2020年3月6日发布，该版本在架构上有很大的变化(Istio 1.5 新特性解读)，做出这些改变的原因及其重大意义这里不做赘述，有大量的文章做了阐述，本文聚焦于探索 istio-1.5.0 的行为。文中的练习是在腾讯云的容器服务 tke-1.16.3 上进行的，会涉及到一些云平台相关的实现。
-安装istio 使用 istioctl 安装是官方推荐的方式(Customizable Install with Istioctl)，helm 安装方式已经被标记为 deprecated，且已经不支持 helm3。istioctl 安装实践，一般选择一个profile（生产环境，社区推荐基于 default），然后用自定义的值进行覆盖，一般而言，我们只需要编写这个 override 文件(这里的文件名是 profile-override-default.yaml)，不需要修改 charts （当然charts是可以被修改的）。
-apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default 另一面，override 文件中的项，以及项的节点层次怎么找呢？建议两种方式：1，通过 istioctl profile dump default 命令可以打印一些，但不够全；2，查看 charts （install/kubernetes/operator/charts/） 里各子项目的 values 文件定义，这种方式最可靠，对值的行为还可以辅以 templates 文件更深入的了解，推荐这种。
-有了 override 文件后，就可以使用下面的命令生成 manifest，manifest 是 k8s 的定义。建议把 override 文件和生成的 manifest 文件都通过版本控制工具维护起来，在每次对 override 操作后，对比前后的差异。
-$ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-override-default.
-        </div>
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
       </section>
 
       
       <section class="w-100">
         <h1 class="f3">More</h1>
         
+        
+          <h2 class="f5 fw4 mb4 dib mr3">
+            <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="link black dim">
+              Istio 1.5.0 实战：安装
+            </a>
+          </h2>
         
           <h2 class="f5 fw4 mb4 dib mr3">
             <a href="https://potterhe.github.io/posts/k8s-no-route-to-host/" class="link black dim">
@@ -250,12 +254,6 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
           <h2 class="f5 fw4 mb4 dib mr3">
             <a href="https://potterhe.github.io/posts/cdh-quick-start-vm/" class="link black dim">
               cdh-5.13 quickstart vm 使用笔记
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/spark-learning-note/" class="link black dim">
-              Spark 学习笔记
             </a>
           </h2>
         

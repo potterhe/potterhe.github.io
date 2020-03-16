@@ -6,10 +6,21 @@
     <description>Recent content in 实战 on Potterhe&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 12 Mar 2020 12:52:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 16 Mar 2020 10:52:00 +0800</lastBuildDate>
     
 	<atom:link href="https://potterhe.github.io/tags/%E5%AE%9E%E6%88%98/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Istio 1.5.0 实战：授权(Authorization)</title>
+      <link>https://potterhe.github.io/posts/istio-1.5-in-action-authorization/</link>
+      <pubDate>Mon, 16 Mar 2020 10:52:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/istio-1.5-in-action-authorization/</guid>
+      <description>在进行本节练习之前，先按照官方用例 Authorization on Ingress Gateway 完成 httpbin 的部署，httpbin 这个应用真的很好用。
+$ kubectl apply -f samples/httpbin/httpbin.yaml -n test-mesh $ kubectl apply -f samples/httpbin/httpbin-gateway.yaml -n test-mesh 从公网访问 http://your-lb-ip/，预期显示的是 httbin 的 swagger ui。/ip，/anything，/headers 等 restful api 会给我们调试验证带来极大的帮助。如下面的 /anything 请求，其行为是 “Returns anything that is passed to request”。
+$ curl http://your-lb-ip/anything { &amp;#34;args&amp;#34;: {}, &amp;#34;data&amp;#34;: &amp;#34;&amp;#34;, &amp;#34;files&amp;#34;: {}, &amp;#34;form&amp;#34;: {}, &amp;#34;headers&amp;#34;: { &amp;#34;Accept&amp;#34;: &amp;#34;*/*&amp;#34;, &amp;#34;Content-Length&amp;#34;: &amp;#34;0&amp;#34;, &amp;#34;Host&amp;#34;: &amp;#34;your-lb-ip&amp;#34;, &amp;#34;User-Agent&amp;#34;: &amp;#34;curl/7.54.0&amp;#34;, &amp;#34;X-B3-Parentspanid&amp;#34;: &amp;#34;7d83460f9c0bb319&amp;#34;, &amp;#34;X-B3-Sampled&amp;#34;: &amp;#34;1&amp;#34;, &amp;#34;X-B3-Spanid&amp;#34;: &amp;#34;e2a3c9482108d0b5&amp;#34;, &amp;#34;X-B3-Traceid&amp;#34;: &amp;#34;149ddcb0970898197d83460f9c0bb319&amp;#34;, &amp;#34;X-Envoy-Internal&amp;#34;: &amp;#34;true&amp;#34;, &amp;#34;X-Forwarded-Client-Cert&amp;#34;: &amp;#34;By=spiffe://cluster.</description>
+    </item>
     
     <item>
       <title>Istio 1.5.0 实战：“体验”监控，观测</title>

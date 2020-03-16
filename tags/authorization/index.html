@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>Potterhe&#39;s Site  | istio</title>
+    <title>Potterhe&#39;s Site  | Authorization</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="generator" content="Hugo 0.60.1" />
     
@@ -25,19 +25,19 @@
 
     
     
-      <link href="/tags/istio/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
-      <link href="/tags/istio/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/tags/authorization/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/tags/authorization/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
       
     
     
-    <meta property="og:title" content="istio" />
+    <meta property="og:title" content="Authorization" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://potterhe.github.io/tags/istio/" />
+<meta property="og:url" content="https://potterhe.github.io/tags/authorization/" />
 <meta property="og:updated_time" content="2020-03-16T10:52:00+08:00" />
-<meta itemprop="name" content="istio">
+<meta itemprop="name" content="Authorization">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="istio"/>
+<meta name="twitter:title" content="Authorization"/>
 <meta name="twitter:description" content=""/>
 
       
@@ -110,7 +110,7 @@
 
       <div class="tc-l pv4 pv6-l ph3 ph4-ns">
         <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-          istio
+          Authorization
         </h1>
         
       </div>
@@ -122,7 +122,7 @@
       
   <article class="cf pa3 pa4-m pa4-l">
     <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
-      <p>Below you will find pages that utilize the taxonomy term “istio”</p>
+      <p>Below you will find pages that utilize the taxonomy term “Authorization”</p>
     </div>
   </article>
   <div class="mw8 center">    
@@ -141,47 +141,6 @@
       在进行本节练习之前，先按照官方用例 Authorization on Ingress Gateway 完成 httpbin 的部署，httpbin 这个应用真的很好用。
 $ kubectl apply -f samples/httpbin/httpbin.yaml -n test-mesh $ kubectl apply -f samples/httpbin/httpbin-gateway.yaml -n test-mesh 从公网访问 http://your-lb-ip/，预期显示的是 httbin 的 swagger ui。/ip，/anything，/headers 等 restful api 会给我们调试验证带来极大的帮助。如下面的 /anything 请求，其行为是 “Returns anything that is passed to request”。
 $ curl http://your-lb-ip/anything { &#34;args&#34;: {}, &#34;data&#34;: &#34;&#34;, &#34;files&#34;: {}, &#34;form&#34;: {}, &#34;headers&#34;: { &#34;Accept&#34;: &#34;*/*&#34;, &#34;Content-Length&#34;: &#34;0&#34;, &#34;Host&#34;: &#34;your-lb-ip&#34;, &#34;User-Agent&#34;: &#34;curl/7.54.0&#34;, &#34;X-B3-Parentspanid&#34;: &#34;7d83460f9c0bb319&#34;, &#34;X-B3-Sampled&#34;: &#34;1&#34;, &#34;X-B3-Spanid&#34;: &#34;e2a3c9482108d0b5&#34;, &#34;X-B3-Traceid&#34;: &#34;149ddcb0970898197d83460f9c0bb319&#34;, &#34;X-Envoy-Internal&#34;: &#34;true&#34;, &#34;X-Forwarded-Client-Cert&#34;: &#34;By=spiffe://cluster.
-    </div>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="relative w-100  mb4 bg-white">
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/" class="link black dim">
-        Istio 1.5.0 实战：“体验”监控，观测
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习只是用于体验，切不可用于生产，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:
- 安全。在没有应用“认证”、“授权”机制前，这些服务裸奔在公网是危险的，即使有的系统有帐密。 存储。这些服务都是有状态的，涉及状态数据的存储，如：promethues、grafana、kiali、tracing。这些 Pod 一旦重建，数据就会丢失。一般地，需要我们适配 k8s 标准化的存储机制，如：storageClass、pv、pvc等。  组件部署 grafana 在 override 文件中添加 addonComponents.grafana.enabled=true 项后，应用到集群。
-apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default addonComponents: grafana: enabled: true values: gateways: istio-ingressgateway: serviceAnnotations: # https://cloud.tencent.com/document/product/457/18210 service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=true nodeSelector: company.com/ingressgateway: true ports: # 公网lb控制暴露的端口. - name: http2 port: 80 targetPort: 80 - name: https port: 443 查看现场，预期会增加以下对象
-$ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc9c87cdf-j6ml8 1/1 Running 0 3d9h NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/grafana ClusterIP 172.
-    </div>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="relative w-100  mb4 bg-white">
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="link black dim">
-        Istio 1.5.0 实战：安装
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      istio 1.5.0 于北京时间2020年3月6日发布，该版本在架构上有很大的变化(Istio 1.5 新特性解读)，做出这些改变的原因及其重大意义这里不做赘述，有大量的文章做了阐述，本文聚焦于探索 istio-1.5.0 的行为。文中的练习是在腾讯云的容器服务 tke-1.16.3 上进行的，会涉及到一些云平台相关的实现。
-安装istio 使用 istioctl 安装是官方推荐的方式(Customizable Install with Istioctl)，helm 安装方式已经被标记为 deprecated，且已经不支持 helm3。istioctl 安装实践，一般选择一个profile（生产环境，社区推荐基于 default），然后用自定义的值进行覆盖，一般而言，我们只需要编写这个 override 文件(这里的文件名是 profile-override-default.yaml)，不需要修改 charts （当然charts是可以被修改的）。
-apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default 另一面，override 文件中的项，以及项的节点层次怎么找呢？建议两种方式：1，通过 istioctl profile dump default 命令可以打印一些，但不够全；2，查看 charts （install/kubernetes/operator/charts/） 里各子项目的 values 文件定义，这种方式最可靠，对值的行为还可以辅以 templates 文件更深入的了解，推荐这种。
-有了 override 文件后，就可以使用下面的命令生成 manifest，manifest 是 k8s 的定义。建议把 override 文件和生成的 manifest 文件都通过版本控制工具维护起来，在每次对 override 操作后，对比前后的差异。
-$ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-override-default.
     </div>
   </div>
 </div>

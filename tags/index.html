@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/tags/" />
-<meta property="og:updated_time" content="2020-03-14T11:52:00+08:00" />
+<meta property="og:updated_time" content="2020-03-16T10:52:00+08:00" />
 <meta itemprop="name" content="Tags">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tags"/>
@@ -172,6 +172,30 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
     <div class="nested-links f5 lh-copy nested-copy-line-height">
       下载和导入虚拟机.  下载 cdh-quickstart-vm 导入  vm初始信息收集 [cloudera@quickstart ~]$ uname -a Linux quickstart.cloudera 2.6.32-573.el6.x86_64 #1 SMP Thu Jul 23 15:44:03 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux $ cat /etc/issue CentOS release 6.7 (Final) Kernel \r on an \m vm里的cdh服务当前是使用操作系统的init系统管理的，而不是&quot;Cloudera Manager&rdquo;
 By default, the Cloudera QuickStart VM run Cloudera's Distribution including Apache Hadoop (CDH) under Linux's service and configuration management. If you wish to migrate to Cloudera Manager, you must run one of the following commands.
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/authorization" class="link blue hover-black">
+            Tag: authorization
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="link black dim">
+        Istio 1.5.0 实战：授权(Authorization)
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      在进行本节练习之前，先按照官方用例 Authorization on Ingress Gateway 完成 httpbin 的部署，httpbin 这个应用真的很好用。
+$ kubectl apply -f samples/httpbin/httpbin.yaml -n test-mesh $ kubectl apply -f samples/httpbin/httpbin-gateway.yaml -n test-mesh 从公网访问 http://your-lb-ip/，预期显示的是 httbin 的 swagger ui。/ip，/anything，/headers 等 restful api 会给我们调试验证带来极大的帮助。如下面的 /anything 请求，其行为是 “Returns anything that is passed to request”。
+$ curl http://your-lb-ip/anything { &#34;args&#34;: {}, &#34;data&#34;: &#34;&#34;, &#34;files&#34;: {}, &#34;form&#34;: {}, &#34;headers&#34;: { &#34;Accept&#34;: &#34;*/*&#34;, &#34;Content-Length&#34;: &#34;0&#34;, &#34;Host&#34;: &#34;your-lb-ip&#34;, &#34;User-Agent&#34;: &#34;curl/7.54.0&#34;, &#34;X-B3-Parentspanid&#34;: &#34;7d83460f9c0bb319&#34;, &#34;X-B3-Sampled&#34;: &#34;1&#34;, &#34;X-B3-Spanid&#34;: &#34;e2a3c9482108d0b5&#34;, &#34;X-B3-Traceid&#34;: &#34;149ddcb0970898197d83460f9c0bb319&#34;, &#34;X-Envoy-Internal&#34;: &#34;true&#34;, &#34;X-Forwarded-Client-Cert&#34;: &#34;By=spiffe://cluster.
     </div>
   </div>
 </div>
@@ -368,6 +392,23 @@ SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayord
             Tag: istio
           </a>
         </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="link black dim">
+        Istio 1.5.0 实战：授权(Authorization)
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      在进行本节练习之前，先按照官方用例 Authorization on Ingress Gateway 完成 httpbin 的部署，httpbin 这个应用真的很好用。
+$ kubectl apply -f samples/httpbin/httpbin.yaml -n test-mesh $ kubectl apply -f samples/httpbin/httpbin-gateway.yaml -n test-mesh 从公网访问 http://your-lb-ip/，预期显示的是 httbin 的 swagger ui。/ip，/anything，/headers 等 restful api 会给我们调试验证带来极大的帮助。如下面的 /anything 请求，其行为是 “Returns anything that is passed to request”。
+$ curl http://your-lb-ip/anything { &#34;args&#34;: {}, &#34;data&#34;: &#34;&#34;, &#34;files&#34;: {}, &#34;form&#34;: {}, &#34;headers&#34;: { &#34;Accept&#34;: &#34;*/*&#34;, &#34;Content-Length&#34;: &#34;0&#34;, &#34;Host&#34;: &#34;your-lb-ip&#34;, &#34;User-Agent&#34;: &#34;curl/7.54.0&#34;, &#34;X-B3-Parentspanid&#34;: &#34;7d83460f9c0bb319&#34;, &#34;X-B3-Sampled&#34;: &#34;1&#34;, &#34;X-B3-Spanid&#34;: &#34;e2a3c9482108d0b5&#34;, &#34;X-B3-Traceid&#34;: &#34;149ddcb0970898197d83460f9c0bb319&#34;, &#34;X-Envoy-Internal&#34;: &#34;true&#34;, &#34;X-Forwarded-Client-Cert&#34;: &#34;By=spiffe://cluster.
+    </div>
+  </div>
+</div>
+
         
           <div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
@@ -914,6 +955,23 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
   <div class="bg-white mb3 pa4 gray overflow-hidden">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="link black dim">
+        Istio 1.5.0 实战：授权(Authorization)
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      在进行本节练习之前，先按照官方用例 Authorization on Ingress Gateway 完成 httpbin 的部署，httpbin 这个应用真的很好用。
+$ kubectl apply -f samples/httpbin/httpbin.yaml -n test-mesh $ kubectl apply -f samples/httpbin/httpbin-gateway.yaml -n test-mesh 从公网访问 http://your-lb-ip/，预期显示的是 httbin 的 swagger ui。/ip，/anything，/headers 等 restful api 会给我们调试验证带来极大的帮助。如下面的 /anything 请求，其行为是 “Returns anything that is passed to request”。
+$ curl http://your-lb-ip/anything { &#34;args&#34;: {}, &#34;data&#34;: &#34;&#34;, &#34;files&#34;: {}, &#34;form&#34;: {}, &#34;headers&#34;: { &#34;Accept&#34;: &#34;*/*&#34;, &#34;Content-Length&#34;: &#34;0&#34;, &#34;Host&#34;: &#34;your-lb-ip&#34;, &#34;User-Agent&#34;: &#34;curl/7.54.0&#34;, &#34;X-B3-Parentspanid&#34;: &#34;7d83460f9c0bb319&#34;, &#34;X-B3-Sampled&#34;: &#34;1&#34;, &#34;X-B3-Spanid&#34;: &#34;e2a3c9482108d0b5&#34;, &#34;X-B3-Traceid&#34;: &#34;149ddcb0970898197d83460f9c0bb319&#34;, &#34;X-Envoy-Internal&#34;: &#34;true&#34;, &#34;X-Forwarded-Client-Cert&#34;: &#34;By=spiffe://cluster.
+    </div>
+  </div>
+</div>
+
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/" class="link black dim">
         Istio 1.5.0 实战：“体验”监控，观测
       </a>
@@ -968,6 +1026,30 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
 第一页
 SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayorder` IN('2','3','4') ORDER BY displayorder DESC, lastpost DESC LIMIT 20 Using where; Using filesort 第二页
 SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayorder` IN('2','3','4') ORDER BY displayorder DESC, lastpost DESC LIMIT 20, 20 Using where; Using filesort 可以看到，即使第二页没有需要显示的顶置贴，但仍然会执行查询，这里可以做个小小的优化，计算一下IN（）表达式中的tid的数量。 然后是排序部分，如果条件允许的话，建议通过PHP脚本来排序。是否使用这一项优化，主要受版块中顶置贴的数量影响。如果顶置贴数量较多，必须要通过分页来显示，就需要在数据库中排序后，才能确定在指定页面要显示的顶置贴是哪些。不过按通常的情况来看，版块中顶置贴的数量都还是比较少，很少会出现顶置贴翻页的情况。
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/%E6%8E%88%E6%9D%83" class="link blue hover-black">
+            Tag: 授权
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="link black dim">
+        Istio 1.5.0 实战：授权(Authorization)
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      在进行本节练习之前，先按照官方用例 Authorization on Ingress Gateway 完成 httpbin 的部署，httpbin 这个应用真的很好用。
+$ kubectl apply -f samples/httpbin/httpbin.yaml -n test-mesh $ kubectl apply -f samples/httpbin/httpbin-gateway.yaml -n test-mesh 从公网访问 http://your-lb-ip/，预期显示的是 httbin 的 swagger ui。/ip，/anything，/headers 等 restful api 会给我们调试验证带来极大的帮助。如下面的 /anything 请求，其行为是 “Returns anything that is passed to request”。
+$ curl http://your-lb-ip/anything { &#34;args&#34;: {}, &#34;data&#34;: &#34;&#34;, &#34;files&#34;: {}, &#34;form&#34;: {}, &#34;headers&#34;: { &#34;Accept&#34;: &#34;*/*&#34;, &#34;Content-Length&#34;: &#34;0&#34;, &#34;Host&#34;: &#34;your-lb-ip&#34;, &#34;User-Agent&#34;: &#34;curl/7.54.0&#34;, &#34;X-B3-Parentspanid&#34;: &#34;7d83460f9c0bb319&#34;, &#34;X-B3-Sampled&#34;: &#34;1&#34;, &#34;X-B3-Spanid&#34;: &#34;e2a3c9482108d0b5&#34;, &#34;X-B3-Traceid&#34;: &#34;149ddcb0970898197d83460f9c0bb319&#34;, &#34;X-Envoy-Internal&#34;: &#34;true&#34;, &#34;X-Forwarded-Client-Cert&#34;: &#34;By=spiffe://cluster.
     </div>
   </div>
 </div>
