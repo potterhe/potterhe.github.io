@@ -6,7 +6,7 @@
     <description>Recent content on Potterhe&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 16 Mar 2020 10:52:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 20 Mar 2020 23:37:00 +0800</lastBuildDate>
     
 	<atom:link href="https://potterhe.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Istio 1.5.0 实战：授权(Authorization)</title>
       <link>https://potterhe.github.io/posts/istio-1.5-in-action-authorization/</link>
-      <pubDate>Mon, 16 Mar 2020 10:52:00 +0800</pubDate>
+      <pubDate>Fri, 20 Mar 2020 23:37:00 +0800</pubDate>
       
       <guid>https://potterhe.github.io/posts/istio-1.5-in-action-authorization/</guid>
       <description>在进行本节练习之前，先按照官方用例 Authorization on Ingress Gateway 完成 httpbin 的部署，httpbin 这个应用真的很好用。
