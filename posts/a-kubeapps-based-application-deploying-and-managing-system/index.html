@@ -41,7 +41,7 @@
  无状态 几乎支持所有云的对象存储作为后端，简单，安全。  由于我们的业务主要是在腾讯云，我们希望用其 cos 服务作为存储 backend。我们为社区提供了两个pr，完善了 chartmuseum 对腾讯云 cos 的支持。">
 <meta itemprop="datePublished" content="2020-03-14T11:52:00&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-14T11:52:00&#43;08:00" />
-<meta itemprop="wordCount" content="67">
+<meta itemprop="wordCount" content="119">
 
 
 
@@ -212,7 +212,20 @@
 </ul>
 <h2 id="heading2">系统架构</h2>
 <p><img src="/images/mykubeapps.svg" alt="mykubeapps"></p>
-<ul class="pa0">
+<h3 id="charts-">charts 的维护</h3>
+<p>charts 通过 git 进行版本控制，通过 MergeRequest(gitlab 的概念，github 叫 PullRequest) 提交变更，合并操作触发 CI 自动推送到 chartmuseum。下面是 CI 脚本，helm 的 push 插件需要自行安装。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>set -e
+
+charts<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>git diff --name-only HEAD^ HEAD|awk -F/ <span style="color:#e6db74">&#39;{print $1}&#39;</span>|sort|uniq<span style="color:#66d9ef">)</span>
+<span style="color:#66d9ef">for</span> chart in $charts;
+<span style="color:#66d9ef">do</span>
+    echo $chart
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -d <span style="color:#e6db74">&#34;</span>$chart<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+        helm push -f $chart $CHARTMUSEUM_URL --username<span style="color:#f92672">=</span>$CHARTMUSEUM_BASIC_AUTH_USER --password<span style="color:#f92672">=</span>$CHARTMUSEUM_BASIC_AUTH_PASS
+    <span style="color:#66d9ef">fi</span>
+<span style="color:#66d9ef">done</span>
+</code></pre></div><ul class="pa0">
   
    <li class="list">
      <a href="/tags/kubernetes" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">kubernetes</a>
