@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/tags/" />
-<meta property="og:updated_time" content="2020-03-20T23:37:00+08:00" />
+<meta property="og:updated_time" content="2020-03-20T23:40:00+08:00" />
 <meta itemprop="name" content="Tags">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tags"/>
@@ -130,8 +130,8 @@
     <section class="ph4">
       
         <h2 class="f1">
-          <a href="/tags/1.5.0" class="link blue hover-black">
-            Tag: 1.5.0
+          <a href="/tags/1.5" class="link blue hover-black">
+            Tag: 1.5
           </a>
         </h2>
         
@@ -140,7 +140,7 @@
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="link black dim">
-        Istio 1.5.0 实战：安装
+        Istio 1.5 实战：安装
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -179,6 +179,32 @@ By default, the Cloudera QuickStart VM run Cloudera's Distribution including Apa
         
       
         <h2 class="f1">
+          <a href="/tags/authentication" class="link blue hover-black">
+            Tag: authentication
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/" class="link black dim">
+        Istio 1.5 实战：认证--RequestAuthentication
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      根据官方文档：认证 章节的描述，Istio 提供两种认证机制(PeerAuthentication，RequestAuthentication)，PeerAuthentication 解决工作负载间的问题，RequestAuthentication 解决用户端的问题。本文关注用 RequestAuthentication 来保护“裸”应用。以下是需要先从官网了解的相关知识：
+ 认证 Request authentication  RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
+apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference Request authentication 描述了manifest 的完整定义。 Reference JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
+  您可以将JWT策略添加到入口网关（上面的样例就是）。 这通常用于为绑定到网关的所有服务而不是单个服务定义JWT策略。下面是官方文档的原文
+You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway.
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
           <a href="/tags/authorization" class="link blue hover-black">
             Tag: authorization
           </a>
@@ -189,7 +215,7 @@ By default, the Cloudera QuickStart VM run Cloudera's Distribution including Apa
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="link black dim">
-        Istio 1.5.0 实战：授权(Authorization)
+        Istio 1.5 实战：授权(Authorization)
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -397,8 +423,27 @@ SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayord
   <div class="bg-white mb3 pa4 gray overflow-hidden">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/" class="link black dim">
+        Istio 1.5 实战：认证--RequestAuthentication
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      根据官方文档：认证 章节的描述，Istio 提供两种认证机制(PeerAuthentication，RequestAuthentication)，PeerAuthentication 解决工作负载间的问题，RequestAuthentication 解决用户端的问题。本文关注用 RequestAuthentication 来保护“裸”应用。以下是需要先从官网了解的相关知识：
+ 认证 Request authentication  RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
+apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference Request authentication 描述了manifest 的完整定义。 Reference JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
+  您可以将JWT策略添加到入口网关（上面的样例就是）。 这通常用于为绑定到网关的所有服务而不是单个服务定义JWT策略。下面是官方文档的原文
+You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway.
+    </div>
+  </div>
+</div>
+
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="link black dim">
-        Istio 1.5.0 实战：授权(Authorization)
+        Istio 1.5 实战：授权(Authorization)
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -415,7 +460,7 @@ $ curl http://your-lb-ip/anything { &#34;args&#34;: {}, &#34;data&#34;: &#34;&#3
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/" class="link black dim">
-        Istio 1.5.0 实战：“体验”监控，观测
+        Istio 1.5 实战：“体验”监控，观测
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -433,7 +478,7 @@ $ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="link black dim">
-        Istio 1.5.0 实战：安装
+        Istio 1.5 实战：安装
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -692,6 +737,32 @@ By default, the Cloudera QuickStart VM run Cloudera's Distribution including Apa
         
       
         <h2 class="f1">
+          <a href="/tags/requestauthentication" class="link blue hover-black">
+            Tag: requestauthentication
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/" class="link black dim">
+        Istio 1.5 实战：认证--RequestAuthentication
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      根据官方文档：认证 章节的描述，Istio 提供两种认证机制(PeerAuthentication，RequestAuthentication)，PeerAuthentication 解决工作负载间的问题，RequestAuthentication 解决用户端的问题。本文关注用 RequestAuthentication 来保护“裸”应用。以下是需要先从官网了解的相关知识：
+ 认证 Request authentication  RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
+apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference Request authentication 描述了manifest 的完整定义。 Reference JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
+  您可以将JWT策略添加到入口网关（上面的样例就是）。 这通常用于为绑定到网关的所有服务而不是单个服务定义JWT策略。下面是官方文档的原文
+You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway.
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
           <a href="/tags/shell" class="link blue hover-black">
             Tag: shell
           </a>
@@ -912,7 +983,7 @@ $poller_runs = intval($cron_interval / $poller_interval); define(&#34;MAX_POLLER
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/" class="link black dim">
-        Istio 1.5.0 实战：“体验”监控，观测
+        Istio 1.5 实战：“体验”监控，观测
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -930,7 +1001,7 @@ $ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="link black dim">
-        Istio 1.5.0 实战：安装
+        Istio 1.5 实战：安装
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -955,8 +1026,27 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
   <div class="bg-white mb3 pa4 gray overflow-hidden">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/" class="link black dim">
+        Istio 1.5 实战：认证--RequestAuthentication
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      根据官方文档：认证 章节的描述，Istio 提供两种认证机制(PeerAuthentication，RequestAuthentication)，PeerAuthentication 解决工作负载间的问题，RequestAuthentication 解决用户端的问题。本文关注用 RequestAuthentication 来保护“裸”应用。以下是需要先从官网了解的相关知识：
+ 认证 Request authentication  RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
+apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference Request authentication 描述了manifest 的完整定义。 Reference JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
+  您可以将JWT策略添加到入口网关（上面的样例就是）。 这通常用于为绑定到网关的所有服务而不是单个服务定义JWT策略。下面是官方文档的原文
+You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway.
+    </div>
+  </div>
+</div>
+
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="link black dim">
-        Istio 1.5.0 实战：授权(Authorization)
+        Istio 1.5 实战：授权(Authorization)
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -973,7 +1063,7 @@ $ curl http://your-lb-ip/anything { &#34;args&#34;: {}, &#34;data&#34;: &#34;&#3
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/" class="link black dim">
-        Istio 1.5.0 实战：“体验”监控，观测
+        Istio 1.5 实战：“体验”监控，观测
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -991,7 +1081,7 @@ $ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="link black dim">
-        Istio 1.5.0 实战：安装
+        Istio 1.5 实战：安装
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -1043,7 +1133,7 @@ SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayord
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="link black dim">
-        Istio 1.5.0 实战：授权(Authorization)
+        Istio 1.5 实战：授权(Authorization)
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -1153,7 +1243,7 @@ SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayord
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/" class="link black dim">
-        Istio 1.5.0 实战：“体验”监控，观测
+        Istio 1.5 实战：“体验”监控，观测
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -1161,6 +1251,32 @@ SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayord
  安全。在没有应用“认证”、“授权”机制前，这些服务裸奔在公网是危险的，即使有的系统有帐密。 存储。这些服务都是有状态的，涉及状态数据的存储，如：promethues、grafana、kiali、tracing。这些 Pod 一旦重建，数据就会丢失。一般地，需要我们适配 k8s 标准化的存储机制，如：storageClass、pv、pvc等。  组件部署 grafana 在 override 文件中添加 addonComponents.grafana.enabled=true 项后，应用到集群。
 apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default addonComponents: grafana: enabled: true values: gateways: istio-ingressgateway: serviceAnnotations: # https://cloud.tencent.com/document/product/457/18210 service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=true nodeSelector: company.com/ingressgateway: true ports: # 公网lb控制暴露的端口. - name: http2 port: 80 targetPort: 80 - name: https port: 443 查看现场，预期会增加以下对象
 $ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc9c87cdf-j6ml8 1/1 Running 0 3d9h NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE service/grafana ClusterIP 172.
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/%E8%AE%A4%E8%AF%81" class="link blue hover-black">
+            Tag: 认证
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/" class="link black dim">
+        Istio 1.5 实战：认证--RequestAuthentication
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      根据官方文档：认证 章节的描述，Istio 提供两种认证机制(PeerAuthentication，RequestAuthentication)，PeerAuthentication 解决工作负载间的问题，RequestAuthentication 解决用户端的问题。本文关注用 RequestAuthentication 来保护“裸”应用。以下是需要先从官网了解的相关知识：
+ 认证 Request authentication  RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
+apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference Request authentication 描述了manifest 的完整定义。 Reference JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
+  您可以将JWT策略添加到入口网关（上面的样例就是）。 这通常用于为绑定到网关的所有服务而不是单个服务定义JWT策略。下面是官方文档的原文
+You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway.
     </div>
   </div>
 </div>

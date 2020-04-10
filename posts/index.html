@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/posts/" />
-<meta property="og:updated_time" content="2020-03-20T23:37:00+08:00" />
+<meta property="og:updated_time" content="2020-03-20T23:40:00+08:00" />
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Posts"/>
@@ -128,8 +128,27 @@
   <div class="bg-white mb3 pa4 gray overflow-hidden">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/" class="link black dim">
+        Istio 1.5 实战：认证--RequestAuthentication
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      根据官方文档：认证 章节的描述，Istio 提供两种认证机制(PeerAuthentication，RequestAuthentication)，PeerAuthentication 解决工作负载间的问题，RequestAuthentication 解决用户端的问题。本文关注用 RequestAuthentication 来保护“裸”应用。以下是需要先从官网了解的相关知识：
+ 认证 Request authentication  RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
+apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference Request authentication 描述了manifest 的完整定义。 Reference JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
+  您可以将JWT策略添加到入口网关（上面的样例就是）。 这通常用于为绑定到网关的所有服务而不是单个服务定义JWT策略。下面是官方文档的原文
+You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway.
+    </div>
+  </div>
+</div>
+</div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="link black dim">
-        Istio 1.5.0 实战：授权(Authorization)
+        Istio 1.5 实战：授权(Authorization)
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -164,7 +183,7 @@ $ curl http://your-lb-ip/anything { &#34;args&#34;: {}, &#34;data&#34;: &#34;&#3
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/" class="link black dim">
-        Istio 1.5.0 实战：“体验”监控，观测
+        Istio 1.5 实战：“体验”监控，观测
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -182,7 +201,7 @@ $ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="link black dim">
-        Istio 1.5.0 实战：安装
+        Istio 1.5 实战：安装
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
@@ -270,21 +289,6 @@ By default, the Cloudera QuickStart VM run Cloudera's Distribution including Apa
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
       理论  streaming 101 streaming 102  spark  子雨大数据之Spark入门教程(Python版) RDD、DataFrame和DataSet的区别 Spark Streaming 不同Batch任务可以并行计算么？ Spark Streaming 管理 Kafka Offsets 的方式探讨 Spark Streaming容错性和零数据丢失 Structured Streaming Programming Guide结构化流编程指南 是时候放弃 Spark Streaming, 转向 Structured Streaming 了  选项  spark.io.compression.codec snappy (lz4依赖冲突) spark.streaming.concurrentjobs (spark streaming实时大数据分析4.4.4) spark.streaming.receiver.writeaheadlog.enable (spark streaming实时大数据分析5.6节) spark.sql.shuffle.partitions (default 200, 在单节点测试时,会造成极大的延迟).  pyspark  Improving PySpark performance: Spark Performance Beyond the JVM Python最佳实践指南  本地环境搭建 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8) export SPARK_HOME=&#34;$HOME/opt/spark-2.3.2-bin-hadoop2.6&#34; export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.
-    </div>
-  </div>
-</div>
-</div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/paper-collect/" class="link black dim">
-        收藏的一些论文
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      分布式系统  寻找一种易于理解的一致性算法（扩展版） (raft) Dapper，大规模分布式系统的跟踪系统  大数据  streaming 101 streaming 102(翻译)  
     </div>
   </div>
 </div>

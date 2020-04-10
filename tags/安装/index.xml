@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>Istio 1.5.0 实战：“体验”监控，观测</title>
+      <title>Istio 1.5 实战：“体验”监控，观测</title>
       <link>https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/</link>
       <pubDate>Thu, 12 Mar 2020 12:52:00 +0800</pubDate>
       
@@ -24,7 +24,7 @@ $ kubectl get all -n istio-system NAME READY STATUS RESTARTS AGE pod/grafana-5dc
     </item>
     
     <item>
-      <title>Istio 1.5.0 实战：安装</title>
+      <title>Istio 1.5 实战：安装</title>
       <link>https://potterhe.github.io/posts/istio-1.5-in-action-setup/</link>
       <pubDate>Wed, 11 Mar 2020 23:59:50 +0800</pubDate>
       

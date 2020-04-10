@@ -6,10 +6,55 @@
     <description>Recent content in Tags on Potterhe&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 20 Mar 2020 23:37:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 20 Mar 2020 23:40:00 +0800</lastBuildDate>
     
 	<atom:link href="https://potterhe.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Authentication</title>
+      <link>https://potterhe.github.io/tags/authentication/</link>
+      <pubDate>Fri, 20 Mar 2020 23:40:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/tags/authentication/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>istio</title>
+      <link>https://potterhe.github.io/tags/istio/</link>
+      <pubDate>Fri, 20 Mar 2020 23:40:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/tags/istio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RequestAuthentication</title>
+      <link>https://potterhe.github.io/tags/requestauthentication/</link>
+      <pubDate>Fri, 20 Mar 2020 23:40:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/tags/requestauthentication/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>实战</title>
+      <link>https://potterhe.github.io/tags/%E5%AE%9E%E6%88%98/</link>
+      <pubDate>Fri, 20 Mar 2020 23:40:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/tags/%E5%AE%9E%E6%88%98/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>认证</title>
+      <link>https://potterhe.github.io/tags/%E8%AE%A4%E8%AF%81/</link>
+      <pubDate>Fri, 20 Mar 2020 23:40:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/tags/%E8%AE%A4%E8%AF%81/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Authorization</title>
@@ -17,24 +62,6 @@
       <pubDate>Fri, 20 Mar 2020 23:37:00 +0800</pubDate>
       
       <guid>https://potterhe.github.io/tags/authorization/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>istio</title>
-      <link>https://potterhe.github.io/tags/istio/</link>
-      <pubDate>Fri, 20 Mar 2020 23:37:00 +0800</pubDate>
-      
-      <guid>https://potterhe.github.io/tags/istio/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>实战</title>
-      <link>https://potterhe.github.io/tags/%E5%AE%9E%E6%88%98/</link>
-      <pubDate>Fri, 20 Mar 2020 23:37:00 +0800</pubDate>
-      
-      <guid>https://potterhe.github.io/tags/%E5%AE%9E%E6%88%98/</guid>
       <description></description>
     </item>
     
@@ -102,11 +129,11 @@
     </item>
     
     <item>
-      <title>1.5.0</title>
-      <link>https://potterhe.github.io/tags/1.5.0/</link>
+      <title>1.5</title>
+      <link>https://potterhe.github.io/tags/1.5/</link>
       <pubDate>Wed, 11 Mar 2020 23:59:50 +0800</pubDate>
       
-      <guid>https://potterhe.github.io/tags/1.5.0/</guid>
+      <guid>https://potterhe.github.io/tags/1.5/</guid>
       <description></description>
     </item>
     

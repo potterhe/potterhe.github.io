@@ -3,37 +3,57 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://potterhe.github.io/tags/authentication/</loc>
+    <lastmod>2020-03-20T23:40:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/istio/</loc>
+    <lastmod>2020-03-20T23:40:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/</loc>
+    <lastmod>2020-03-20T23:40:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/posts/</loc>
+    <lastmod>2020-03-20T23:40:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/</loc>
+    <lastmod>2020-03-20T23:40:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/requestauthentication/</loc>
+    <lastmod>2020-03-20T23:40:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/</loc>
+    <lastmod>2020-03-20T23:40:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/%E5%AE%9E%E6%88%98/</loc>
+    <lastmod>2020-03-20T23:40:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/tags/%E8%AE%A4%E8%AF%81/</loc>
+    <lastmod>2020-03-20T23:40:00+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://potterhe.github.io/tags/authorization/</loc>
     <lastmod>2020-03-20T23:37:00+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://potterhe.github.io/tags/istio/</loc>
-    <lastmod>2020-03-20T23:37:00+08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://potterhe.github.io/posts/istio-1.5-in-action-authorization/</loc>
-    <lastmod>2020-03-20T23:37:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://potterhe.github.io/posts/</loc>
-    <lastmod>2020-03-20T23:37:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://potterhe.github.io/</loc>
-    <lastmod>2020-03-20T23:37:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://potterhe.github.io/tags/</loc>
-    <lastmod>2020-03-20T23:37:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://potterhe.github.io/tags/%E5%AE%9E%E6%88%98/</loc>
     <lastmod>2020-03-20T23:37:00+08:00</lastmod>
   </url>
   
@@ -83,7 +103,7 @@
   </url>
   
   <url>
-    <loc>https://potterhe.github.io/tags/1.5.0/</loc>
+    <loc>https://potterhe.github.io/tags/1.5/</loc>
     <lastmod>2020-03-11T23:59:50+08:00</lastmod>
   </url>
   
