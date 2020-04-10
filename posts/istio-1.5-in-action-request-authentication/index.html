@@ -43,7 +43,7 @@ apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication
 You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway.">
 <meta itemprop="datePublished" content="2020-03-20T23:40:00&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-20T23:40:00&#43;08:00" />
-<meta itemprop="wordCount" content="648">
+<meta itemprop="wordCount" content="659">
 
 
 
@@ -369,6 +369,8 @@ $ curl --header <span style="color:#e6db74">&#34;X-Jwt-Playload: xxx&#34;</span>
 <li><a href="https://istio.io/zh/docs/concepts/security/#principals">Principals</a></li>
 <li><a href="https://istio.io/docs/reference/config/security/authorization-policy/#Source">requestPrincipals</a>。<code>Source.requestPrincipals</code> 的描述有 “Optional. A list of request identities (i.e. “iss/sub” claims), which matches to the “request.auth.principal” attribute”</li>
 </ol>
+<h2 id="header">浏览器注入header</h2>
+<p><a href="https://chrome.google.com/webstore/detail/modify-header-value-http/cbdibdfhahmknbkkojljfncpnhmacdek/related">Chrome 的 Modify Header Value 扩展</a> 允许给指定的站点注入 header，我们可以方便的注入 <code>Authorization</code> 头</p>
 <h2 id="heading3">小结</h2>
 <p>通过控制颁发的 JWT 和配置认证策略，我们可以在不修改应用的情况下，实现一定粒度的访问控制。</p>
 <ul class="pa0">
@@ -430,6 +432,7 @@ $ curl --header <span style="color:#e6db74">&#34;X-Jwt-Playload: xxx&#34;</span>
         <li><a href="#heading2">认证通过的信息怎么传递给“授权”机制</a></li>
       </ul>
     </li>
+    <li><a href="#header">浏览器注入header</a></li>
     <li><a href="#heading3">小结</a></li>
   </ul>
 </nav>
