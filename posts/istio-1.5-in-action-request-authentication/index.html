@@ -28,7 +28,7 @@
     <meta property="og:title" content="Istio 1.5 实战：认证--RequestAuthentication" />
 <meta property="og:description" content="根据官方文档：认证 章节的描述，Istio 提供两种认证机制(PeerAuthentication，RequestAuthentication)，PeerAuthentication 解决工作负载间的问题，RequestAuthentication 解决用户端的问题。本文关注用 RequestAuthentication 来保护“裸”应用。以下是需要先从官网了解的相关知识：
  认证 Request authentication  RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
-apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference Request authentication 描述了manifest 的完整定义。 Reference JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
+apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference: Request authentication 描述了manifest 的完整定义。 Reference: JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
   您可以将JWT策略添加到入口网关（上面的样例就是）。 这通常用于为绑定到网关的所有服务而不是单个服务定义JWT策略。下面是官方文档的原文
 You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway." />
 <meta property="og:type" content="article" />
@@ -38,12 +38,12 @@ You can also add a JWT policy to an ingress gateway (e.g., service istio-ingress
 <meta itemprop="name" content="Istio 1.5 实战：认证--RequestAuthentication">
 <meta itemprop="description" content="根据官方文档：认证 章节的描述，Istio 提供两种认证机制(PeerAuthentication，RequestAuthentication)，PeerAuthentication 解决工作负载间的问题，RequestAuthentication 解决用户端的问题。本文关注用 RequestAuthentication 来保护“裸”应用。以下是需要先从官网了解的相关知识：
  认证 Request authentication  RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
-apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference Request authentication 描述了manifest 的完整定义。 Reference JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
+apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference: Request authentication 描述了manifest 的完整定义。 Reference: JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
   您可以将JWT策略添加到入口网关（上面的样例就是）。 这通常用于为绑定到网关的所有服务而不是单个服务定义JWT策略。下面是官方文档的原文
 You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway.">
 <meta itemprop="datePublished" content="2020-03-20T23:40:00&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-20T23:40:00&#43;08:00" />
-<meta itemprop="wordCount" content="659">
+<meta itemprop="wordCount" content="757">
 
 
 
@@ -51,7 +51,7 @@ You can also add a JWT policy to an ingress gateway (e.g., service istio-ingress
 <meta name="twitter:title" content="Istio 1.5 实战：认证--RequestAuthentication"/>
 <meta name="twitter:description" content="根据官方文档：认证 章节的描述，Istio 提供两种认证机制(PeerAuthentication，RequestAuthentication)，PeerAuthentication 解决工作负载间的问题，RequestAuthentication 解决用户端的问题。本文关注用 RequestAuthentication 来保护“裸”应用。以下是需要先从官网了解的相关知识：
  认证 Request authentication  RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
-apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference Request authentication 描述了manifest 的完整定义。 Reference JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
+apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference: Request authentication 描述了manifest 的完整定义。 Reference: JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
   您可以将JWT策略添加到入口网关（上面的样例就是）。 这通常用于为绑定到网关的所有服务而不是单个服务定义JWT策略。下面是官方文档的原文
 You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway."/>
 
@@ -194,8 +194,8 @@ spec:
   - issuer: <span style="color:#e6db74">&#34;testing@secure.istio.io&#34;</span>
     jwksUri: <span style="color:#e6db74">&#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;</span>
 </code></pre></div><ul>
-<li><a href="https://istio.io/docs/reference/config/security/request_authentication/">Reference Request authentication</a> 描述了manifest 的完整定义。</li>
-<li><a href="https://istio.io/docs/reference/config/security/jwt/">Reference JWTRule</a> 描述了 <code>jwtRules</code> 的定义。</li>
+<li><a href="https://istio.io/docs/reference/config/security/request_authentication/">Reference: Request authentication</a> 描述了manifest 的完整定义。</li>
+<li><a href="https://istio.io/docs/reference/config/security/jwt/">Reference: JWTRule</a> 描述了 <code>jwtRules</code> 的定义。</li>
 </ul>
 <h3 id="selector">Selector</h3>
 <p><code>selector</code> 通过 label 机制选择适用该策略的目标工作负载。</p>
@@ -360,9 +360,54 @@ $ curl --header <span style="color:#e6db74">&#34;X-Jwt-Playload: xxx&#34;</span>
 <h3 id="-jwt-">声明多个 JWT 规则</h3>
 <p>todo</p>
 <h3 id="-jwt">限定必须提供有效的 JWT</h3>
-<p><a href="https://istio.io/docs/tasks/security/authentication/authn-policy/#require-a-valid-token">Task-Require a valid token</a> 描述了实现。</p>
-<h2 id="heading1">认证与授权</h2>
-<h3 id="heading2">认证通过的信息怎么传递给“授权”机制</h3>
+<p><a href="https://istio.io/docs/tasks/security/authentication/authn-policy/#require-a-valid-token">Task: Require a valid token</a> 描述了实现。</p>
+<h2 id="-jwk">构建私有的 JWK</h2>
+<p><code>gen-jwt.py</code> 工具提供了生成私有 JWK 的功能，文档描述在 <a href="https://github.com/istio/istio/blob/master/security/tools/jwt/samples/README.md#regenerate-private-key-and-jwks-for-developer-use-only">Regenerate private key and JWKS (for developer use only)</a></p>
+<h2 id="-requestauthentication-">使用 RequestAuthentication 保护观测组件</h2>
+<p>由于观测组件是安装在 istio-system 命名空间的，而这个空间并不会注入 sidecar，所以当前只能在绑定了这些服务的 <code>istio:ingressgateway</code> 工作负载上应用认证策略。但这其实是不好的选择，建议用另一个 ingressgateway，与业务入口分离。</p>
+<h3 id="heading1">认证策略</h3>
+<p>移除 istio-ingressgateway 上的 RequestAuthentication 后，应用以下认证和授权策略。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: <span style="color:#e6db74">&#34;security.istio.io/v1beta1&#34;</span>
+kind: <span style="color:#e6db74">&#34;RequestAuthentication&#34;</span>
+metadata:
+  name: <span style="color:#e6db74">&#34;istio-addon-components-jwt&#34;</span>
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  jwtRules:
+  - issuer: <span style="color:#e6db74">&#34;testing@secure.istio.io&#34;</span>
+    jwks: <span style="color:#e6db74">&#39;{ &#34;keys&#34;:[ {&#34;e&#34;:&#34;AQAB&#34;,&#34;kid&#34;:&#34;8CzPCO8ERS-yWH-tGmhnFj6irQ4LxqSNMA8jCVsQcc0&#34;,&#34;kty&#34;:&#34;RSA&#34;,&#34;n&#34;:&#34;uaCoiaE-FgXPhEI7YQHy-wyd_j0bVzbW1YM6nFnPcXpRSUFoToj8i2IsJ3cMyXN9mifGQIsw_LgojLfYOr2iTEDtPTYz4pX1O1NCn8n5tzyARjAGcwpCNoJ-dyMCRpWcBwj6Ro12lEdhDMG1i2EluUCUM6OELZMaAeG6qbXH1h1I5RzzwIrdaQe5eCAZTDMsBLi_3qzAUtEWRm5xC7JERBI25MLileZU8VkTNlhkjAIS6mgytK4Op7nd04GynhcjMPT8YEYDcj8KvYwgRM__dQK2H6XE3rk8wnNPgAd3JstkKSimjLtwR50_xGieQD1ZEXT9p-aLtWx1_f2EUBOm-Q&#34;}]}&#39;</span>
+    fromHeaders:
+    - name: X-My-Authorization
+      prefix: <span style="color:#e6db74">&#34;Bearer &#34;</span>
+    outputPayloadToHeader: <span style="color:#e6db74">&#34;X-Jwt-Playload&#34;</span>
+
+---
+apiVersion: <span style="color:#e6db74">&#34;security.istio.io/v1beta1&#34;</span>
+kind: <span style="color:#e6db74">&#34;AuthorizationPolicy&#34;</span>
+metadata:
+  name: istio-addon-components-ap
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: [<span style="color:#e6db74">&#34;*&#34;</span>]
+    to:
+    - operation:
+       hosts:
+       - tracing.company.com
+       - grafana-istio.company.com
+       - tracing.company.com
+</code></pre></div><p>现在我们可以放心的开放这些服务了。</p>
+<h2 id="heading2">认证与授权</h2>
+<h3 id="heading3">认证通过的信息怎么传递给“授权”机制</h3>
 <p>以下官方文档描述了少许细节。</p>
 <ol>
 <li><a href="https://istio.io/zh/docs/concepts/security/#authentication-architecture">认证架构</a></li>
@@ -371,7 +416,7 @@ $ curl --header <span style="color:#e6db74">&#34;X-Jwt-Playload: xxx&#34;</span>
 </ol>
 <h2 id="header">浏览器注入header</h2>
 <p><a href="https://chrome.google.com/webstore/detail/modify-header-value-http/cbdibdfhahmknbkkojljfncpnhmacdek/related">Chrome 的 Modify Header Value 扩展</a> 允许给指定的站点注入 header，我们可以方便的注入 <code>Authorization</code> 头</p>
-<h2 id="heading3">小结</h2>
+<h2 id="heading4">小结</h2>
 <p>通过控制颁发的 JWT 和配置认证策略，我们可以在不修改应用的情况下，实现一定粒度的访问控制。</p>
 <ul class="pa0">
   
@@ -427,13 +472,19 @@ $ curl --header <span style="color:#e6db74">&#34;X-Jwt-Playload: xxx&#34;</span>
         <li><a href="#-jwt">限定必须提供有效的 JWT</a></li>
       </ul>
     </li>
-    <li><a href="#heading1">认证与授权</a>
+    <li><a href="#-jwk">构建私有的 JWK</a></li>
+    <li><a href="#-requestauthentication-">使用 RequestAuthentication 保护观测组件</a>
       <ul>
-        <li><a href="#heading2">认证通过的信息怎么传递给“授权”机制</a></li>
+        <li><a href="#heading1">认证策略</a></li>
+      </ul>
+    </li>
+    <li><a href="#heading2">认证与授权</a>
+      <ul>
+        <li><a href="#heading3">认证通过的信息怎么传递给“授权”机制</a></li>
       </ul>
     </li>
     <li><a href="#header">浏览器注入header</a></li>
-    <li><a href="#heading3">小结</a></li>
+    <li><a href="#heading4">小结</a></li>
   </ul>
 </nav>
   </div>
