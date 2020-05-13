@@ -43,7 +43,7 @@ apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: i
 $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-override-default.">
 <meta itemprop="datePublished" content="2020-03-11T23:59:50&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-11T23:59:50&#43;08:00" />
-<meta itemprop="wordCount" content="1086">
+<meta itemprop="wordCount" content="1100">
 
 
 
@@ -208,14 +208,16 @@ metadata:
   namespace: istio-system
 spec:
   profile: default
-  values:
-    gateways:
-      istio-ingressgateway:
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: <span style="color:#66d9ef">true</span>
+      k8s:
         serviceAnnotations:
           <span style="color:#75715e"># https://cloud.tencent.com/document/product/457/18210</span>
           service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=<span style="color:#66d9ef">true</span>
         nodeSelector:
-          company.com/ingressgateway: <span style="color:#66d9ef">true</span>
+          company.com/ingressgateway: <span style="color:#e6db74">&#34;true&#34;</span>
 </code></pre></div><p>给购买了公网带宽的 node 打上 label</p>
 <pre><code>$ kubectl label node 172.21.128.82 company.com/ingressgateway=true
 </code></pre><h3 id="heading1">安装到集群</h3>
@@ -324,7 +326,7 @@ NAME                                                       REFERENCE            
 horizontalpodautoscaler.autoscaling/istio-ingressgateway   Deployment/istio-ingressgateway   4%/80%    1         5         1          10h
 horizontalpodautoscaler.autoscaling/istiod                 Deployment/istiod                 0%/80%    1         5         1          10h
 </code></pre><h4 id="-istioingressgateway">再探 istio-ingressgateway</h4>
-<p>istio-ingressgateway 这个服务我们需要特别关注，我们知道这是一个公网入口，它暴露了非常多的端口(这些端口的name语义在 <code>istioctl profile dump default --config-path values.gateways.istio-ingressgateway.ports</code> 的输出中有显示)，我们需要确认这些端口的用途和风险，预期中我们只需要暴露80和443端口。</p>
+<p>istio-ingressgateway 这个服务我们需要特别关注，我们知道这是一个公网入口，它暴露了非常多的端口(这些端口的name语义在 <code>istioctl profile dump default --config-path values.gateways.istio-ingressgateway.ports</code> 的输出中有显示)，我们需要确认这些端口的用途和风险，预期中我们只需要暴露80和443端口。特别地，15443 端口在多集群部署（<a href="https://istio.io/docs/setup/install/multicluster/gateways/">Replicated control planes</a>）时作为集群间流量的入口。</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl exec -it istio-ingressgateway-78ff7c44f4-sccbj bash -n istio-system
 
 root@istio-ingressgateway-78ff7c44f4-sccbj:/# ps -efww
@@ -364,21 +366,24 @@ metadata:
   namespace: istio-system
 spec:
   profile: default
-  values:
-    gateways:
-      istio-ingressgateway:
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: <span style="color:#66d9ef">true</span>
+      k8s:
         serviceAnnotations:
           <span style="color:#75715e"># https://cloud.tencent.com/document/product/457/18210</span>
           service.kubernetes.io/qcloud-loadbalancer-backends-label: company.com/ingressgateway=<span style="color:#66d9ef">true</span>
         nodeSelector:
-          company.com/ingressgateway: <span style="color:#66d9ef">true</span>
-        ports:
-          <span style="color:#75715e"># 公网lb控制暴露的端口.</span>
-        - name: http2
-          port: <span style="color:#ae81ff">80</span>
-          targetPort: <span style="color:#ae81ff">80</span>
-        - name: https
-          port: <span style="color:#ae81ff">443</span>
+          company.com/ingressgateway: <span style="color:#e6db74">&#34;true&#34;</span>
+        service:
+          ports:
+            <span style="color:#75715e"># 公网lb控制暴露的端口.</span>
+          - name: http2
+            port: <span style="color:#ae81ff">80</span>
+            targetPort: <span style="color:#ae81ff">80</span>
+          - name: https
+            port: <span style="color:#ae81ff">443</span>
 </code></pre></div><pre><code>$ istioctl manifest apply -f profile-override-default.yaml
 proto: tag has too few fields: &quot;-&quot;
 Detected that your cluster does not support third party JWT authentication. Falling back to less secure first party JWT. See https://istio.io/docs/ops/best-practices/security/#configure-third-party-service-account-tokens for details.
