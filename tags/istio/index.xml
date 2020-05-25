@@ -60,5 +60,16 @@ apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: i
 $ istioctl manifest generate -f profile-override-default.yaml &amp;gt; manifest-override-default.</description>
     </item>
     
+    <item>
+      <title>Istio 1.5 实战：安装进阶</title>
+      <link>https://potterhe.github.io/posts/istio-1.5-in-action-setup-advanced/</link>
+      <pubDate>Wed, 11 Mar 2020 23:59:50 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/istio-1.5-in-action-setup-advanced/</guid>
+      <description>多ingressGateway 什么场景会需要多个 ingressGateway
+ 多租户。Istio 租户模型- Namespace tenancy 描述了“命名空间”租户模型，不同集群的相同 namespace 视为一个租户。这种模型下，各租户的资源应当是隔离的，ingressgateway和各种secret（如证书）就是租户的资源。 同一个租户，需要公共/私有的入口。私有ingressGateway 在公有云上可以理解为一个内网的lb，当有业务不在k8s集群内时，集群外的业务要访问集群内的业务，一般是通过这个内网的lb；多个云SP通过专线互联时，同一个云跨AZ时；这些都对应多集群网格的构建场景，私有的ingressGateway是非常必要的，特别是Gateway方式的多集群网格，更应该选择内网lb作为集群间互通的入口，而不是mTLS的公网gateway。  components.ingressGateways 好消息是：components.ingressGateways 是一个list, 可见设计意图里包含多个 ingreessgateway。相应的，components.egressGateways 也是同样的。
+$ istioctl profile dump --config-path components.ingressGateways - enabled: true k8s: hpaSpec: maxReplicas: 5 metrics: - resource: name: cpu targetAverageUtilization: 80 type: Resource minReplicas: 1 scaleTargetRef: apiVersion: apps/v1 kind: Deployment name: istio-ingressgateway resources: limits: cpu: 2000m memory: 1024Mi requests: cpu: 100m memory: 128Mi strategy: rollingUpdate: maxSurge: 100% maxUnavailable: 25% name: istio-ingressgateway 坏消息是：上面定义的多个ingressgateway 的 label 不生效(截止1.</description>
+    </item>
+    
   </channel>
 </rss>

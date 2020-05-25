@@ -43,7 +43,7 @@ apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: i
 $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-override-default.">
 <meta itemprop="datePublished" content="2020-03-11T23:59:50&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-11T23:59:50&#43;08:00" />
-<meta itemprop="wordCount" content="1100">
+<meta itemprop="wordCount" content="1101">
 
 
 
@@ -384,7 +384,8 @@ spec:
             targetPort: <span style="color:#ae81ff">80</span>
           - name: https
             port: <span style="color:#ae81ff">443</span>
-</code></pre></div><pre><code>$ istioctl manifest apply -f profile-override-default.yaml
+</code></pre></div><p>这里请注意service、serviceAnnotations的节点层次。</p>
+<pre><code>$ istioctl manifest apply -f profile-override-default.yaml
 proto: tag has too few fields: &quot;-&quot;
 Detected that your cluster does not support third party JWT authentication. Falling back to less secure first party JWT. See https://istio.io/docs/ops/best-practices/security/#configure-third-party-service-account-tokens for details.
 - Applying manifest for component Base...
@@ -463,6 +464,17 @@ virtualservice.networking.istio.io/bookinfo created
 
 
 
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/istio-1.5-in-action-setup-advanced/">Istio 1.5 实战：安装进阶</a>
+        </li>
+	    
+    </ul>
+</div>
 
 </aside>
 
