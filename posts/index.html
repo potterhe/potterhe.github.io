@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/posts/" />
-<meta property="og:updated_time" content="2020-03-20T23:40:00+08:00" />
+<meta property="og:updated_time" content="2020-05-25T14:40:50+08:00" />
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Posts"/>
@@ -123,6 +123,23 @@
   <article class="pa3 pa4-ns nested-copy-line-height nested-img">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
     <section class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-advanced/" class="link black dim">
+        Istio 1.5 实战：安装进阶
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      多ingressGateway 什么场景会需要多个 ingressGateway
+ 多租户。Istio 租户模型- Namespace tenancy 描述了“命名空间”租户模型，不同集群的相同 namespace 视为一个租户。这种模型下，各租户的资源应当是隔离的，ingressgateway和各种secret（如证书）就是租户的资源。 同一个租户，需要公共/私有的入口。私有ingressGateway 在公有云上可以理解为一个内网的lb，当有业务不在k8s集群内时，集群外的业务要访问集群内的业务，一般是通过这个内网的lb；多个云SP通过专线互联时，同一个云跨AZ时；这些都对应多集群网格的构建场景，私有的ingressGateway是非常必要的，特别是Gateway方式的多集群网格，更应该选择内网lb作为集群间互通的入口，而不是mTLS的公网gateway。  components.ingressGateways 好消息是：components.ingressGateways 是一个list, 可见设计意图里包含多个 ingreessgateway。相应的，components.egressGateways 也是同样的。
+$ istioctl profile dump --config-path components.ingressGateways - enabled: true k8s: hpaSpec: maxReplicas: 5 metrics: - resource: name: cpu targetAverageUtilization: 80 type: Resource minReplicas: 1 scaleTargetRef: apiVersion: apps/v1 kind: Deployment name: istio-ingressgateway resources: limits: cpu: 2000m memory: 1024Mi requests: cpu: 100m memory: 128Mi strategy: rollingUpdate: maxSurge: 100% maxUnavailable: 25% name: istio-ingressgateway 坏消息是：上面定义的多个ingressgateway 的 label 不生效(截止1.
+    </div>
+  </div>
+</div>
+</div>
       
         <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
@@ -274,21 +291,6 @@ By default, the Cloudera QuickStart VM run Cloudera's Distribution including Apa
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
       目标  概念 本地开发  本地环境(Mac OS X)  下载  export JAVA_HOME=$(/usr/libexec/java_home -v 1.8) export SPARK_HOME=&#34;$HOME/opt/spark-2.3.2-bin-hadoop2.6&#34; export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip:$PYTHONPATH export PATH=$SPARK_HOME/bin:$PATH python环境 virtualenv -p python3 spark-python3 source spark-python3/bin/activate pip install pyspark deactivate(仅从当前venv环境脱离时执行) helloworld ./bin/spark-submit examples/src/main/python/wordcount.py README.md spark-shell IDE(PyCharm)  首选项-Project Interpreter helloworld解读  RDD  partition 转换 行动 lazy evaluation shuffle  并行化  partition 与并发 worker,executor,task,job   Spark Streaming, DStream socket ./bin/spark-submit examples/src/main/python/streaming/network_wordcount.py localhost 9999  web ui, http://localhost/4040  kafka  https://search.
-    </div>
-  </div>
-</div>
-</div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/spark-note/" class="link black dim">
-        Spark调研笔记
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      理论  streaming 101 streaming 102  spark  子雨大数据之Spark入门教程(Python版) RDD、DataFrame和DataSet的区别 Spark Streaming 不同Batch任务可以并行计算么？ Spark Streaming 管理 Kafka Offsets 的方式探讨 Spark Streaming容错性和零数据丢失 Structured Streaming Programming Guide结构化流编程指南 是时候放弃 Spark Streaming, 转向 Structured Streaming 了  选项  spark.io.compression.codec snappy (lz4依赖冲突) spark.streaming.concurrentjobs (spark streaming实时大数据分析4.4.4) spark.streaming.receiver.writeaheadlog.enable (spark streaming实时大数据分析5.6节) spark.sql.shuffle.partitions (default 200, 在单节点测试时,会造成极大的延迟).  pyspark  Improving PySpark performance: Spark Performance Beyond the JVM Python最佳实践指南  本地环境搭建 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8) export SPARK_HOME=&#34;$HOME/opt/spark-2.3.2-bin-hadoop2.6&#34; export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.
     </div>
   </div>
 </div>
