@@ -39,7 +39,7 @@ $ istioctl profile dump --config-path components.ingressGateways - enabled: true
 $ istioctl profile dump --config-path components.ingressGateways - enabled: true k8s: hpaSpec: maxReplicas: 5 metrics: - resource: name: cpu targetAverageUtilization: 80 type: Resource minReplicas: 1 scaleTargetRef: apiVersion: apps/v1 kind: Deployment name: istio-ingressgateway resources: limits: cpu: 2000m memory: 1024Mi requests: cpu: 100m memory: 128Mi strategy: rollingUpdate: maxSurge: 100% maxUnavailable: 25% name: istio-ingressgateway 坏消息是：上面定义的多个ingressgateway 的 label 不生效(截止1.">
 <meta itemprop="datePublished" content="2020-05-25T14:40:50&#43;08:00" />
 <meta itemprop="dateModified" content="2020-05-25T14:40:50&#43;08:00" />
-<meta itemprop="wordCount" content="249">
+<meta itemprop="wordCount" content="104">
 
 
 
@@ -218,101 +218,7 @@ $ istioctl profile dump --config-path components.ingressGateways - enabled: true
 <p>通过分析istioctl manifest 的源码，istioctl在生成manifest时，对<code>components.ingressGateways</code>列表里定义的ingressgateway会拆分成一个个独立的组件,分别用 install/kubernetes/operator/charts/gateways/istio-ingress/ 这个charts进行渲染。渲染之前会进行一系统helm templates 相关的values覆盖逻辑。</p>
 <p><code>values.gateways.istio-ingressgateway</code> 不是list 的设计，只是一个ingressgateway，对应于charts:install/kubernetes/operator/charts/gateways/istio-ingress。可以理解为它是ingressgate的模板。如果<code>components.ingressGateways</code> 里没有定义，就不会生成相关manifest。</p>
 <p><code>values.gateways.istio-ingressgateway</code> 会作用于<code>components.ingressGateways</code> 定义的每一个网关。所以如果某些定义是所有网关通过的，应该放置于这里。</p>
-<h2 id="heading">多集群</h2>
-<ol>
-<li><a href="https://istio.io/docs/ops/deployment/deployment-models">部署模型</a></li>
-<li><a href="https://istio.io/docs/setup/install/multicluster/gateways/">Replicated control planes</a></li>
-<li><a href="https://istio.io/docs/setup/install/multicluster/shared/">Shared control plane (single and multiple networks)</a></li>
-</ol>
-<p><code>values.global.meshExpansion.enabled</code> 在以下charts 里有引用，会在 ingressgateway 上绑定 pilot 服务</p>
-<p>install/kubernetes/operator/charts/gateways/istio-ingress/templates/meshexpansion.yaml
-install/kubernetes/operator/charts/gateways/istio-ingress/templates/service.yaml</p>
-<p>官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca，<a href="https://github.com/istio/istio/blob/master/samples/certs/README.md">生成root-ca的文档和工具</a>。1.5版本有一个Makefile, 1.6已经没有了,可切换到具体的tag查看提交历史。1.6版本提供了一个shell脚本(<a href="https://github.com/istio/istio/blob/master/samples/multicluster/setup-mesh.sh">https://github.com/istio/istio/blob/master/samples/multicluster/setup-mesh.sh</a>) 提供了rootca的生成及其它多集群相关的工具。</p>
-<h3 id="heading1">多控制平面</h3>
-<p><a href="https://istio.io/docs/setup/install/multicluster/gateways/">Replicated control planes</a></p>
-<p>在跨云，跨AZ的场景下，构建多集群网格时，应该使用多控制面。gateway应该使用内网lb的ingressgateway。</p>
-<h4 id="-istiocoredns">启用 istiocoredns</h4>
-<p><code>addonComponents.istiocoredns.enabled</code></p>
-<h2 id="valuesglobalmulticlusterenabled"><code>values.global.multiCluster.enabled</code></h2>
-<p><code>values.global.multiCluster.enabled</code> 选项打开后，会在manifest新增3个对象，同时在 configMap <code>istio-sidecar-injector</code> 中修改了一个配置项</p>
-<pre><code>apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: istio-multicluster-ingressgateway
-  namespace: istio-system
-  labels:
-    app: istio-ingressgateway
-    istio: ingressgateway
-    
-    release: istio
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - hosts:
-    - &quot;*.global&quot;
-    port:
-      name: tls
-      number: 15443
-      protocol: TLS
-    tls:
-      mode: AUTO_PASSTHROUGH
----
-
-
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: istio-multicluster-ingressgateway
-  namespace: istio-system
-  labels:
-    app: istio-ingressgateway
-    istio: ingressgateway
-    
-    release: istio
-spec:
-  workloadSelector:
-    labels:
-      istio: ingressgateway
-  configPatches:
-  - applyTo: NETWORK_FILTER
-    match:
-      context: GATEWAY
-      listener:
-        portNumber: 15443
-        filterChain:
-          filter:
-            name: &quot;envoy.filters.network.sni_cluster&quot;
-    patch:
-      operation: INSERT_AFTER
-      value:
-        name: &quot;envoy.filters.network.tcp_cluster_rewrite&quot;
-        config:
-          cluster_pattern: &quot;\\.global$&quot;
-          cluster_replacement: &quot;.svc.cluster.local&quot;
----
-
-
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: istio-multicluster-ingressgateway
-  namespace: istio-system
-  labels:
-    app: istio-ingressgateway
-    istio: ingressgateway
-    
-    release: istio
-spec:
-  host: &quot;*.global&quot;
-  trafficPolicy:
-    tls:
-      mode: ISTIO_MUTUAL
----
-
-
-          
-</code></pre><h2 id="istio-16">istio 1.6</h2>
+<h2 id="istio-16">istio 1.6</h2>
 <p>istio-1.6.0 于2020年5月22日发布了，对安装中的很多地方做了修订，这就到此为止。</p>
 <ul class="pa0">
   

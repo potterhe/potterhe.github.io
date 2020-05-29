@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>Potterhe&#39;s Site </title>
+    <title>Potterhe&#39;s Site  | 多集群</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="generator" content="Hugo 0.60.1" />
     
@@ -25,19 +25,19 @@
 
     
     
-      <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
-      <link href="/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/tags/%E5%A4%9A%E9%9B%86%E7%BE%A4/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/tags/%E5%A4%9A%E9%9B%86%E7%BE%A4/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
       
     
     
-    <meta property="og:title" content="Potterhe&#39;s Site" />
+    <meta property="og:title" content="多集群" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://potterhe.github.io/" />
+<meta property="og:url" content="https://potterhe.github.io/tags/%E5%A4%9A%E9%9B%86%E7%BE%A4/" />
 <meta property="og:updated_time" content="2020-05-27T14:40:50+08:00" />
-<meta itemprop="name" content="Potterhe&#39;s Site">
+<meta itemprop="name" content="多集群">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Potterhe&#39;s Site"/>
+<meta name="twitter:title" content="多集群"/>
 <meta name="twitter:description" content=""/>
 
       
@@ -110,7 +110,7 @@
 
       <div class="tc-l pv4 pv6-l ph3 ph4-ns">
         <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-          Potterhe&#39;s Site
+          多集群
         </h1>
         
       </div>
@@ -120,153 +120,35 @@
 
     <main class="pb7" role="main">
       
-  <article class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray">
-    
+  <article class="cf pa3 pa4-m pa4-l">
+    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
+      <p>Below you will find pages that utilize the taxonomy term “多集群”</p>
+    </div>
   </article>
-  
-  
-  
-  
-  
-  
-  
-    
-    
-
-    <div class="pa3 pa4-ns w-100 w-70-ns center">
+  <div class="mw8 center">    
+    <section class="flex-ns flex-wrap justify-around mt5">
       
-       
-          <h1 class="flex-none">
-            Recent Posts
-          </h1>
-        
-
-      
-
-      <section class="w-100 mw8">
-        
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/" class="color-inherit dim link">
-            Istio 1.6 实战：多集群安装
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          部署模型 Replicated control planes Shared control plane (single and multiple networks)  root-ca 官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
+        <div class="relative w-100  mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/" class="link black dim">
+        Istio 1.6 实战：多集群安装
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      部署模型 Replicated control planes Shared control plane (single and multiple networks)  root-ca 官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
 直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
 $ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.pem samples/multicluster/setup-mesh.sh samples/multicluster/setup-mesh.sh。通过查看脚本源码，此脚本生成root-ca时，也是下载的Makefile 文件(TAG:1.6.0 下载的是 BRANCH:release-1.4 的文件，如果想用自己下载的Makefile，一定要放在WORKDIR/certs/ 目录下)，运行此脚本前，需先声明三个环境变量。
-        </div>
-          <a href="https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
     </div>
   </div>
-</article>
+</div>
 
-          </div>
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-advanced/" class="color-inherit dim link">
-            Istio 1.5 实战：安装进阶
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          多ingressGateway 什么场景会需要多个 ingressGateway
- 多租户。Istio 租户模型- Namespace tenancy 描述了“命名空间”租户模型，不同集群的相同 namespace 视为一个租户。这种模型下，各租户的资源应当是隔离的，ingressgateway和各种secret（如证书）就是租户的资源。 同一个租户，需要公共/私有的入口。私有ingressGateway 在公有云上可以理解为一个内网的lb，当有业务不在k8s集群内时，集群外的业务要访问集群内的业务，一般是通过这个内网的lb；多个云SP通过专线互联时，同一个云跨AZ时；这些都对应多集群网格的构建场景，私有的ingressGateway是非常必要的，特别是Gateway方式的多集群网格，更应该选择内网lb作为集群间互通的入口，而不是mTLS的公网gateway。  components.ingressGateways 好消息是：components.ingressGateways 是一个list, 可见设计意图里包含多个 ingreessgateway。相应的，components.egressGateways 也是同样的。
-$ istioctl profile dump --config-path components.ingressGateways - enabled: true k8s: hpaSpec: maxReplicas: 5 metrics: - resource: name: cpu targetAverageUtilization: 80 type: Resource minReplicas: 1 scaleTargetRef: apiVersion: apps/v1 kind: Deployment name: istio-ingressgateway resources: limits: cpu: 2000m memory: 1024Mi requests: cpu: 100m memory: 128Mi strategy: rollingUpdate: maxSurge: 100% maxUnavailable: 25% name: istio-ingressgateway 坏消息是：上面定义的多个ingressgateway 的 label 不生效(截止1.
         </div>
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-advanced/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
+      
+    </section>
   </div>
-</article>
-
-          </div>
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/" class="color-inherit dim link">
-            Istio 1.5 实战：认证--RequestAuthentication
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          根据官方文档：认证 章节的描述，Istio 提供两种认证机制(PeerAuthentication，RequestAuthentication)，PeerAuthentication 解决工作负载间的问题，RequestAuthentication 解决用户端的问题。本文关注用 RequestAuthentication 来保护“裸”应用。以下是需要先从官网了解的相关知识：
- 认证 Request authentication  RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
-apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference: Request authentication 描述了manifest 的完整定义。 Reference: JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
-  您可以将JWT策略添加到入口网关（上面的样例就是）。 这通常用于为绑定到网关的所有服务而不是单个服务定义JWT策略。下面是官方文档的原文
-You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway.
-        </div>
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
-      </section>
-
-      
-      <section class="w-100">
-        <h1 class="f3">More</h1>
-        
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="link black dim">
-              Istio 1.5 实战：授权(Authorization)
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/a-kubeapps-based-application-deploying-and-managing-system/" class="link black dim">
-              基于 Kubeapps 的应用管理、发布系统
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/" class="link black dim">
-              Istio 1.5 实战：“体验”监控，观测
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="link black dim">
-              Istio 1.5 实战：安装
-            </a>
-          </h2>
-        
-
-        
-        
-          <a href="https://potterhe.github.io/posts/" class="link db f6 pa2 br3 bg-mid-gray white dim w4 tc">All Posts</a>
-        
-        </section>
-      
-
-      </div>
-  
 
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">

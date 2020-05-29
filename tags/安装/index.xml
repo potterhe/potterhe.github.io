@@ -6,10 +6,21 @@
     <description>Recent content in 安装 on Potterhe&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 25 May 2020 14:40:50 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2020 14:40:50 +0800</lastBuildDate>
     
 	<atom:link href="https://potterhe.github.io/tags/%E5%AE%89%E8%A3%85/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Istio 1.6 实战：多集群安装</title>
+      <link>https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/</link>
+      <pubDate>Wed, 27 May 2020 14:40:50 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/</guid>
+      <description>部署模型 Replicated control planes Shared control plane (single and multiple networks)  root-ca 官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
+直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
+$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.pem samples/multicluster/setup-mesh.sh samples/multicluster/setup-mesh.sh。通过查看脚本源码，此脚本生成root-ca时，也是下载的Makefile 文件(TAG:1.6.0 下载的是 BRANCH:release-1.4 的文件，如果想用自己下载的Makefile，一定要放在WORKDIR/certs/ 目录下)，运行此脚本前，需先声明三个环境变量。</description>
+    </item>
     
     <item>
       <title>Istio 1.5 实战：安装进阶</title>

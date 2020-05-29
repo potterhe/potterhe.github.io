@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/tags/" />
-<meta property="og:updated_time" content="2020-05-25T14:40:50+08:00" />
+<meta property="og:updated_time" content="2020-05-27T14:40:50+08:00" />
 <meta itemprop="name" content="Tags">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tags"/>
@@ -166,6 +166,30 @@ $ istioctl profile dump --config-path components.ingressGateways - enabled: true
 apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default 另一面，override 文件中的项，以及项的节点层次怎么找呢？建议两种方式：1，通过 istioctl profile dump default 命令可以打印一些，但不够全；2，查看 charts （install/kubernetes/operator/charts/） 里各子项目的 values 文件定义，这种方式最可靠，对值的行为还可以辅以 templates 文件更深入的了解，推荐这种。
 有了 override 文件后，就可以使用下面的命令生成 manifest，manifest 是 k8s 的定义。建议把 override 文件和生成的 manifest 文件都通过版本控制工具维护起来，在每次对 override 操作后，对比前后的差异。
 $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-override-default.
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/1.6" class="link blue hover-black">
+            Tag: 1.6
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/" class="link black dim">
+        Istio 1.6 实战：多集群安装
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      部署模型 Replicated control planes Shared control plane (single and multiple networks)  root-ca 官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
+直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
+$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.pem samples/multicluster/setup-mesh.sh samples/multicluster/setup-mesh.sh。通过查看脚本源码，此脚本生成root-ca时，也是下载的Makefile 文件(TAG:1.6.0 下载的是 BRANCH:release-1.4 的文件，如果想用自己下载的Makefile，一定要放在WORKDIR/certs/ 目录下)，运行此脚本前，需先声明三个环境变量。
     </div>
   </div>
 </div>
@@ -435,6 +459,23 @@ SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayord
             Tag: istio
           </a>
         </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/" class="link black dim">
+        Istio 1.6 实战：多集群安装
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      部署模型 Replicated control planes Shared control plane (single and multiple networks)  root-ca 官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
+直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
+$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.pem samples/multicluster/setup-mesh.sh samples/multicluster/setup-mesh.sh。通过查看脚本源码，此脚本生成root-ca时，也是下载的Makefile 文件(TAG:1.6.0 下载的是 BRANCH:release-1.4 的文件，如果想用自己下载的Makefile，一定要放在WORKDIR/certs/ 目录下)，运行此脚本前，需先声明三个环境变量。
+    </div>
+  </div>
+</div>
+
         
           <div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
@@ -1007,10 +1048,51 @@ $poller_runs = intval($cron_interval / $poller_interval); define(&#34;MAX_POLLER
         
       
         <h2 class="f1">
+          <a href="/tags/%E5%A4%9A%E9%9B%86%E7%BE%A4" class="link blue hover-black">
+            Tag: 多集群
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/" class="link black dim">
+        Istio 1.6 实战：多集群安装
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      部署模型 Replicated control planes Shared control plane (single and multiple networks)  root-ca 官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
+直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
+$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.pem samples/multicluster/setup-mesh.sh samples/multicluster/setup-mesh.sh。通过查看脚本源码，此脚本生成root-ca时，也是下载的Makefile 文件(TAG:1.6.0 下载的是 BRANCH:release-1.4 的文件，如果想用自己下载的Makefile，一定要放在WORKDIR/certs/ 目录下)，运行此脚本前，需先声明三个环境变量。
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
           <a href="/tags/%E5%AE%89%E8%A3%85" class="link blue hover-black">
             Tag: 安装
           </a>
         </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/" class="link black dim">
+        Istio 1.6 实战：多集群安装
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      部署模型 Replicated control planes Shared control plane (single and multiple networks)  root-ca 官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
+直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
+$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.pem samples/multicluster/setup-mesh.sh samples/multicluster/setup-mesh.sh。通过查看脚本源码，此脚本生成root-ca时，也是下载的Makefile 文件(TAG:1.6.0 下载的是 BRANCH:release-1.4 的文件，如果想用自己下载的Makefile，一定要放在WORKDIR/certs/ 目录下)，运行此脚本前，需先声明三个环境变量。
+    </div>
+  </div>
+</div>
+
         
           <div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
@@ -1072,6 +1154,23 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
             Tag: 实战
           </a>
         </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/" class="link black dim">
+        Istio 1.6 实战：多集群安装
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      部署模型 Replicated control planes Shared control plane (single and multiple networks)  root-ca 官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
+直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
+$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.pem samples/multicluster/setup-mesh.sh samples/multicluster/setup-mesh.sh。通过查看脚本源码，此脚本生成root-ca时，也是下载的Makefile 文件(TAG:1.6.0 下载的是 BRANCH:release-1.4 的文件，如果想用自己下载的Makefile，一定要放在WORKDIR/certs/ 目录下)，运行此脚本前，需先声明三个环境变量。
+    </div>
+  </div>
+</div>
+
         
           <div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">

@@ -6,33 +6,42 @@
     <description>Recent content in Tags on Potterhe&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 25 May 2020 14:40:50 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 27 May 2020 14:40:50 +0800</lastBuildDate>
     
 	<atom:link href="https://potterhe.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>1.5</title>
-      <link>https://potterhe.github.io/tags/1.5/</link>
-      <pubDate>Mon, 25 May 2020 14:40:50 +0800</pubDate>
+      <title>1.6</title>
+      <link>https://potterhe.github.io/tags/1.6/</link>
+      <pubDate>Wed, 27 May 2020 14:40:50 +0800</pubDate>
       
-      <guid>https://potterhe.github.io/tags/1.5/</guid>
+      <guid>https://potterhe.github.io/tags/1.6/</guid>
       <description></description>
     </item>
     
     <item>
       <title>istio</title>
       <link>https://potterhe.github.io/tags/istio/</link>
-      <pubDate>Mon, 25 May 2020 14:40:50 +0800</pubDate>
+      <pubDate>Wed, 27 May 2020 14:40:50 +0800</pubDate>
       
       <guid>https://potterhe.github.io/tags/istio/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>多集群</title>
+      <link>https://potterhe.github.io/tags/%E5%A4%9A%E9%9B%86%E7%BE%A4/</link>
+      <pubDate>Wed, 27 May 2020 14:40:50 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/tags/%E5%A4%9A%E9%9B%86%E7%BE%A4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>安装</title>
       <link>https://potterhe.github.io/tags/%E5%AE%89%E8%A3%85/</link>
-      <pubDate>Mon, 25 May 2020 14:40:50 +0800</pubDate>
+      <pubDate>Wed, 27 May 2020 14:40:50 +0800</pubDate>
       
       <guid>https://potterhe.github.io/tags/%E5%AE%89%E8%A3%85/</guid>
       <description></description>
@@ -41,9 +50,18 @@
     <item>
       <title>实战</title>
       <link>https://potterhe.github.io/tags/%E5%AE%9E%E6%88%98/</link>
-      <pubDate>Mon, 25 May 2020 14:40:50 +0800</pubDate>
+      <pubDate>Wed, 27 May 2020 14:40:50 +0800</pubDate>
       
       <guid>https://potterhe.github.io/tags/%E5%AE%9E%E6%88%98/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>1.5</title>
+      <link>https://potterhe.github.io/tags/1.5/</link>
+      <pubDate>Mon, 25 May 2020 14:40:50 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/tags/1.5/</guid>
       <description></description>
     </item>
     

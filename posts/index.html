@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/posts/" />
-<meta property="og:updated_time" content="2020-05-25T14:40:50+08:00" />
+<meta property="og:updated_time" content="2020-05-27T14:40:50+08:00" />
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Posts"/>
@@ -123,6 +123,23 @@
   <article class="pa3 pa4-ns nested-copy-line-height nested-img">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
     <section class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/" class="link black dim">
+        Istio 1.6 实战：多集群安装
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      部署模型 Replicated control planes Shared control plane (single and multiple networks)  root-ca 官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
+直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
+$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.pem samples/multicluster/setup-mesh.sh samples/multicluster/setup-mesh.sh。通过查看脚本源码，此脚本生成root-ca时，也是下载的Makefile 文件(TAG:1.6.0 下载的是 BRANCH:release-1.4 的文件，如果想用自己下载的Makefile，一定要放在WORKDIR/certs/ 目录下)，运行此脚本前，需先声明三个环境变量。
+    </div>
+  </div>
+</div>
+</div>
       
         <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
@@ -276,21 +293,6 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
     <div class="nested-links f5 lh-copy nested-copy-line-height">
       下载和导入虚拟机.  下载 cdh-quickstart-vm 导入  vm初始信息收集 [cloudera@quickstart ~]$ uname -a Linux quickstart.cloudera 2.6.32-573.el6.x86_64 #1 SMP Thu Jul 23 15:44:03 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux $ cat /etc/issue CentOS release 6.7 (Final) Kernel \r on an \m vm里的cdh服务当前是使用操作系统的init系统管理的，而不是&quot;Cloudera Manager&rdquo;
 By default, the Cloudera QuickStart VM run Cloudera's Distribution including Apache Hadoop (CDH) under Linux's service and configuration management. If you wish to migrate to Cloudera Manager, you must run one of the following commands.
-    </div>
-  </div>
-</div>
-</div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/spark-learning-note/" class="link black dim">
-        Spark 学习笔记
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      目标  概念 本地开发  本地环境(Mac OS X)  下载  export JAVA_HOME=$(/usr/libexec/java_home -v 1.8) export SPARK_HOME=&#34;$HOME/opt/spark-2.3.2-bin-hadoop2.6&#34; export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.7-src.zip:$PYTHONPATH export PATH=$SPARK_HOME/bin:$PATH python环境 virtualenv -p python3 spark-python3 source spark-python3/bin/activate pip install pyspark deactivate(仅从当前venv环境脱离时执行) helloworld ./bin/spark-submit examples/src/main/python/wordcount.py README.md spark-shell IDE(PyCharm)  首选项-Project Interpreter helloworld解读  RDD  partition 转换 行动 lazy evaluation shuffle  并行化  partition 与并发 worker,executor,task,job   Spark Streaming, DStream socket ./bin/spark-submit examples/src/main/python/streaming/network_wordcount.py localhost 9999  web ui, http://localhost/4040  kafka  https://search.
     </div>
   </div>
 </div>
