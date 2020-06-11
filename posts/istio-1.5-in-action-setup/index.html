@@ -219,8 +219,8 @@ spec:
         nodeSelector:
           company.com/ingressgateway: <span style="color:#e6db74">&#34;true&#34;</span>
 </code></pre></div><p>给购买了公网带宽的 node 打上 label</p>
-<pre><code>$ kubectl label node 172.21.128.82 company.com/ingressgateway=true
-</code></pre><h3 id="heading1">安装到集群</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl label node 172.21.128.82 company.com/ingressgateway<span style="color:#f92672">=</span>true
+</code></pre></div><h3 id="heading1">安装到集群</h3>
 <pre><code>$ istioctl manifest apply -f profile-override-default.yaml
 proto: tag has too few fields: &quot;-&quot;
 Detected that your cluster does not support third party JWT authentication. Falling back to less secure first party JWT. See https://istio.io/docs/ops/best-practices/security/#configure-third-party-service-account-tokens for details.
