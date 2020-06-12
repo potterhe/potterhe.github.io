@@ -26,7 +26,7 @@
     
     
     <meta property="og:title" content="Istio 1.5 实战：“体验”监控，观测" />
-<meta property="og:description" content="**本文的内容已经过时，未来的发行版将删除addon，请详见官方的博客 https://istio.io/latest/blog/2020/addon-rework/ **
+<meta property="og:description" content="** 本文的内容已经过时，未来的发行版将删除addon，请详见官方的博客Reworking our Addon Integrations，addon 整合已经不是社区未来的方向，所以可以极早向上游部署方式看齐。这是很好的方向 **
 本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习只是用于体验，切不可用于生产，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:
  安全。在没有应用“认证”、“授权”机制前，这些服务裸奔在公网是危险的，即使有的系统有帐密。 存储。这些服务都是有状态的，涉及状态数据的存储，如：promethues、grafana、kiali、tracing。这些 Pod 一旦重建，数据就会丢失。一般地，需要我们适配 k8s 标准化过的存储机制，如：storageClass、pv、pvc等。  组件部署 查看支持的 addonComponents，以及默认的配置值。
 $ istioctl profile dump --config-path addonComponents 2020-06-10T01:37:35.653332Z	info	proto: tag has too few fields: &#34;-&#34; grafana: enabled: false k8s: replicaCount: 1 istiocoredns: enabled: false kiali: enabled: false k8s: replicaCount: 1 prometheus: enabled: true k8s: replicaCount: 1 tracing: enabled: false grafana 在 override 文件中添加 addonComponents.grafana.enabled=true 项后，应用到集群。
@@ -36,20 +36,20 @@ apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: i
 <meta property="article:published_time" content="2020-03-12T12:52:00+08:00" />
 <meta property="article:modified_time" content="2020-03-12T12:52:00+08:00" />
 <meta itemprop="name" content="Istio 1.5 实战：“体验”监控，观测">
-<meta itemprop="description" content="**本文的内容已经过时，未来的发行版将删除addon，请详见官方的博客 https://istio.io/latest/blog/2020/addon-rework/ **
+<meta itemprop="description" content="** 本文的内容已经过时，未来的发行版将删除addon，请详见官方的博客Reworking our Addon Integrations，addon 整合已经不是社区未来的方向，所以可以极早向上游部署方式看齐。这是很好的方向 **
 本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习只是用于体验，切不可用于生产，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:
  安全。在没有应用“认证”、“授权”机制前，这些服务裸奔在公网是危险的，即使有的系统有帐密。 存储。这些服务都是有状态的，涉及状态数据的存储，如：promethues、grafana、kiali、tracing。这些 Pod 一旦重建，数据就会丢失。一般地，需要我们适配 k8s 标准化过的存储机制，如：storageClass、pv、pvc等。  组件部署 查看支持的 addonComponents，以及默认的配置值。
 $ istioctl profile dump --config-path addonComponents 2020-06-10T01:37:35.653332Z	info	proto: tag has too few fields: &#34;-&#34; grafana: enabled: false k8s: replicaCount: 1 istiocoredns: enabled: false kiali: enabled: false k8s: replicaCount: 1 prometheus: enabled: true k8s: replicaCount: 1 tracing: enabled: false grafana 在 override 文件中添加 addonComponents.grafana.enabled=true 项后，应用到集群。
 apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default addonComponents: grafana: enabled: true components: ingressGateways: - name: istio-ingressgateway enabled: true k8s: serviceAnnotations: # https://cloud.">
 <meta itemprop="datePublished" content="2020-03-12T12:52:00&#43;08:00" />
 <meta itemprop="dateModified" content="2020-03-12T12:52:00&#43;08:00" />
-<meta itemprop="wordCount" content="725">
+<meta itemprop="wordCount" content="727">
 
 
 
 <meta itemprop="keywords" content="istio,实战,观测,安装," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Istio 1.5 实战：“体验”监控，观测"/>
-<meta name="twitter:description" content="**本文的内容已经过时，未来的发行版将删除addon，请详见官方的博客 https://istio.io/latest/blog/2020/addon-rework/ **
+<meta name="twitter:description" content="** 本文的内容已经过时，未来的发行版将删除addon，请详见官方的博客Reworking our Addon Integrations，addon 整合已经不是社区未来的方向，所以可以极早向上游部署方式看齐。这是很好的方向 **
 本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习只是用于体验，切不可用于生产，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:
  安全。在没有应用“认证”、“授权”机制前，这些服务裸奔在公网是危险的，即使有的系统有帐密。 存储。这些服务都是有状态的，涉及状态数据的存储，如：promethues、grafana、kiali、tracing。这些 Pod 一旦重建，数据就会丢失。一般地，需要我们适配 k8s 标准化过的存储机制，如：storageClass、pv、pvc等。  组件部署 查看支持的 addonComponents，以及默认的配置值。
 $ istioctl profile dump --config-path addonComponents 2020-06-10T01:37:35.653332Z	info	proto: tag has too few fields: &#34;-&#34; grafana: enabled: false k8s: replicaCount: 1 istiocoredns: enabled: false kiali: enabled: false k8s: replicaCount: 1 prometheus: enabled: true k8s: replicaCount: 1 tracing: enabled: false grafana 在 override 文件中添加 addonComponents.grafana.enabled=true 项后，应用到集群。
@@ -174,7 +174,7 @@ apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: i
       
       
     </header>
-    <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>**本文的内容已经过时，未来的发行版将删除addon，请详见官方的博客 <a href="https://istio.io/latest/blog/2020/addon-rework/">https://istio.io/latest/blog/2020/addon-rework/</a> **</p>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>** 本文的内容已经过时，未来的发行版将删除addon，请详见官方的博客<a href="https://istio.io/latest/blog/2020/addon-rework/">Reworking our Addon Integrations</a>，addon 整合已经不是社区未来的方向，所以可以极早向上游部署方式看齐。这是很好的方向 **</p>
 <p>本文将部署 Istio 的监控，观测附加组件 grafana、tracing、kiali 。标题中使用了“体验”这个词，所以本文所做的练习<strong>只是用于体验，切不可用于生产</strong>，且行文的表述都是基于“体验”这个前提，体验完后，请务必清理。这种建议主要基于以下考虑:</p>
 <ul>
 <li>安全。在没有应用“认证”、“授权”机制前，这些服务裸奔在公网是危险的，即使有的系统有帐密。</li>
@@ -500,7 +500,6 @@ spec:
 <li>数据持久化方面，数据是落地在容器里的, 并没有挂载pvc，charts里也没有提供相关的配置项支持。即容器重建的场景，数据将丢失。</li>
 </ul>
 <p>综上，实际生产中，我们需要关闭它，用自建的prometheus-operator来代替，这个涉及多个方面，如kaili有依赖prometheus。</p>
-<p><strong>正如文章开头的提示，addon 整合已经不是社区未来的方向，所以可以极早向上游部署方式看齐。</strong></p>
 <h2 id="heading1">小结</h2>
 <p>很粗放的部署了以“体验”为目的的观测服务，后续我们将应用“认证”、“授权”机制来保护这些服务，Gateway 支持 https 服务。</p>
 <ul class="pa0">
