@@ -6,10 +6,37 @@
     <description>Recent content in Tags on Potterhe&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 27 May 2020 14:40:50 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 18 Jun 2020 11:52:00 +0800</lastBuildDate>
     
 	<atom:link href="https://potterhe.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>kubernetes</title>
+      <link>https://potterhe.github.io/tags/kubernetes/</link>
+      <pubDate>Thu, 18 Jun 2020 11:52:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OOM</title>
+      <link>https://potterhe.github.io/tags/oom/</link>
+      <pubDate>Thu, 18 Jun 2020 11:52:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/tags/oom/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>troubleshooting</title>
+      <link>https://potterhe.github.io/tags/troubleshooting/</link>
+      <pubDate>Thu, 18 Jun 2020 11:52:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/tags/troubleshooting/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>1.6</title>
@@ -125,15 +152,6 @@
       <pubDate>Sat, 14 Mar 2020 11:52:00 +0800</pubDate>
       
       <guid>https://potterhe.github.io/tags/kubeapps/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kubernetes</title>
-      <link>https://potterhe.github.io/tags/kubernetes/</link>
-      <pubDate>Sat, 14 Mar 2020 11:52:00 +0800</pubDate>
-      
-      <guid>https://potterhe.github.io/tags/kubernetes/</guid>
       <description></description>
     </item>
     

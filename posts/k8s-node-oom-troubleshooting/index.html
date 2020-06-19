@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Potterhe&#39;s Site  | 记一次 Kubernetes 节点 OOM 的排查</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.60.1" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.1cb140d8ba31d5b2f1114537dd04802a.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="记一次 Kubernetes 节点 OOM 的排查" />
+<meta property="og:description" content="环境  tke(腾讯云容器服务) 1.12.4 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64，4.4.0-104-generic kube-proxy mode: ipvs Docker version 18.06.3-ce, build d7080c1  过程 集群内的业务rpc请求大量超时，与kube-proxy的ipvs模式udp转发规则过期问题 的现象一致。 从集群-事件中观察到以下事件，且该节点有coredns的pod。
+2020-06-14 13:15:39 Warning Node 172.21.128.138.1618e2878157535e Rebooted Node 172.21.128.138 has been rebooted, boot id: 281c2a66-2bb2-4274-b979-e1f50cc56fd 后客服反馈：CVM在当时发生了OOM。在得到云厂商客服的反馈后，运维同学没有继续跟进，只是简单的认为是编排中的资源配置问题，可能导致了OOM(我们的编排中, resources.limit.memory &gt; resources.requests.memory)，对编排进行了调整。在后续的几天里，发生了4次类似的reboot情况，发生OOM时的时间点和内存监控图如下:
+143, 2020-06-11 10:52 138, 2020-06-14 13:15 124, 2020-06-15 23:00 47, 2020-06-16 09:40 从以上的图表中发现：
+ 发生OOM时，部分节点的free指标(绿色)是充裕的，按理不应该触发OOM。 发生OOM前，cache指标占80%。这可能是正常的。  我们将以上信息同步给了云厂商的技术支持，后反馈
+ins-xxx ins-yyy 在这两个节点上都有发现上面的内核报错。我反馈给相关同事进一步看下 找到内核报错的方式
+# journalctl --since &#34;2020-06-14 13:00&#34; --until &#34;2020-06-14 14:00&#34; ... Jun 14 13:14:38 host-172-21-128-138 kernel: ------------[ cut here ]------------ Jun 14 13:14:38 host-172-21-128-138 kernel: kernel BUG at /build/linux-SwhOyu/linux-4." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://potterhe.github.io/posts/k8s-node-oom-troubleshooting/" />
+<meta property="article:published_time" content="2020-06-18T11:52:00+08:00" />
+<meta property="article:modified_time" content="2020-06-18T11:52:00+08:00" />
+<meta itemprop="name" content="记一次 Kubernetes 节点 OOM 的排查">
+<meta itemprop="description" content="环境  tke(腾讯云容器服务) 1.12.4 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64，4.4.0-104-generic kube-proxy mode: ipvs Docker version 18.06.3-ce, build d7080c1  过程 集群内的业务rpc请求大量超时，与kube-proxy的ipvs模式udp转发规则过期问题 的现象一致。 从集群-事件中观察到以下事件，且该节点有coredns的pod。
+2020-06-14 13:15:39 Warning Node 172.21.128.138.1618e2878157535e Rebooted Node 172.21.128.138 has been rebooted, boot id: 281c2a66-2bb2-4274-b979-e1f50cc56fd 后客服反馈：CVM在当时发生了OOM。在得到云厂商客服的反馈后，运维同学没有继续跟进，只是简单的认为是编排中的资源配置问题，可能导致了OOM(我们的编排中, resources.limit.memory &gt; resources.requests.memory)，对编排进行了调整。在后续的几天里，发生了4次类似的reboot情况，发生OOM时的时间点和内存监控图如下:
+143, 2020-06-11 10:52 138, 2020-06-14 13:15 124, 2020-06-15 23:00 47, 2020-06-16 09:40 从以上的图表中发现：
+ 发生OOM时，部分节点的free指标(绿色)是充裕的，按理不应该触发OOM。 发生OOM前，cache指标占80%。这可能是正常的。  我们将以上信息同步给了云厂商的技术支持，后反馈
+ins-xxx ins-yyy 在这两个节点上都有发现上面的内核报错。我反馈给相关同事进一步看下 找到内核报错的方式
+# journalctl --since &#34;2020-06-14 13:00&#34; --until &#34;2020-06-14 14:00&#34; ... Jun 14 13:14:38 host-172-21-128-138 kernel: ------------[ cut here ]------------ Jun 14 13:14:38 host-172-21-128-138 kernel: kernel BUG at /build/linux-SwhOyu/linux-4.">
+<meta itemprop="datePublished" content="2020-06-18T11:52:00&#43;08:00" />
+<meta itemprop="dateModified" content="2020-06-18T11:52:00&#43;08:00" />
+<meta itemprop="wordCount" content="149">
+
+
+
+<meta itemprop="keywords" content="kubernetes,OOM,troubleshooting," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="记一次 Kubernetes 节点 OOM 的排查"/>
+<meta name="twitter:description" content="环境  tke(腾讯云容器服务) 1.12.4 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64，4.4.0-104-generic kube-proxy mode: ipvs Docker version 18.06.3-ce, build d7080c1  过程 集群内的业务rpc请求大量超时，与kube-proxy的ipvs模式udp转发规则过期问题 的现象一致。 从集群-事件中观察到以下事件，且该节点有coredns的pod。
+2020-06-14 13:15:39 Warning Node 172.21.128.138.1618e2878157535e Rebooted Node 172.21.128.138 has been rebooted, boot id: 281c2a66-2bb2-4274-b979-e1f50cc56fd 后客服反馈：CVM在当时发生了OOM。在得到云厂商客服的反馈后，运维同学没有继续跟进，只是简单的认为是编排中的资源配置问题，可能导致了OOM(我们的编排中, resources.limit.memory &gt; resources.requests.memory)，对编排进行了调整。在后续的几天里，发生了4次类似的reboot情况，发生OOM时的时间点和内存监控图如下:
+143, 2020-06-11 10:52 138, 2020-06-14 13:15 124, 2020-06-15 23:00 47, 2020-06-16 09:40 从以上的图表中发现：
+ 发生OOM时，部分节点的free指标(绿色)是充裕的，按理不应该触发OOM。 发生OOM前，cache指标占80%。这可能是正常的。  我们将以上信息同步给了云厂商的技术支持，后反馈
+ins-xxx ins-yyy 在这两个节点上都有发现上面的内核报错。我反馈给相关同事进一步看下 找到内核报错的方式
+# journalctl --since &#34;2020-06-14 13:00&#34; --until &#34;2020-06-14 14:00&#34; ... Jun 14 13:14:38 host-172-21-128-138 kernel: ------------[ cut here ]------------ Jun 14 13:14:38 host-172-21-128-138 kernel: kernel BUG at /build/linux-SwhOyu/linux-4."/>
+
+      
+    
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://potterhe.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Potterhe&#39;s Site
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/posts/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+
+<a href="https://twitter.com/potterhe" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+<a href="https://github.com/potterhe" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        POSTS
+      </aside>
+      
+
+
+
+
+  <div id="sharing" class="mt3">
+
+    
+    <a href="https://www.facebook.com/sharer.php?u=https://potterhe.github.io/posts/k8s-node-oom-troubleshooting/" class="facebook no-underline" aria-label="share on Facebook">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765,50.32h6.744V33.998h4.499l0.596-5.624h-5.095  l0.007-2.816c0-1.466,0.14-2.253,2.244-2.253h2.812V17.68h-4.5c-5.405,0-7.307,2.729-7.307,7.317v3.377h-3.369v5.625h3.369V50.32z   M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+
+    </a>
+
+    
+    
+    <a href="https://twitter.com/share?url=https://potterhe.github.io/posts/k8s-node-oom-troubleshooting/&amp;text=%e8%ae%b0%e4%b8%80%e6%ac%a1%20Kubernetes%20%e8%8a%82%e7%82%b9%20OOM%20%e7%9a%84%e6%8e%92%e6%9f%a5" class="twitter no-underline" aria-label="share on Twitter">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+    </a>
+
+    
+    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://potterhe.github.io/posts/k8s-node-oom-troubleshooting/&amp;title=%e8%ae%b0%e4%b8%80%e6%ac%a1%20Kubernetes%20%e8%8a%82%e7%82%b9%20OOM%20%e7%9a%84%e6%8e%92%e6%9f%a5" class="linkedin no-underline" aria-label="share on LinkedIn">
+      <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+    </a>
+  </div>
+
+      <h1 class="f1 athelas mt3 mb1">记一次 Kubernetes 节点 OOM 的排查</h1>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2020-06-18T11:52:00&#43;08:00">June 18, 2020</time>
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><h2 id="heading">环境</h2>
+<ul>
+<li>tke(腾讯云容器服务) 1.12.4 托管集群.</li>
+<li>节点操作系统：ubuntu16.04.1 LTSx86_64，4.4.0-104-generic</li>
+<li>kube-proxy mode: ipvs</li>
+<li>Docker version 18.06.3-ce, build d7080c1</li>
+</ul>
+<h2 id="heading1">过程</h2>
+<p>集群内的业务rpc请求大量超时，与<a href="/posts/k8s-ipvs-udp-rule-expire-5min/">kube-proxy的ipvs模式udp转发规则过期问题</a> 的现象一致。
+从集群-事件中观察到以下事件，且该节点有coredns的pod。</p>
+<pre><code>2020-06-14 13:15:39  Warning Node 172.21.128.138.1618e2878157535e Rebooted  Node 172.21.128.138 has been rebooted, boot id: 281c2a66-2bb2-4274-b979-e1f50cc56fd
+</code></pre><p><img src="/images/k8s-node-oom/node-reboot-event.png" alt="47"></p>
+<p>后客服反馈：CVM在当时发生了OOM。在得到云厂商客服的反馈后，运维同学没有继续跟进，只是简单的认为是编排中的资源配置问题，可能导致了OOM(我们的编排中, resources.limit.memory &gt; resources.requests.memory)，对编排进行了调整。在后续的几天里，发生了4次类似的reboot情况，发生OOM时的时间点和内存监控图如下:</p>
+<pre><code>143, 2020-06-11 10:52
+138, 2020-06-14 13:15
+124, 2020-06-15 23:00
+47, 2020-06-16 09:40
+</code></pre><p><img src="/images/k8s-node-oom/47.png" alt="47">
+<img src="/images/k8s-node-oom/124.png" alt="124">
+<img src="/images/k8s-node-oom/138.png" alt="138">
+<img src="/images/k8s-node-oom/143.png" alt="143"></p>
+<p>从以上的图表中发现：</p>
+<ul>
+<li>发生OOM时，部分节点的free指标(绿色)是充裕的，按理不应该触发OOM。</li>
+<li>发生OOM前，cache指标占80%。这可能是正常的。</li>
+</ul>
+<p>我们将以上信息同步给了云厂商的技术支持，后反馈</p>
+<pre><code>ins-xxx
+ins-yyy
+在这两个节点上都有发现上面的内核报错。我反馈给相关同事进一步看下
+</code></pre><p>找到内核报错的方式</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># journalctl --since &#34;2020-06-14 13:00&#34; --until &#34;2020-06-14 14:00&#34;</span>
+
+...
+Jun <span style="color:#ae81ff">14</span> 13:14:38 host-172-21-128-138 kernel: ------------<span style="color:#f92672">[</span> cut here <span style="color:#f92672">]</span>------------
+Jun <span style="color:#ae81ff">14</span> 13:14:38 host-172-21-128-138 kernel: kernel BUG at /build/linux-SwhOyu/linux-4.4.0/include/linux/fs.h:2582!
+-- Reboot --
+Jun <span style="color:#ae81ff">14</span> 13:15:06 host-172-21-128-138 systemd-journald<span style="color:#f92672">[</span>623<span style="color:#f92672">]</span>: Runtime journal <span style="color:#f92672">(</span>/run/log/journal/<span style="color:#f92672">)</span> is 8.0M, max 643.0M, 635.0M free.
+Jun <span style="color:#ae81ff">14</span> 13:15:06 host-172-21-128-138 kernel: Initializing cgroup subsys cpuset
+Jun <span style="color:#ae81ff">14</span> 13:15:06 host-172-21-128-138 kernel: Initializing cgroup subsys cpu
+...
+</code></pre></div><p>后要求提供 ins-xxx 这台服务器的 /sbin/auplink 文件</p>
+<p>在一天后，云厂商技术支持反馈</p>
+<pre><code>CVM侧分析，ins-xxx这台服务器没有开启kdump，没有生成vmcore,无法进一步分析内核问题。建议您为节点开启下kdump，有故障产生vmcore，我们好进一步分析
+</code></pre><p>打开kdump的方式见文档 <a href="/files/ubuntu-enable-kdump.pdf">Ubuntu 开启 kdump</a></p>
+<h3 id="heading2">节点资源预留策略</h3>
+<p><a href="https://kubernetes.io/zh/docs/tasks/administer-cluster/reserve-compute-resources/">为系统守护进程预留计算资源</a> 描述了k8s的设计，以下是 kubelet 的启动参数(忽略了一些)，可以看到有配置相关的策略。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">/usr/bin/kubelet --kube-reserved<span style="color:#f92672">=</span>cpu<span style="color:#f92672">=</span>140m,memory<span style="color:#f92672">=</span>3436Mi --eviction-hard<span style="color:#f92672">=</span>nodefs.available&lt;10%,nodefs.inodesFree&lt;5%,memory.available&lt;100Mi --fail-swap-on<span style="color:#f92672">=</span>false
+</code></pre></div><h2 id="heading3">一些对策</h2>
+<ul>
+<li>开通所有节点的kdump，以便后续复现时，腾讯云侧能帮助排查。</li>
+<li>调整资源配置。内存资源按request=limit的方式配置，从调度层面避免OOM的可能性，这会增加内存资源的需求，可能会需要增加节点或调整机型。</li>
+<li>完善云监控中关于cvm, 容器服务相关项目的告警策略配置。</li>
+<li>加强巡检。</li>
+</ul>
+<h2 id="heading4">总结</h2>
+<ul>
+<li>从目前收集的信息看，这次故障是内核bug导致的非预期的OOM，未定位原因。</li>
+<li>业务超时的原因是dns解析超时导致。</li>
+<li>出现故障时，没有第一时间进行更深层次的排查，失去一次获取真实原因的机会，且做出的决策可能是错误的，成本可能是巨大的。</li>
+</ul>
+<ul class="pa0">
+  
+   <li class="list">
+     <a href="/tags/kubernetes" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">kubernetes</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/oom" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">OOM</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/troubleshooting" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">troubleshooting</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/a-kubeapps-based-application-deploying-and-managing-system/">基于 Kubeapps 的应用管理、发布系统</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/k8s-no-route-to-host/">Kubernetes &#34;no route to host&#34;问题</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/k8s-ipvs-udp-rule-expire-5min/">kube-proxy的ipvs模式udp转发规则过期问题</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://potterhe.github.io/" >
+    &copy;  Potterhe's Site 2020 
+  </a>
+    <div>
+
+
+
+
+<a href="https://twitter.com/potterhe" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+<a href="https://github.com/potterhe" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

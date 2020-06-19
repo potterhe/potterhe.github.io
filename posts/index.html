@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/posts/" />
-<meta property="og:updated_time" content="2020-05-27T14:40:50+08:00" />
+<meta property="og:updated_time" content="2020-06-18T11:52:00+08:00" />
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Posts"/>
@@ -123,6 +123,26 @@
   <article class="pa3 pa4-ns nested-copy-line-height nested-img">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
     <section class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/k8s-node-oom-troubleshooting/" class="link black dim">
+        记一次 Kubernetes 节点 OOM 的排查
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      环境  tke(腾讯云容器服务) 1.12.4 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64，4.4.0-104-generic kube-proxy mode: ipvs Docker version 18.06.3-ce, build d7080c1  过程 集群内的业务rpc请求大量超时，与kube-proxy的ipvs模式udp转发规则过期问题 的现象一致。 从集群-事件中观察到以下事件，且该节点有coredns的pod。
+2020-06-14 13:15:39 Warning Node 172.21.128.138.1618e2878157535e Rebooted Node 172.21.128.138 has been rebooted, boot id: 281c2a66-2bb2-4274-b979-e1f50cc56fd 后客服反馈：CVM在当时发生了OOM。在得到云厂商客服的反馈后，运维同学没有继续跟进，只是简单的认为是编排中的资源配置问题，可能导致了OOM(我们的编排中, resources.limit.memory &gt; resources.requests.memory)，对编排进行了调整。在后续的几天里，发生了4次类似的reboot情况，发生OOM时的时间点和内存监控图如下:
+143, 2020-06-11 10:52 138, 2020-06-14 13:15 124, 2020-06-15 23:00 47, 2020-06-16 09:40 从以上的图表中发现：
+ 发生OOM时，部分节点的free指标(绿色)是充裕的，按理不应该触发OOM。 发生OOM前，cache指标占80%。这可能是正常的。  我们将以上信息同步给了云厂商的技术支持，后反馈
+ins-xxx ins-yyy 在这两个节点上都有发现上面的内核报错。我反馈给相关同事进一步看下 找到内核报错的方式
+# journalctl --since &#34;2020-06-14 13:00&#34; --until &#34;2020-06-14 14:00&#34; ... Jun 14 13:14:38 host-172-21-128-138 kernel: ------------[ cut here ]------------ Jun 14 13:14:38 host-172-21-128-138 kernel: kernel BUG at /build/linux-SwhOyu/linux-4.
+    </div>
+  </div>
+</div>
+</div>
       
         <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
@@ -278,22 +298,6 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
     <div class="nested-links f5 lh-copy nested-copy-line-height">
       我们在使用腾讯云容器服务(tke)的过程中，遭遇了kube-proxy的ipvs模式udp转发规则过期问题，过程记录。
 环境  tke 1.12.4 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64 kube-proxy ipvs模式 /usr/bin/kube-proxy &ndash;proxy-mode=ipvs &ndash;ipvs-min-sync-period=1s &ndash;ipvs-sync-period=5s &ndash;ipvs-scheduler=rr &ndash;masquerade-all=true &ndash;kubeconfig=/etc/kubernetes/kubeproxy-kubeconfig &ndash;hostname-override=172.21.128.111 &ndash;v=2 运行时：Docker version 18.06.3-ce, build d7080c1  操作和现象  目标节点：172.21.128.109, 该节点有coredns, coredns的svc ClusterIP: 172.23.127.235。执行封锁后，执行drain操作。操作后的现象：业务大量报错“getaddrinfo failed: Name or service not known (10.010s)”,持续约8分钟. 和腾讯云的伙伴复盘时关注dns的变化.操作后会看到新的pod在172.21.128.111节点生成，在集群的任意节点上查看ipvs规则,发现tcp规则已更新成新podip，但udp规则还是老的podip。  # kubectl drain 172.21.128.109 # kubectl get pod -n kube-system -o wide|grep dns coredns-568cfc555b-4vdgk 1/1 Running 0 66s 172.23.3.41 172.21.128.111 &lt;none&gt; coredns-568cfc555b-7zkfz 1/1 Running 0 77d 172.23.0.144 172.21.128.10 &lt;none&gt; # ipvsadm -Ln|grep -A2 172.
-    </div>
-  </div>
-</div>
-</div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/cdh-quick-start-vm/" class="link black dim">
-        cdh-5.13 quickstart vm 使用笔记
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      下载和导入虚拟机.  下载 cdh-quickstart-vm 导入  vm初始信息收集 [cloudera@quickstart ~]$ uname -a Linux quickstart.cloudera 2.6.32-573.el6.x86_64 #1 SMP Thu Jul 23 15:44:03 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux $ cat /etc/issue CentOS release 6.7 (Final) Kernel \r on an \m vm里的cdh服务当前是使用操作系统的init系统管理的，而不是&quot;Cloudera Manager&rdquo;
-By default, the Cloudera QuickStart VM run Cloudera's Distribution including Apache Hadoop (CDH) under Linux's service and configuration management. If you wish to migrate to Cloudera Manager, you must run one of the following commands.
     </div>
   </div>
 </div>

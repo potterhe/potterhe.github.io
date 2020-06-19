@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/" />
-<meta property="og:updated_time" content="2020-05-27T14:40:50+08:00" />
+<meta property="og:updated_time" content="2020-06-18T11:52:00+08:00" />
 <meta itemprop="name" content="Potterhe&#39;s Site">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Potterhe&#39;s Site"/>
@@ -154,6 +154,35 @@
       
       <div class="blah w-100">
         <h1 class="f3 fw1 athelas mt0 lh-title">
+          <a href="https://potterhe.github.io/posts/k8s-node-oom-troubleshooting/" class="color-inherit dim link">
+            记一次 Kubernetes 节点 OOM 的排查
+            </a>
+        </h1>
+        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
+          环境  tke(腾讯云容器服务) 1.12.4 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64，4.4.0-104-generic kube-proxy mode: ipvs Docker version 18.06.3-ce, build d7080c1  过程 集群内的业务rpc请求大量超时，与kube-proxy的ipvs模式udp转发规则过期问题 的现象一致。 从集群-事件中观察到以下事件，且该节点有coredns的pod。
+2020-06-14 13:15:39 Warning Node 172.21.128.138.1618e2878157535e Rebooted Node 172.21.128.138 has been rebooted, boot id: 281c2a66-2bb2-4274-b979-e1f50cc56fd 后客服反馈：CVM在当时发生了OOM。在得到云厂商客服的反馈后，运维同学没有继续跟进，只是简单的认为是编排中的资源配置问题，可能导致了OOM(我们的编排中, resources.limit.memory &gt; resources.requests.memory)，对编排进行了调整。在后续的几天里，发生了4次类似的reboot情况，发生OOM时的时间点和内存监控图如下:
+143, 2020-06-11 10:52 138, 2020-06-14 13:15 124, 2020-06-15 23:00 47, 2020-06-16 09:40 从以上的图表中发现：
+ 发生OOM时，部分节点的free指标(绿色)是充裕的，按理不应该触发OOM。 发生OOM前，cache指标占80%。这可能是正常的。  我们将以上信息同步给了云厂商的技术支持，后反馈
+ins-xxx ins-yyy 在这两个节点上都有发现上面的内核报错。我反馈给相关同事进一步看下 找到内核报错的方式
+# journalctl --since &#34;2020-06-14 13:00&#34; --until &#34;2020-06-14 14:00&#34; ... Jun 14 13:14:38 host-172-21-128-138 kernel: ------------[ cut here ]------------ Jun 14 13:14:38 host-172-21-128-138 kernel: kernel BUG at /build/linux-SwhOyu/linux-4.
+        </div>
+          <a href="https://potterhe.github.io/posts/k8s-node-oom-troubleshooting/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
+        
+      </div>
+    </div>
+  </div>
+</article>
+
+          </div>
+        
+          <div class="relative w-100 mb4">
+            
+<article class="bb b--black-10">
+  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
+    <div class="flex flex-column flex-row-ns">
+      
+      <div class="blah w-100">
+        <h1 class="f3 fw1 athelas mt0 lh-title">
           <a href="https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/" class="color-inherit dim link">
             Istio 1.6 实战：多集群安装
             </a>
@@ -198,40 +227,18 @@ $ istioctl profile dump --config-path components.ingressGateways - enabled: true
 
           </div>
         
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/" class="color-inherit dim link">
-            Istio 1.5 实战：认证--RequestAuthentication
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          根据官方文档：认证 章节的描述，Istio 提供两种认证机制(PeerAuthentication，RequestAuthentication)，PeerAuthentication 解决工作负载间的问题，RequestAuthentication 解决用户端的问题。本文关注用 RequestAuthentication 来保护“裸”应用。以下是需要先从官网了解的相关知识：
- 认证 Request authentication  RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
-apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference: Request authentication 描述了manifest 的完整定义。 Reference: JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
-  您可以将JWT策略添加到入口网关（上面的样例就是）。 这通常用于为绑定到网关的所有服务而不是单个服务定义JWT策略。下面是官方文档的原文
-You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway.
-        </div>
-          <a href="https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
       </section>
 
       
       <section class="w-100">
         <h1 class="f3">More</h1>
         
+        
+          <h2 class="f5 fw4 mb4 dib mr3">
+            <a href="https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/" class="link black dim">
+              Istio 1.5 实战：认证--RequestAuthentication
+            </a>
+          </h2>
         
           <h2 class="f5 fw4 mb4 dib mr3">
             <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="link black dim">
@@ -248,12 +255,6 @@ You can also add a JWT policy to an ingress gateway (e.g., service istio-ingress
           <h2 class="f5 fw4 mb4 dib mr3">
             <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-addon-components/" class="link black dim">
               Istio 1.5 实战：“体验”监控，观测
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="link black dim">
-              Istio 1.5 实战：安装
             </a>
           </h2>
         
