@@ -139,7 +139,7 @@
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
       环境  istio 1.6.3 k8s 1.16.3  场景 需求与下述的两个用例完全一致：将请求的特定前缀删除后，再转发给后端应用，这是一个很普通的 rewrite 场景，下面的两个用例也给出了解决方案且有效。官方的文档HTTPRewrite，描述相当的简单，信息量很少，在排查问题的时候遇到困扰，好在找到了下面的两个用例，过程记录如下。
- Rewrite url to the root in the gateway istio: VirtualService rewrite to the root url  目标  请求分发是否符合预期 rewrite 是否符合预期，不同的istio-proxy(istio-ingressgateway, sidecar)在这个过程中承担的角色和行为。  过程 打开envoy的accessLog，重建 istio-ingressgateway 工作负载，应用工作负载，以让这些pod里的istio-proxy 应用日志选项。
+ Rewrite url to the root in the gateway istio: VirtualService rewrite to the root url  目标  请求分发是否符合预期 rewrite 是否符合预期，不同的istio-proxy(istio-ingressgateway, sidecar)在这个过程中承担的角色和行为。  过程 打开envoy的accessLog，重建 istio-ingressgateway 工作负载、应用工作负载，以让这些pod里的istio-proxy 应用日志选项。
 $ kubectl -n istio-system edit cm istio ...... # Set accessLogFile to empty string to disable access log. accessLogFile: &#34;/dev/stdout&#34; # 开启日志 ...... 以官方用例中的httpbin来做这个实验，只是对httpbin-gateway中的 VirtualService:httpbin 增加了rewrite选项，如下。这里要实现的意图与上文中 rewrite-url-to-root 的场景是一样的，解决方案也是使用的stackoverflow中描述的方案。
  gateways: - httpbin-gateway http: + - match: + - uri: + prefix: /api + rewrite: + uri: &quot; &quot; + route: + - destination: + host: httpbin + port: + number: 8000 - route: - destination: host: httpbin 打开3个终端，观察行为。
     </div>
