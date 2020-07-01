@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/posts/" />
-<meta property="og:updated_time" content="2020-06-18T11:52:00+08:00" />
+<meta property="og:updated_time" content="2020-07-01T10:00:00+08:00" />
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Posts"/>
@@ -123,6 +123,24 @@
   <article class="pa3 pa4-ns nested-copy-line-height nested-img">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
     <section class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-in-action-virtualservice-rewrite/" class="link black dim">
+        Istio 实战：VirtualService rewrite
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      场景 需求与下述的两个用例完全一致：将请求的特定前缀删除后，再转发给后端应用，这是一个很普通的 rewrite 场景，下面的两个用例也给出了解决方案且有效。官方的文档HTTPRewrite，描述相当的简单，信息量很少。在排查问题的时候遇到困扰，好在找到了下面的两个用例。所以决定把过程记录下来。
+ Rewrite url to the root in the gateway istio: VirtualService rewrite to the root url  环境  istio 1.6.3 k8s 1.16.3  目标  请求分发是否符合预期 rewrite 是否符合预期，不同的istio-proxy(istio-ingressgateway, sidecar)在这个过程中承担的角色和行为。  过程 打开envoy的accessLog，重建 istio-ingressgateway 工作负载，应用工作负载，以让这些pod里的istio-proxy 应用日志选项。
+$ kubectl -n istio-system edit cm istio ...... # Set accessLogFile to empty string to disable access log. accessLogFile: &#34;/dev/stdout&#34; # 开启日志 ...... 以官方用例中的httpbin来做这个实验，只是对httpbin-gateway中的 VirtualService:httpbin 增加了rewrite选项，如下。这里要实现的意图与上文中 rewrite-url-to-root 的场景是一样的，解决方案也是使用的stackoverflow中描述的方案。
+ gateways: - httpbin-gateway http: + - match: + - uri: + prefix: /api + rewrite: + uri: &quot; &quot; + route: + - destination: + host: httpbin + port: + number: 8000 - route: - destination: host: httpbin 打开3个终端，观察行为。
+    </div>
+  </div>
+</div>
+</div>
       
         <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
@@ -282,22 +300,6 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
       我们在使用腾讯云容器服务(tke)的过程中，遇到&quot;no route to host&quot;问题，这里记录为运维日志。
 环境  tke 1.12.4(1.14.3) 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64 kube-proxy ipvs模式 /usr/bin/kube-proxy &ndash;proxy-mode=ipvs &ndash;ipvs-min-sync-period=1s &ndash;ipvs-sync-period=5s &ndash;ipvs-scheduler=rr &ndash;masquerade-all=true &ndash;kubeconfig=/etc/kubernetes/kubeproxy-kubeconfig &ndash;hostname-override=172.21.128.111 &ndash;v=2 运行时：Docker version 18.06.3-ce, build d7080c1  排查过程 请详见tke团队roc的文章Kubernetes 疑难杂症排查分享: 诡异的 No route to host
 其它找到的一些有用的文章  https://engineering.dollarshaveclub.com/kubernetes-fixing-delayed-service-endpoint-updates-fd4d0a31852c https://fuckcloudnative.io/posts/kubernetes-fixing-delayed-service-endpoint-updates/ 中文版本 五元组：源IP地址，源端口，目的IP地址，目的端口，和传输层协议这五个量组成的一个集合  
-    </div>
-  </div>
-</div>
-</div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/k8s-ipvs-udp-rule-expire-5min/" class="link black dim">
-        kube-proxy的ipvs模式udp转发规则过期问题
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      我们在使用腾讯云容器服务(tke)的过程中，遭遇了kube-proxy的ipvs模式udp转发规则过期问题，过程记录。
-环境  tke 1.12.4 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64 kube-proxy ipvs模式 /usr/bin/kube-proxy &ndash;proxy-mode=ipvs &ndash;ipvs-min-sync-period=1s &ndash;ipvs-sync-period=5s &ndash;ipvs-scheduler=rr &ndash;masquerade-all=true &ndash;kubeconfig=/etc/kubernetes/kubeproxy-kubeconfig &ndash;hostname-override=172.21.128.111 &ndash;v=2 运行时：Docker version 18.06.3-ce, build d7080c1  操作和现象  目标节点：172.21.128.109, 该节点有coredns, coredns的svc ClusterIP: 172.23.127.235。执行封锁后，执行drain操作。操作后的现象：业务大量报错“getaddrinfo failed: Name or service not known (10.010s)”,持续约8分钟. 和腾讯云的伙伴复盘时关注dns的变化.操作后会看到新的pod在172.21.128.111节点生成，在集群的任意节点上查看ipvs规则,发现tcp规则已更新成新podip，但udp规则还是老的podip。  # kubectl drain 172.21.128.109 # kubectl get pod -n kube-system -o wide|grep dns coredns-568cfc555b-4vdgk 1/1 Running 0 66s 172.23.3.41 172.21.128.111 &lt;none&gt; coredns-568cfc555b-7zkfz 1/1 Running 0 77d 172.23.0.144 172.21.128.10 &lt;none&gt; # ipvsadm -Ln|grep -A2 172.
     </div>
   </div>
 </div>

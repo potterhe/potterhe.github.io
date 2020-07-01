@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Potterhe&#39;s Site  | Istio 实战：VirtualService rewrite</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.60.1" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.1cb140d8ba31d5b2f1114537dd04802a.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="Istio 实战：VirtualService rewrite" />
+<meta property="og:description" content="场景 需求与下述的两个用例完全一致：将请求的特定前缀删除后，再转发给后端应用，这是一个很普通的 rewrite 场景，下面的两个用例也给出了解决方案且有效。官方的文档HTTPRewrite，描述相当的简单，信息量很少。在排查问题的时候遇到困扰，好在找到了下面的两个用例。所以决定把过程记录下来。
+ Rewrite url to the root in the gateway istio: VirtualService rewrite to the root url  环境  istio 1.6.3 k8s 1.16.3  目标  请求分发是否符合预期 rewrite 是否符合预期，不同的istio-proxy(istio-ingressgateway, sidecar)在这个过程中承担的角色和行为。  过程 打开envoy的accessLog，重建 istio-ingressgateway 工作负载，应用工作负载，以让这些pod里的istio-proxy 应用日志选项。
+$ kubectl -n istio-system edit cm istio ...... # Set accessLogFile to empty string to disable access log. accessLogFile: &#34;/dev/stdout&#34; # 开启日志 ...... 以官方用例中的httpbin来做这个实验，只是对httpbin-gateway中的 VirtualService:httpbin 增加了rewrite选项，如下。这里要实现的意图与上文中 rewrite-url-to-root 的场景是一样的，解决方案也是使用的stackoverflow中描述的方案。
+ gateways: - httpbin-gateway http: &#43; - match: &#43; - uri: &#43; prefix: /api &#43; rewrite: &#43; uri: &quot; &quot; &#43; route: &#43; - destination: &#43; host: httpbin &#43; port: &#43; number: 8000 - route: - destination: host: httpbin 打开3个终端，观察行为。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://potterhe.github.io/posts/istio-in-action-virtualservice-rewrite/" />
+<meta property="article:published_time" content="2020-07-01T10:00:00+08:00" />
+<meta property="article:modified_time" content="2020-07-01T10:00:00+08:00" />
+<meta itemprop="name" content="Istio 实战：VirtualService rewrite">
+<meta itemprop="description" content="场景 需求与下述的两个用例完全一致：将请求的特定前缀删除后，再转发给后端应用，这是一个很普通的 rewrite 场景，下面的两个用例也给出了解决方案且有效。官方的文档HTTPRewrite，描述相当的简单，信息量很少。在排查问题的时候遇到困扰，好在找到了下面的两个用例。所以决定把过程记录下来。
+ Rewrite url to the root in the gateway istio: VirtualService rewrite to the root url  环境  istio 1.6.3 k8s 1.16.3  目标  请求分发是否符合预期 rewrite 是否符合预期，不同的istio-proxy(istio-ingressgateway, sidecar)在这个过程中承担的角色和行为。  过程 打开envoy的accessLog，重建 istio-ingressgateway 工作负载，应用工作负载，以让这些pod里的istio-proxy 应用日志选项。
+$ kubectl -n istio-system edit cm istio ...... # Set accessLogFile to empty string to disable access log. accessLogFile: &#34;/dev/stdout&#34; # 开启日志 ...... 以官方用例中的httpbin来做这个实验，只是对httpbin-gateway中的 VirtualService:httpbin 增加了rewrite选项，如下。这里要实现的意图与上文中 rewrite-url-to-root 的场景是一样的，解决方案也是使用的stackoverflow中描述的方案。
+ gateways: - httpbin-gateway http: &#43; - match: &#43; - uri: &#43; prefix: /api &#43; rewrite: &#43; uri: &quot; &quot; &#43; route: &#43; - destination: &#43; host: httpbin &#43; port: &#43; number: 8000 - route: - destination: host: httpbin 打开3个终端，观察行为。">
+<meta itemprop="datePublished" content="2020-07-01T10:00:00&#43;08:00" />
+<meta itemprop="dateModified" content="2020-07-01T10:00:00&#43;08:00" />
+<meta itemprop="wordCount" content="250">
+
+
+
+<meta itemprop="keywords" content="istio,实战,VirtualService,rewrite," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Istio 实战：VirtualService rewrite"/>
+<meta name="twitter:description" content="场景 需求与下述的两个用例完全一致：将请求的特定前缀删除后，再转发给后端应用，这是一个很普通的 rewrite 场景，下面的两个用例也给出了解决方案且有效。官方的文档HTTPRewrite，描述相当的简单，信息量很少。在排查问题的时候遇到困扰，好在找到了下面的两个用例。所以决定把过程记录下来。
+ Rewrite url to the root in the gateway istio: VirtualService rewrite to the root url  环境  istio 1.6.3 k8s 1.16.3  目标  请求分发是否符合预期 rewrite 是否符合预期，不同的istio-proxy(istio-ingressgateway, sidecar)在这个过程中承担的角色和行为。  过程 打开envoy的accessLog，重建 istio-ingressgateway 工作负载，应用工作负载，以让这些pod里的istio-proxy 应用日志选项。
+$ kubectl -n istio-system edit cm istio ...... # Set accessLogFile to empty string to disable access log. accessLogFile: &#34;/dev/stdout&#34; # 开启日志 ...... 以官方用例中的httpbin来做这个实验，只是对httpbin-gateway中的 VirtualService:httpbin 增加了rewrite选项，如下。这里要实现的意图与上文中 rewrite-url-to-root 的场景是一样的，解决方案也是使用的stackoverflow中描述的方案。
+ gateways: - httpbin-gateway http: &#43; - match: &#43; - uri: &#43; prefix: /api &#43; rewrite: &#43; uri: &quot; &quot; &#43; route: &#43; - destination: &#43; host: httpbin &#43; port: &#43; number: 8000 - route: - destination: host: httpbin 打开3个终端，观察行为。"/>
+
+      
+    
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://potterhe.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Potterhe&#39;s Site
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/posts/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+
+<a href="https://twitter.com/potterhe" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+<a href="https://github.com/potterhe" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        POSTS
+      </aside>
+      
+
+
+
+
+  <div id="sharing" class="mt3">
+
+    
+    <a href="https://www.facebook.com/sharer.php?u=https://potterhe.github.io/posts/istio-in-action-virtualservice-rewrite/" class="facebook no-underline" aria-label="share on Facebook">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765,50.32h6.744V33.998h4.499l0.596-5.624h-5.095  l0.007-2.816c0-1.466,0.14-2.253,2.244-2.253h2.812V17.68h-4.5c-5.405,0-7.307,2.729-7.307,7.317v3.377h-3.369v5.625h3.369V50.32z   M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+
+    </a>
+
+    
+    
+    <a href="https://twitter.com/share?url=https://potterhe.github.io/posts/istio-in-action-virtualservice-rewrite/&amp;text=Istio%20%e5%ae%9e%e6%88%98%ef%bc%9aVirtualService%20rewrite" class="twitter no-underline" aria-label="share on Twitter">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+    </a>
+
+    
+    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://potterhe.github.io/posts/istio-in-action-virtualservice-rewrite/&amp;title=Istio%20%e5%ae%9e%e6%88%98%ef%bc%9aVirtualService%20rewrite" class="linkedin no-underline" aria-label="share on LinkedIn">
+      <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+    </a>
+  </div>
+
+      <h1 class="f1 athelas mt3 mb1">Istio 实战：VirtualService rewrite</h1>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2020-07-01T10:00:00&#43;08:00">July 1, 2020</time>
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><h2 id="heading">场景</h2>
+<p>需求与下述的两个用例完全一致：将请求的特定前缀删除后，再转发给后端应用，这是一个很普通的 rewrite 场景，下面的两个用例也给出了解决方案且有效。官方的文档<a href="https://istio.io/latest/docs/reference/config/networking/virtual-service/#HTTPRewrite">HTTPRewrite</a>，描述相当的简单，信息量很少。在排查问题的时候遇到困扰，好在找到了下面的两个用例。所以决定把过程记录下来。</p>
+<ul>
+<li><a href="https://discuss.istio.io/t/rewrite-url-to-the-root-in-the-gateway/2860">Rewrite url to the root in the gateway</a></li>
+<li><a href="https://stackoverflow.com/questions/60658439/istio-virtualservice-rewrite-to-the-root-url">istio: VirtualService rewrite to the root url</a></li>
+</ul>
+<h2 id="heading1">环境</h2>
+<ul>
+<li>istio 1.6.3</li>
+<li>k8s 1.16.3</li>
+</ul>
+<h2 id="heading2">目标</h2>
+<ol>
+<li>请求分发是否符合预期</li>
+<li>rewrite 是否符合预期，不同的istio-proxy(istio-ingressgateway, sidecar)在这个过程中承担的角色和行为。</li>
+</ol>
+<h2 id="heading3">过程</h2>
+<p>打开envoy的accessLog，重建 istio-ingressgateway 工作负载，应用工作负载，以让这些pod里的istio-proxy 应用日志选项。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl -n istio-system edit cm istio
+......
+<span style="color:#75715e"># Set accessLogFile to empty string to disable access log.</span>
+accessLogFile: <span style="color:#e6db74">&#34;/dev/stdout&#34;</span> <span style="color:#75715e"># 开启日志</span>
+......
+</code></pre></div><p>以官方用例中的httpbin来做这个实验，只是对httpbin-gateway中的 VirtualService:httpbin 增加了rewrite选项，如下。这里要实现的意图与上文中 rewrite-url-to-root 的场景是一样的，解决方案也是使用的stackoverflow中描述的方案。</p>
+<pre><code>   gateways:
+   - httpbin-gateway
+   http:
++  - match:
++    - uri:
++        prefix: /api
++    rewrite:
++      uri: &quot; &quot;
++    route:
++    - destination:
++        host: httpbin
++        port:
++          number: 8000
+   - route:
+     - destination:
+         host: httpbin
+</code></pre><p>打开3个终端，观察行为。</p>
+<p>终端1：观察 istio-ingressgateway 的访问日志</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl logs -f istio-ingressgateway-company-c-7bd9fd4c9-4wkmp -n rd-1
+</code></pre></div><p>终端2: 观察应用pod里sidecar的访问日志</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl logs -f httpbin-779c54bf49-xv8qt -c istio-proxy -n rd-1
+</code></pre></div><p>终端3，发起请求，查看应用容器里观察到的请求, httpbin的 <code>/anything</code> api 会返回请求本身的信息，能帮忙我们从应用的视角来观察请求。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ curl https://httpbin.company.com/anything
+</code></pre></div><h3 id="heading4">实验</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ curl https://httpbin.company.com/api/anything
+<span style="color:#f92672">{</span>
+  <span style="color:#e6db74">&#34;args&#34;</span>: <span style="color:#f92672">{</span><span style="color:#f92672">}</span>,
+  <span style="color:#e6db74">&#34;data&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+  <span style="color:#e6db74">&#34;files&#34;</span>: <span style="color:#f92672">{</span><span style="color:#f92672">}</span>,
+  <span style="color:#e6db74">&#34;form&#34;</span>: <span style="color:#f92672">{</span><span style="color:#f92672">}</span>,
+  <span style="color:#e6db74">&#34;headers&#34;</span>: <span style="color:#f92672">{</span>
+    <span style="color:#e6db74">&#34;Accept&#34;</span>: <span style="color:#e6db74">&#34;*/*&#34;</span>,
+    <span style="color:#e6db74">&#34;Content-Length&#34;</span>: <span style="color:#e6db74">&#34;0&#34;</span>,
+    <span style="color:#e6db74">&#34;Host&#34;</span>: <span style="color:#e6db74">&#34;httpbin.company.com&#34;</span>,
+    <span style="color:#e6db74">&#34;User-Agent&#34;</span>: <span style="color:#e6db74">&#34;curl/7.54.0&#34;</span>,
+    <span style="color:#e6db74">&#34;X-B3-Parentspanid&#34;</span>: <span style="color:#e6db74">&#34;a3281800932a2598&#34;</span>,
+    <span style="color:#e6db74">&#34;X-B3-Sampled&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>,
+    <span style="color:#e6db74">&#34;X-B3-Spanid&#34;</span>: <span style="color:#e6db74">&#34;d32b68e4b2ac2f88&#34;</span>,
+    <span style="color:#e6db74">&#34;X-B3-Traceid&#34;</span>: <span style="color:#e6db74">&#34;dd6294459b25fa8ca3281800932a2598&#34;</span>,
+    <span style="color:#e6db74">&#34;X-Envoy-External-Address&#34;</span>: <span style="color:#e6db74">&#34;182.139.101.81&#34;</span>,
+    <span style="color:#e6db74">&#34;X-Envoy-Original-Path&#34;</span>: <span style="color:#e6db74">&#34;/api/anything&#34;</span>,
+    <span style="color:#e6db74">&#34;X-Forwarded-Client-Cert&#34;</span>: <span style="color:#e6db74">&#34;By=spiffe://cluster.local/ns/rd-1/sa/httpbin;Hash=8f43054a3c39af4acdd173e64062b8cbca3535cd84da93d4b780933d4ec61760;Subject=\&#34;\&#34;;URI=spiffe://cluster.local/ns/rd-1/sa/istio-ingressgateway-company-c-service-account&#34;</span>
+  <span style="color:#f92672">}</span>,
+  <span style="color:#e6db74">&#34;json&#34;</span>: null,
+  <span style="color:#e6db74">&#34;method&#34;</span>: <span style="color:#e6db74">&#34;GET&#34;</span>,
+  <span style="color:#e6db74">&#34;origin&#34;</span>: <span style="color:#e6db74">&#34;182.139.101.81&#34;</span>,
+  <span style="color:#e6db74">&#34;url&#34;</span>: <span style="color:#e6db74">&#34;https://httpbin.company.com/anything&#34;</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e"># 注意上面响应报文的倒数第二行</span>
+
+<span style="color:#75715e">#istio-ingressgateway 的访问日志</span>
+
+<span style="color:#f92672">[</span>2020-07-01T01:23:01.437Z<span style="color:#f92672">]</span> <span style="color:#e6db74">&#34;GET /api/anything HTTP/2&#34;</span> <span style="color:#ae81ff">200</span> - <span style="color:#e6db74">&#34;-&#34;</span> <span style="color:#e6db74">&#34;-&#34;</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">847</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">1</span> <span style="color:#e6db74">&#34;182.139.101.81&#34;</span> <span style="color:#e6db74">&#34;curl/7.54.0&#34;</span> <span style="color:#e6db74">&#34;107f4bb2-d5ee-93da-9025-d530eb3c8cde&#34;</span> <span style="color:#e6db74">&#34;httpbin.company.com&#34;</span> <span style="color:#e6db74">&#34;192.168.224.9:80&#34;</span> outbound|8000<span style="color:#f92672">||</span>httpbin.rd-1.svc.cluster.local 192.168.224.179:53558 192.168.224.179:8443 182.139.101.81:21585 httpbin.company.com -
+
+<span style="color:#75715e">#sidecar 的访问日志, 注意请求的 path</span>
+
+<span style="color:#f92672">[</span>2020-07-01T01:23:01.439Z<span style="color:#f92672">]</span> <span style="color:#e6db74">&#34;GET /api/anything HTTP/1.1&#34;</span> <span style="color:#ae81ff">200</span> - <span style="color:#e6db74">&#34;-&#34;</span> <span style="color:#e6db74">&#34;-&#34;</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">847</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">1</span> <span style="color:#e6db74">&#34;182.139.101.81&#34;</span> <span style="color:#e6db74">&#34;curl/7.54.0&#34;</span> <span style="color:#e6db74">&#34;107f4bb2-d5ee-93da-9025-d530eb3c8cde&#34;</span> <span style="color:#e6db74">&#34;httpbin.company.com&#34;</span> <span style="color:#e6db74">&#34;127.0.0.1:80&#34;</span> inbound|8000|http|httpbin.rd-1.svc.cluster.local 127.0.0.1:49940 192.168.224.9:80 182.139.101.81:0 outbound_.8000_._.httpbin.rd-1.svc.cluster.local default
+</code></pre></div><h2 id="heading5">小结</h2>
+<ol>
+<li>注意响应报文的倒数第二行，应用观察到的url的path部分没有 <code>/api</code>，说明请求真实的被rewrite了，是符合预期的。</li>
+<li>sidecar 的访问日志显示的请求path仍然是 <code>/api/anything</code>, 说明 istio-ingressgateway 并没有rewrite，rewrite是在sidecar上发生的。</li>
+<li>请求的匹配分发在是在 istio-ingressgateway 上进行的，由于上面的实现中 <code>/api</code> 的目标端仍然是httpbin本身，所以不能明显的感知，如果再做一个httpbin服务，就能感知。</li>
+<li>猜想这种策略应该是出于将负载分层的想法，istio-ingressgateway 作为网格的入口，服务于所有的应用，应尽可能的减少其负载，那些更繁杂的策略在各应用的sidecar上做，是合适的。</li>
+</ol>
+<h2 id="heading6">引用</h2>
+<p><a href="https://zhonghua.io/2020/02/12/istio-debug-with-envoy-log/">istio 数据面调试指南</a></p>
+<ul class="pa0">
+  
+   <li class="list">
+     <a href="/tags/istio" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">istio</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/%E5%AE%9E%E6%88%98" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">实战</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/virtualservice" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">VirtualService</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/rewrite" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">rewrite</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/posts/istio-1.6-in-action-setup-multicluster/">Istio 1.6 实战：多集群安装</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/istio-1.5-in-action-setup-advanced/">Istio 1.5 实战：安装进阶</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/istio-1.5-in-action-request-authentication/">Istio 1.5 实战：认证--RequestAuthentication</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/istio-1.5-in-action-authorization/">Istio 1.5 实战：授权(Authorization)</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/istio-1.5-in-action-setup-addon-components/">Istio 1.5 实战：“体验”监控，观测</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/posts/istio-1.5-in-action-setup/">Istio 1.5 实战：安装</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://potterhe.github.io/" >
+    &copy;  Potterhe's Site 2020 
+  </a>
+    <div>
+
+
+
+
+<a href="https://twitter.com/potterhe" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+<a href="https://github.com/potterhe" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>Potterhe&#39;s Site </title>
+    <title>Potterhe&#39;s Site  | rewrite</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="generator" content="Hugo 0.60.1" />
     
@@ -25,19 +25,19 @@
 
     
     
-      <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
-      <link href="/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/tags/rewrite/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/tags/rewrite/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
       
     
     
-    <meta property="og:title" content="Potterhe&#39;s Site" />
+    <meta property="og:title" content="rewrite" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://potterhe.github.io/" />
+<meta property="og:url" content="https://potterhe.github.io/tags/rewrite/" />
 <meta property="og:updated_time" content="2020-07-01T10:00:00+08:00" />
-<meta itemprop="name" content="Potterhe&#39;s Site">
+<meta itemprop="name" content="rewrite">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Potterhe&#39;s Site"/>
+<meta name="twitter:title" content="rewrite"/>
 <meta name="twitter:description" content=""/>
 
       
@@ -110,7 +110,7 @@
 
       <div class="tc-l pv4 pv6-l ph3 ph4-ns">
         <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-          Potterhe&#39;s Site
+          rewrite
         </h1>
         
       </div>
@@ -120,155 +120,36 @@
 
     <main class="pb7" role="main">
       
-  <article class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray">
-    
+  <article class="cf pa3 pa4-m pa4-l">
+    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
+      <p>Below you will find pages that utilize the taxonomy term “rewrite”</p>
+    </div>
   </article>
-  
-  
-  
-  
-  
-  
-  
-    
-    
-
-    <div class="pa3 pa4-ns w-100 w-70-ns center">
+  <div class="mw8 center">    
+    <section class="flex-ns flex-wrap justify-around mt5">
       
-       
-          <h1 class="flex-none">
-            Recent Posts
-          </h1>
-        
-
-      
-
-      <section class="w-100 mw8">
-        
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="https://potterhe.github.io/posts/istio-in-action-virtualservice-rewrite/" class="color-inherit dim link">
-            Istio 实战：VirtualService rewrite
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          场景 需求与下述的两个用例完全一致：将请求的特定前缀删除后，再转发给后端应用，这是一个很普通的 rewrite 场景，下面的两个用例也给出了解决方案且有效。官方的文档HTTPRewrite，描述相当的简单，信息量很少。在排查问题的时候遇到困扰，好在找到了下面的两个用例。所以决定把过程记录下来。
+        <div class="relative w-100  mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-in-action-virtualservice-rewrite/" class="link black dim">
+        Istio 实战：VirtualService rewrite
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      场景 需求与下述的两个用例完全一致：将请求的特定前缀删除后，再转发给后端应用，这是一个很普通的 rewrite 场景，下面的两个用例也给出了解决方案且有效。官方的文档HTTPRewrite，描述相当的简单，信息量很少。在排查问题的时候遇到困扰，好在找到了下面的两个用例。所以决定把过程记录下来。
  Rewrite url to the root in the gateway istio: VirtualService rewrite to the root url  环境  istio 1.6.3 k8s 1.16.3  目标  请求分发是否符合预期 rewrite 是否符合预期，不同的istio-proxy(istio-ingressgateway, sidecar)在这个过程中承担的角色和行为。  过程 打开envoy的accessLog，重建 istio-ingressgateway 工作负载，应用工作负载，以让这些pod里的istio-proxy 应用日志选项。
 $ kubectl -n istio-system edit cm istio ...... # Set accessLogFile to empty string to disable access log. accessLogFile: &#34;/dev/stdout&#34; # 开启日志 ...... 以官方用例中的httpbin来做这个实验，只是对httpbin-gateway中的 VirtualService:httpbin 增加了rewrite选项，如下。这里要实现的意图与上文中 rewrite-url-to-root 的场景是一样的，解决方案也是使用的stackoverflow中描述的方案。
  gateways: - httpbin-gateway http: + - match: + - uri: + prefix: /api + rewrite: + uri: &quot; &quot; + route: + - destination: + host: httpbin + port: + number: 8000 - route: - destination: host: httpbin 打开3个终端，观察行为。
-        </div>
-          <a href="https://potterhe.github.io/posts/istio-in-action-virtualservice-rewrite/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
     </div>
   </div>
-</article>
+</div>
 
-          </div>
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="https://potterhe.github.io/posts/k8s-node-oom-troubleshooting/" class="color-inherit dim link">
-            记一次 Kubernetes 节点 OOM 的排查
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          环境  tke(腾讯云容器服务) 1.12.4 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64，4.4.0-104-generic kube-proxy mode: ipvs Docker version 18.06.3-ce, build d7080c1  过程 集群内的业务rpc请求大量超时，与kube-proxy的ipvs模式udp转发规则过期问题 的现象一致。 从集群-事件中观察到以下事件，且该节点有coredns的pod。
-2020-06-14 13:15:39 Warning Node 172.21.128.138.1618e2878157535e Rebooted Node 172.21.128.138 has been rebooted, boot id: 281c2a66-2bb2-4274-b979-e1f50cc56fd 后客服反馈：CVM在当时发生了OOM。在得到云厂商客服的反馈后，运维同学没有继续跟进，只是简单的认为是编排中的资源配置问题，可能导致了OOM(我们的编排中, resources.limit.memory &gt; resources.requests.memory)，对编排进行了调整。在后续的几天里，发生了4次类似的reboot情况，发生OOM时的时间点和内存监控图如下:
-143, 2020-06-11 10:52 138, 2020-06-14 13:15 124, 2020-06-15 23:00 47, 2020-06-16 09:40 从以上的图表中发现：
- 发生OOM时，部分节点的free指标(绿色)是充裕的，按理不应该触发OOM。 发生OOM前，cache指标占80%。这可能是正常的。  我们将以上信息同步给了云厂商的技术支持，后反馈
-ins-xxx ins-yyy 在这两个节点上都有发现上面的内核报错。我反馈给相关同事进一步看下 找到内核报错的方式
-# journalctl --since &#34;2020-06-14 13:00&#34; --until &#34;2020-06-14 14:00&#34; ... Jun 14 13:14:38 host-172-21-128-138 kernel: ------------[ cut here ]------------ Jun 14 13:14:38 host-172-21-128-138 kernel: kernel BUG at /build/linux-SwhOyu/linux-4.
         </div>
-          <a href="https://potterhe.github.io/posts/k8s-node-oom-troubleshooting/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
+      
+    </section>
   </div>
-</article>
-
-          </div>
-        
-          <div class="relative w-100 mb4">
-            
-<article class="bb b--black-10">
-  <div class="db pv4 ph3 ph0-l no-underline dark-gray">
-    <div class="flex flex-column flex-row-ns">
-      
-      <div class="blah w-100">
-        <h1 class="f3 fw1 athelas mt0 lh-title">
-          <a href="https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/" class="color-inherit dim link">
-            Istio 1.6 实战：多集群安装
-            </a>
-        </h1>
-        <div class="f6 f5-l lh-copy nested-copy-line-height nested-links">
-          部署模型 Replicated control planes Shared control plane (single and multiple networks)  root-ca 官方文档有明确的提醒，不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
-直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
-$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.pem samples/multicluster/setup-mesh.sh samples/multicluster/setup-mesh.sh。通过查看脚本源码，此脚本生成root-ca时，也是下载的Makefile 文件(TAG:1.6.0 下载的是 BRANCH:release-1.4 的文件，如果想用自己下载的Makefile，一定要放在WORKDIR/certs/ 目录下)，运行此脚本前，需先声明三个环境变量。
-        </div>
-          <a href="https://potterhe.github.io/posts/istio-1.6-in-action-setup-multicluster/" class="ba b--moon-gray bg-light-gray br2 color-inherit dib f7 hover-bg-moon-gray link mt2 ph2 pv1">read more</a>
-        
-      </div>
-    </div>
-  </div>
-</article>
-
-          </div>
-        
-      </section>
-
-      
-      <section class="w-100">
-        <h1 class="f3">More</h1>
-        
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup-advanced/" class="link black dim">
-              Istio 1.5 实战：安装进阶
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/" class="link black dim">
-              Istio 1.5 实战：认证--RequestAuthentication
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/istio-1.5-in-action-authorization/" class="link black dim">
-              Istio 1.5 实战：授权(Authorization)
-            </a>
-          </h2>
-        
-          <h2 class="f5 fw4 mb4 dib mr3">
-            <a href="https://potterhe.github.io/posts/a-kubeapps-based-application-deploying-and-managing-system/" class="link black dim">
-              基于 Kubeapps 的应用管理、发布系统
-            </a>
-          </h2>
-        
-
-        
-        
-          <a href="https://potterhe.github.io/posts/" class="link db f6 pa2 br3 bg-mid-gray white dim w4 tc">All Posts</a>
-        
-        </section>
-      
-
-      </div>
-  
 
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
