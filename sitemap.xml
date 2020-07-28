@@ -338,6 +338,11 @@
   </url>
   
   <url>
+    <loc>https://potterhe.github.io/posts/kafka-awesome/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://potterhe.github.io/categories/</loc>
   </url>
   

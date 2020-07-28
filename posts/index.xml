@@ -129,7 +129,7 @@ $ istioctl manifest generate -f profile-override-default.yaml &amp;gt; manifest-
       <guid>https://potterhe.github.io/posts/k8s-no-route-to-host/</guid>
       <description>我们在使用腾讯云容器服务(tke)的过程中，遇到&amp;quot;no route to host&amp;quot;问题，这里记录为运维日志。
 环境  tke 1.12.4(1.14.3) 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64 kube-proxy ipvs模式 /usr/bin/kube-proxy &amp;ndash;proxy-mode=ipvs &amp;ndash;ipvs-min-sync-period=1s &amp;ndash;ipvs-sync-period=5s &amp;ndash;ipvs-scheduler=rr &amp;ndash;masquerade-all=true &amp;ndash;kubeconfig=/etc/kubernetes/kubeproxy-kubeconfig &amp;ndash;hostname-override=172.21.128.111 &amp;ndash;v=2 运行时：Docker version 18.06.3-ce, build d7080c1  排查过程 请详见tke团队roc的文章Kubernetes 疑难杂症排查分享: 诡异的 No route to host
-其它找到的一些有用的文章  https://engineering.dollarshaveclub.com/kubernetes-fixing-delayed-service-endpoint-updates-fd4d0a31852c https://fuckcloudnative.io/posts/kubernetes-fixing-delayed-service-endpoint-updates/ 中文版本 五元组：源IP地址，源端口，目的IP地址，目的端口，和传输层协议这五个量组成的一个集合  </description>
+其它找到的一些有用的文章  https://engineering.dollarshaveclub.com/kubernetes-fixing-delayed-service-endpoint-updates-fd4d0a31852c https://fuckcloudnative.io/posts/kubernetes-fixing-delayed-service-endpoint-updates/ 中文版本 五元组：源IP地址，源端口，目的IP地址，目的端口，和传输层协议这五个量组成的一个集合  终局 kube-proxy ipvs conn_reuse_mode setting causes errors with high load from single client #81775 该issue说明了最终的解决方案，是通过操作系统来解决的。2020年7月，我们将所有TKE集群的节点更换为“CentOS 7.6 64bit TKE-Optimized”后，没有再出现过问题。关于如何判定自己的内核有没有应用这个修订，issue中有说明。</description>
     </item>
     
     <item>
@@ -246,6 +246,16 @@ $poller_runs = intval($cron_interval / $poller_interval); define(&amp;#34;MAX_PO
 任务初始化 poller进程启动后，在进行一系列cacti的初始化后，从系统中检索出数据采集任务集，然后将它们持久化到数据库(poller_output表)中,每一项数据指标一条记录。
 并发控制 cacti提供了两种并发模型来提升数据采集的效率，cmd.php和spine。其中cmd.php是多进程模型，用php语言实现; spine是多线程模型，具体实现不详。这里我们只讨论cmd.php方式的并发。下面的引文来自cacti的配置界面说明，大意是说，当使用cmd.php抓取数据时，可以通过增加进程数来提高性能（多进程模型）；当使用spine时，应该通过增加“Maximum Threads per Process”的值，提升性能（多线程模型）。
  &amp;ldquo;The number of concurrent processes to execute. Using a higher number when using cmd.php will improve performance. Performance improvements in spine are best resolved with the threads parameter&amp;rdquo;</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://potterhe.github.io/posts/kafka-awesome/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/kafka-awesome/</guid>
+      <description>./bin/kafka-console-consumer.sh &amp;ndash;bootstrap-server 172.21.64.106:9092 &amp;ndash;topic jiedian_adapter_heartbeat &amp;ndash;partition 3 &amp;ndash;offset 14631069 &amp;ndash;group cg-qiangh-tmp &amp;ndash;max-messages 1 ./bin/kafka-console-consumer.sh &amp;ndash;bootstrap-server 172.21.64.106:9092 &amp;ndash;topic jiedian_adapter_heartbeat &amp;ndash;partition 3 &amp;ndash;offset 14631069 &amp;ndash;group cg-qiangh-tmp &amp;ndash;max-messages 1 ./bin/kafka-console-consumer.sh &amp;ndash;bootstrap-server 172.21.64.106:9092 &amp;ndash;topic jiedian_adapter_heartbeat &amp;ndash;partition 3 &amp;ndash;offset 14631069 &amp;ndash;group cg-qiangh-tmp &amp;ndash;property print.key=true &amp;ndash;property &amp;ldquo;key.separator=:&amp;rdquo;
+org.apache.kafka.common.errors.RecordTooLargeException: There are some messages at [Partition=Offset]: {jiedian_adapter_heartbeat-3=14631069} whose size is larger than the fetch size 1048576 and hence cannot be ever returned. Increase the fetch size on the client (using max.</description>
     </item>
     
   </channel>
