@@ -41,7 +41,7 @@ $ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long
 $ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................&#43;&#43; ...........................................................&#43;&#43; e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.">
 <meta itemprop="datePublished" content="2020-05-27T14:40:50&#43;08:00" />
 <meta itemprop="dateModified" content="2020-05-27T14:40:50&#43;08:00" />
-<meta itemprop="wordCount" content="518">
+<meta itemprop="wordCount" content="519">
 
 
 
@@ -291,9 +291,8 @@ CITADEL_SAN_DNS ?= localhost
 <h3 id="valuesglobalmulticlusterenabled">values.global.multiCluster.enabled</h3>
 <p>此选项打开时，会在manifest中新增3个资源，它们在 <code>manifests/charts/gateways/istio-ingress/templates/preconfigured.yaml</code> 中定义。我们需要关注该配置项与 <code>components.ingressGateways</code> 配置项的相互影响和具体行为 <a href="https://istio.io/docs/setup/install/istioctl/#configure-gateways">configure-gateways</a>。当使用<a href="https://istio.io/docs/setup/install/multicluster/gateways/">Replicated control planes</a>方式构建多集群网格，选定 gateway 入口时，需要特别关注。</p>
 <ol>
-<li><code>manifests/charts/gateways/istio-ingress</code> 会用于渲染 <code>components.ingressGateways</code> 定义的每一个ingressgateway。</li>
-<li><code>manifests/charts/gateways/istio-ingress/templates/preconfigured.yaml</code> 的逻辑是：<code>values.gateways[&quot;istio-ingressgateway&quot;]</code> 存在定义就会生成3个 manifest 资源。</li>
-<li>即 <code>components.ingressGateways</code> 每定义一个，就会生成这3个资源，这3个资源的 namespace 与 <code>components.ingressGateways[i].namespace</code> 匹配，且 <code>selector</code> 始终匹配 <code>components.ingressGateways[i].name=istio-ingressgateway</code> 那个。所以可以理解为：当一个 namespace 创建了n个 ingressgateway 时，会生成n组3个资源，但它们都是相同的，最后每个 namespace 只会有一组资源。这里的设计和实现似乎是有缺陷的。</li>
+<li><code>manifests/charts/gateways/istio-ingress</code> 会用于渲染 <code>components.ingressGateways</code> (profile 中) 定义的每一个ingressgateway。</li>
+<li><code>manifests/charts/gateways/istio-ingress/templates/preconfigured.yaml</code> 的逻辑是：<code>values.gateways[&quot;istio-ingressgateway&quot;]</code> 存在定义就会生成3个 manifest 资源。即 <code>components.ingressGateways</code> 每定义一个，就会生成这3个资源，这3个资源的 namespace 与 <code>components.ingressGateways[i].namespace</code> 匹配，且 <code>selector</code> 始终匹配 <code>components.ingressGateways[i].name=istio-ingressgateway</code> 那个。所以可以理解为：当一个 namespace 创建了n个 ingressgateway 时，会生成n组3个资源，但它们都是相同的，最后每个 namespace 只会有一组资源。这里的设计和实现似乎是有缺陷的。</li>
 </ol>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
