@@ -6,10 +6,21 @@
     <description>Recent content in Posts on Potterhe&#39;s Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 01 Jul 2020 10:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 03 Aug 2020 23:59:59 +0800</lastBuildDate>
     
 	<atom:link href="https://potterhe.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>学习清单: TODO</title>
+      <link>https://potterhe.github.io/posts/study-plan/</link>
+      <pubDate>Mon, 03 Aug 2020 23:59:59 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/study-plan/</guid>
+      <description>Security Token Service (STS)  OAuth 2.0 Token Exchange draft-ietf-oauth-token-exchange-16 istio-agent. .Values.global.sts.servicePort 选项(istio 1.6.x)。  HAProxy Proxy Protocol  HAProxy Proxy Protocol Proxy Protocol(Envoy)  BPF/eBPF cilium
+OpenTracing opentracing文档中文版(翻译)吴晟
+Algorithm  Envoy supported load balancers algorithm Maglev: A Fast and Reliable Software Network Load Balancer The Power of Two Random Choices  </description>
+    </item>
     
     <item>
       <title>Istio 实战：VirtualService rewrite</title>
@@ -61,16 +72,17 @@ $ istioctl profile dump --config-path components.ingressGateways - enabled: true
     </item>
     
     <item>
-      <title>Istio 1.5 实战：认证--RequestAuthentication</title>
-      <link>https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/</link>
+      <title>Istio 实战：认证--RequestAuthentication</title>
+      <link>https://potterhe.github.io/posts/istio-in-action-request-authentication/</link>
       <pubDate>Fri, 20 Mar 2020 23:40:00 +0800</pubDate>
       
-      <guid>https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/</guid>
+      <guid>https://potterhe.github.io/posts/istio-in-action-request-authentication/</guid>
       <description>根据官方文档：认证 章节的描述，Istio 提供两种认证机制(PeerAuthentication，RequestAuthentication)，PeerAuthentication 解决工作负载间的问题，RequestAuthentication 解决用户端的问题。本文关注用 RequestAuthentication 来保护“裸”应用。以下是需要先从官网了解的相关知识：
- 认证 Request authentication  RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
+ 认证 Request authentication  环境 istio 1.5.2
+RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
 apiVersion: &amp;#34;security.istio.io/v1beta1&amp;#34; kind: &amp;#34;RequestAuthentication&amp;#34; metadata: name: &amp;#34;jwt-example&amp;#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &amp;#34;testing@secure.istio.io&amp;#34; jwksUri: &amp;#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&amp;#34;  Reference: Request authentication 描述了manifest 的完整定义。 Reference: JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
   您可以将JWT策略添加到入口网关（上面的样例就是）。 这通常用于为绑定到网关的所有服务而不是单个服务定义JWT策略。下面是官方文档的原文
-You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway.</description>
+You can also add a JWT policy to an ingress gateway (e.</description>
     </item>
     
     <item>

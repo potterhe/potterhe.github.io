@@ -3,22 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://potterhe.github.io/posts/</loc>
+    <lastmod>2020-08-03T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/</loc>
+    <lastmod>2020-08-03T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://potterhe.github.io/posts/study-plan/</loc>
+    <lastmod>2020-08-03T23:59:59+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://potterhe.github.io/tags/istio/</loc>
     <lastmod>2020-07-01T10:00:00+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://potterhe.github.io/posts/istio-in-action-virtualservice-rewrite/</loc>
-    <lastmod>2020-07-01T10:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://potterhe.github.io/posts/</loc>
-    <lastmod>2020-07-01T10:00:00+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://potterhe.github.io/</loc>
     <lastmod>2020-07-01T10:00:00+08:00</lastmod>
   </url>
   
@@ -98,7 +103,7 @@
   </url>
   
   <url>
-    <loc>https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/</loc>
+    <loc>https://potterhe.github.io/posts/istio-in-action-request-authentication/</loc>
     <lastmod>2020-03-20T23:40:00+08:00</lastmod>
   </url>
   

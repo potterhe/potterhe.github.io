@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/posts/" />
-<meta property="og:updated_time" content="2020-07-01T10:00:00+08:00" />
+<meta property="og:updated_time" content="2020-08-03T23:59:59+08:00" />
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Posts"/>
@@ -128,6 +128,23 @@
   <div class="bg-white mb3 pa4 gray overflow-hidden">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/study-plan/" class="link black dim">
+        学习清单: TODO
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Security Token Service (STS)  OAuth 2.0 Token Exchange draft-ietf-oauth-token-exchange-16 istio-agent. .Values.global.sts.servicePort 选项(istio 1.6.x)。  HAProxy Proxy Protocol  HAProxy Proxy Protocol Proxy Protocol(Envoy)  BPF/eBPF cilium
+OpenTracing opentracing文档中文版(翻译)吴晟
+Algorithm  Envoy supported load balancers algorithm Maglev: A Fast and Reliable Software Network Load Balancer The Power of Two Random Choices  
+    </div>
+  </div>
+</div>
+</div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
       <a href="https://potterhe.github.io/posts/istio-in-action-virtualservice-rewrite/" class="link black dim">
         Istio 实战：VirtualService rewrite
       </a>
@@ -201,16 +218,17 @@ $ istioctl profile dump --config-path components.ingressGateways - enabled: true
   <div class="bg-white mb3 pa4 gray overflow-hidden">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-request-authentication/" class="link black dim">
-        Istio 1.5 实战：认证--RequestAuthentication
+      <a href="https://potterhe.github.io/posts/istio-in-action-request-authentication/" class="link black dim">
+        Istio 实战：认证--RequestAuthentication
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
       根据官方文档：认证 章节的描述，Istio 提供两种认证机制(PeerAuthentication，RequestAuthentication)，PeerAuthentication 解决工作负载间的问题，RequestAuthentication 解决用户端的问题。本文关注用 RequestAuthentication 来保护“裸”应用。以下是需要先从官网了解的相关知识：
- 认证 Request authentication  RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
+ 认证 Request authentication  环境 istio 1.5.2
+RequestAuthentication 先看看 manifest 长什么样子，下面是官网的一个样例，主要由两个字段构成 selector，jwtRules。
 apiVersion: &#34;security.istio.io/v1beta1&#34; kind: &#34;RequestAuthentication&#34; metadata: name: &#34;jwt-example&#34; namespace: istio-system spec: selector: matchLabels: istio: ingressgateway jwtRules: - issuer: &#34;testing@secure.istio.io&#34; jwksUri: &#34;https://raw.githubusercontent.com/istio/istio/master/security/tools/jwt/samples/jwks.json&#34;  Reference: Request authentication 描述了manifest 的完整定义。 Reference: JWTRule 描述了 jwtRules 的定义。  Selector selector 通过 label 机制选择适用该策略的目标工作负载。
   您可以将JWT策略添加到入口网关（上面的样例就是）。 这通常用于为绑定到网关的所有服务而不是单个服务定义JWT策略。下面是官方文档的原文
-You can also add a JWT policy to an ingress gateway (e.g., service istio-ingressgateway.
+You can also add a JWT policy to an ingress gateway (e.
     </div>
   </div>
 </div>
@@ -284,23 +302,6 @@ apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: i
 apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default 另一面，override 文件中的项，以及项的节点层次怎么找呢？建议两种方式：1，通过 istioctl profile dump default 命令可以打印一些，但不够全；2，查看 charts （install/kubernetes/operator/charts/） 里各子项目的 values 文件定义，这种方式最可靠，对值的行为还可以辅以 templates 文件更深入的了解，推荐这种。
 有了 override 文件后，就可以使用下面的命令生成 manifest，manifest 是 k8s 的定义。建议把 override 文件和生成的 manifest 文件都通过版本控制工具维护起来，在每次对 override 操作后，对比前后的差异。
 $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-override-default.
-    </div>
-  </div>
-</div>
-</div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/k8s-no-route-to-host/" class="link black dim">
-        Kubernetes &#34;no route to host&#34;问题
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      我们在使用腾讯云容器服务(tke)的过程中，遇到&quot;no route to host&quot;问题，这里记录为运维日志。
-环境  tke 1.12.4(1.14.3) 托管集群. 节点操作系统：ubuntu16.04.1 LTSx86_64 kube-proxy ipvs模式 /usr/bin/kube-proxy &ndash;proxy-mode=ipvs &ndash;ipvs-min-sync-period=1s &ndash;ipvs-sync-period=5s &ndash;ipvs-scheduler=rr &ndash;masquerade-all=true &ndash;kubeconfig=/etc/kubernetes/kubeproxy-kubeconfig &ndash;hostname-override=172.21.128.111 &ndash;v=2 运行时：Docker version 18.06.3-ce, build d7080c1  排查过程 请详见tke团队roc的文章Kubernetes 疑难杂症排查分享: 诡异的 No route to host
-其它找到的一些有用的文章  https://engineering.dollarshaveclub.com/kubernetes-fixing-delayed-service-endpoint-updates-fd4d0a31852c https://fuckcloudnative.io/posts/kubernetes-fixing-delayed-service-endpoint-updates/ 中文版本 五元组：源IP地址，源端口，目的IP地址，目的端口，和传输层协议这五个量组成的一个集合  终局 kube-proxy ipvs conn_reuse_mode setting causes errors with high load from single client #81775 该issue说明了最终的解决方案，是通过操作系统来解决的。2020年7月，我们将所有TKE集群的节点更换为“CentOS 7.6 64bit TKE-Optimized”后，没有再出现过问题。关于如何判定自己的内核有没有应用这个修订，issue中有说明。
     </div>
   </div>
 </div>
