@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kubectl on Potterhe&#39;s Site</title>
+    <link>https://potterhe.github.io/tags/kubectl/</link>
+    <description>Recent content in Kubectl on Potterhe&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 27 Jul 2020 10:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://potterhe.github.io/tags/kubectl/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kubectl 笔记</title>
+      <link>https://potterhe.github.io/posts/kubectl-usage-note/</link>
+      <pubDate>Mon, 27 Jul 2020 10:00:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/kubectl-usage-note/</guid>
+      <description>https://stackoverflow.com/questions/43379415/how-can-i-list-the-taints-on-kubernetes-nodes $ kubectl get nodes &amp;ndash;context=tke-test -o json|jq &amp;ldquo;.items[]|{name:.metadata.name, taints:.spec.taints}&amp;rdquo;</description>
+    </item>
+    
+  </channel>
+</rss>

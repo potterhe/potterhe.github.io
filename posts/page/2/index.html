@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/posts/" />
-<meta property="og:updated_time" content="2020-08-03T23:59:59+08:00" />
+<meta property="og:updated_time" content="2020-11-09T23:59:59+08:00" />
 <meta itemprop="name" content="Posts">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Posts"/>
@@ -123,6 +123,25 @@
   <article class="pa3 pa4-ns nested-copy-line-height nested-img">
     <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
     <section class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/istio-1.5-in-action-setup/" class="link black dim">
+        Istio 1.5 实战：安装
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      istio 1.5.0 于北京时间2020年3月6日发布，该版本在架构上有很大的变化(Istio 1.5 新特性解读)，做出这些改变的原因及其重大意义这里不做赘述，有大量的文章做了阐述，本文聚焦于探索 istio-1.5.0 的行为。文中的练习是在腾讯云的容器服务 tke-1.16.3 上进行的，会涉及到一些云平台相关的实现。
+安装istio 使用 istioctl 安装是官方推荐的方式(Customizable Install with Istioctl)，helm 安装方式已经被标记为 deprecated，且已经不支持 helm3。istioctl 安装实践，一般选择一个profile（生产环境，社区推荐基于 default），然后用自定义的值进行覆盖，一般而言，我们只需要编写这个 override 文件(这里的文件名是 profile-override-default.yaml)，不需要修改 charts （当然charts是可以被修改的）。
+apiVersion: install.istio.io/v1alpha1 kind: IstioOperator metadata: namespace: istio-system spec: profile: default 另一面，override 文件中的项，以及项的节点层次怎么找呢？建议两种方式：1，通过 istioctl profile dump default 命令可以打印一些，但不够全；2，查看 charts （install/kubernetes/operator/charts/） 里各子项目的 values 文件定义，这种方式最可靠，对值的行为还可以辅以 templates 文件更深入的了解，推荐这种。
+有了 override 文件后，就可以使用下面的命令生成 manifest，manifest 是 k8s 的定义。建议把 override 文件和生成的 manifest 文件都通过版本控制工具维护起来，在每次对 override 操作后，对比前后的差异。
+$ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-override-default.
+    </div>
+  </div>
+</div>
+</div>
       
         <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
@@ -268,27 +287,6 @@ $ cp /private/etc/php-fpm.conf.default /usr/local/etc/php-fpm.conf $ php-fpm --f
 第一页
 SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayorder` IN('2','3','4') ORDER BY displayorder DESC, lastpost DESC LIMIT 20 Using where; Using filesort 第二页
 SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayorder` IN('2','3','4') ORDER BY displayorder DESC, lastpost DESC LIMIT 20, 20 Using where; Using filesort 可以看到，即使第二页没有需要显示的顶置贴，但仍然会执行查询，这里可以做个小小的优化，计算一下IN（）表达式中的tid的数量。 然后是排序部分，如果条件允许的话，建议通过PHP脚本来排序。是否使用这一项优化，主要受版块中顶置贴的数量影响。如果顶置贴数量较多，必须要通过分页来显示，就需要在数据库中排序后，才能确定在指定页面要显示的顶置贴是哪些。不过按通常的情况来看，版块中顶置贴的数量都还是比较少，很少会出现顶置贴翻页的情况。
-    </div>
-  </div>
-</div>
-</div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/shell-bit-computing/" class="link black dim">
-        shell算术展开、按位运算
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      《shell脚本学习指南》6.1.3节描述了 shell 的算术展开，其支持的运算与C语言差不多，语法 $((...))
-$ echo $(( 3 * 4 )) 12 在某些场景特别方便，可以免去写程序的烦琐，如验证某些运算。 下面是验证《深入理解计算系统》练习题2.12的场景
-表达式 ~0 将生成一个全1的掩码，不管机器的字大小是多少，可移植。
-$ printf &#34;%x\n&#34; $(( ~0 )) ffffffffffffffff $ printf &#34;%#x\n&#34; $(( ~0 )) 0xffffffffffffffff 上面的测试显示，shell中，0按位取反后的值是64位的。 shell 的 printf 命令前导字符打印：《shell脚本学习指南》表7－4：printf 的标志中描述了格式参数中&rdquo;#&ldquo;号的意义，&quot;#&ldquo;可以用以输出前导&quot;0x&rdquo;(16进制)、&ldquo;0&rdquo;(8进制)
-x &amp; 0xFF 生成一个由x的最低有效字节组成的值
-$ printf &#34;%#x\n&#34; $(( 0x89ABCDEF &amp; 0xFF )) 0xef $ printf &#34;%#.8x\n&#34; $(( 0x89ABCDEF &amp; 0xFF )) 0x000000ef 以下x = 0x87654321 A.x的最低有效字节，其他位均置为0
-$ printf &#34;%#.8x\n&#34; $(( 0x87654321 &amp; 0xFF )) 0x00000021 $ printf &#34;%#.
     </div>
   </div>
 </div>

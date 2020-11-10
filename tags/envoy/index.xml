@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Envoy on Potterhe&#39;s Site</title>
+    <link>https://potterhe.github.io/tags/envoy/</link>
+    <description>Recent content in Envoy on Potterhe&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 09 Nov 2020 23:59:59 +0800</lastBuildDate>
+    
+	<atom:link href="https://potterhe.github.io/tags/envoy/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Envoy&#39;s dynamic forward proxy</title>
+      <link>https://potterhe.github.io/posts/envoy-dynamic-forward-proxy/</link>
+      <pubDate>Mon, 09 Nov 2020 23:59:59 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/envoy-dynamic-forward-proxy/</guid>
+      <description>两个概念
+ Reverse proxy 反向代理 Forward proxy 正向代理  Envoy 文档 HTTP dynamic forward proxy 描述了“动态正向代理”是什么，设计意图等。Configuration reference-Dynamic forward proxy 提供了一个样例配置，它在代理 http 请求时，是可以工作的，但代理 https 的请求不行，会返回一个404 错误。官方FAQ Why is Envoy sending 404s to CONNECT requests? 和 Issue #11552 描述了 404 的问题。
+$ curl -I -vvv https://www.baidu.com -x localhost:10000 * Rebuilt URL to: https://www.baidu.com/ * Trying ::1... * TCP_NODELAY set * Connected to localhost (::1) port 10000 (#0) * Establish HTTP proxy tunnel to www.</description>
+    </item>
+    
+  </channel>
+</rss>

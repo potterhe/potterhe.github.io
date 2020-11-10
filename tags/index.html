@@ -34,7 +34,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://potterhe.github.io/tags/" />
-<meta property="og:updated_time" content="2020-07-01T10:00:00+08:00" />
+<meta property="og:updated_time" content="2020-11-09T23:59:59+08:00" />
 <meta itemprop="name" content="Tags">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Tags"/>
@@ -370,6 +370,30 @@ By default, the Cloudera QuickStart VM run Cloudera's Distribution including Apa
 第一页
 SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayorder` IN('2','3','4') ORDER BY displayorder DESC, lastpost DESC LIMIT 20 Using where; Using filesort 第二页
 SELECT * FROM pre_forum_thread WHERE `tid` IN('3','13','12','5') AND `displayorder` IN('2','3','4') ORDER BY displayorder DESC, lastpost DESC LIMIT 20, 20 Using where; Using filesort 可以看到，即使第二页没有需要显示的顶置贴，但仍然会执行查询，这里可以做个小小的优化，计算一下IN（）表达式中的tid的数量。 然后是排序部分，如果条件允许的话，建议通过PHP脚本来排序。是否使用这一项优化，主要受版块中顶置贴的数量影响。如果顶置贴数量较多，必须要通过分页来显示，就需要在数据库中排序后，才能确定在指定页面要显示的顶置贴是哪些。不过按通常的情况来看，版块中顶置贴的数量都还是比较少，很少会出现顶置贴翻页的情况。
+    </div>
+  </div>
+</div>
+
+        
+      
+        <h2 class="f1">
+          <a href="/tags/envoy" class="link blue hover-black">
+            Tag: envoy
+          </a>
+        </h2>
+        
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
+  <div class="bg-white mb3 pa4 gray overflow-hidden">
+    <span class="f6 db">Posts</span>
+    <h1 class="f3 near-black">
+      <a href="https://potterhe.github.io/posts/envoy-dynamic-forward-proxy/" class="link black dim">
+        Envoy&#39;s dynamic forward proxy
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      两个概念
+ Reverse proxy 反向代理 Forward proxy 正向代理  Envoy 文档 HTTP dynamic forward proxy 描述了“动态正向代理”是什么，设计意图等。Configuration reference-Dynamic forward proxy 提供了一个样例配置，它在代理 http 请求时，是可以工作的，但代理 https 的请求不行，会返回一个404 错误。官方FAQ Why is Envoy sending 404s to CONNECT requests? 和 Issue #11552 描述了 404 的问题。
+$ curl -I -vvv https://www.baidu.com -x localhost:10000 * Rebuilt URL to: https://www.baidu.com/ * Trying ::1... * TCP_NODELAY set * Connected to localhost (::1) port 10000 (#0) * Establish HTTP proxy tunnel to www.
     </div>
   </div>
 </div>

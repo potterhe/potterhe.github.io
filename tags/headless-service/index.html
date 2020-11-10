@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     
-    <title>Potterhe&#39;s Site </title>
+    <title>Potterhe&#39;s Site  | Headless Service</title>
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta name="generator" content="Hugo 0.60.1" />
     
@@ -25,19 +25,19 @@
 
     
     
-      <link href="/posts/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
-      <link href="/posts/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/tags/headless-service/index.xml" rel="alternate" type="application/rss+xml" title="Potterhe&#39;s Site" />
+      <link href="/tags/headless-service/index.xml" rel="feed" type="application/rss+xml" title="Potterhe&#39;s Site" />
       
     
     
-    <meta property="og:title" content="Posts" />
+    <meta property="og:title" content="Headless Service" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://potterhe.github.io/posts/" />
-<meta property="og:updated_time" content="2020-11-09T23:59:59+08:00" />
-<meta itemprop="name" content="Posts">
+<meta property="og:url" content="https://potterhe.github.io/tags/headless-service/" />
+<meta property="og:updated_time" content="2020-07-01T10:00:00+08:00" />
+<meta itemprop="name" content="Headless Service">
 <meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:title" content="Headless Service"/>
 <meta name="twitter:description" content=""/>
 
       
@@ -110,7 +110,7 @@
 
       <div class="tc-l pv4 pv6-l ph3 ph4-ns">
         <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-          Posts
+          Headless Service
         </h1>
         
       </div>
@@ -120,128 +120,36 @@
 
     <main class="pb7" role="main">
       
-  <article class="pa3 pa4-ns nested-copy-line-height nested-img">
-    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
+  <article class="cf pa3 pa4-m pa4-l">
+    <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
+      <p>Below you will find pages that utilize the taxonomy term “Headless Service”</p>
+    </div>
+  </article>
+  <div class="mw8 center">    
     <section class="flex-ns flex-wrap justify-around mt5">
       
-        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+        <div class="relative w-100  mb4 bg-white">
+          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
   <div class="bg-white mb3 pa4 gray overflow-hidden">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/shell-bit-computing/" class="link black dim">
-        shell算术展开、按位运算
+      <a href="https://potterhe.github.io/posts/istio-in-action-headless-service-troubleshooting/" class="link black dim">
+        Istio 实战：因 Headless Service 导致的故障
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      《shell脚本学习指南》6.1.3节描述了 shell 的算术展开，其支持的运算与C语言差不多，语法 $((...))
-$ echo $(( 3 * 4 )) 12 在某些场景特别方便，可以免去写程序的烦琐，如验证某些运算。 下面是验证《深入理解计算系统》练习题2.12的场景
-表达式 ~0 将生成一个全1的掩码，不管机器的字大小是多少，可移植。
-$ printf &#34;%x\n&#34; $(( ~0 )) ffffffffffffffff $ printf &#34;%#x\n&#34; $(( ~0 )) 0xffffffffffffffff 上面的测试显示，shell中，0按位取反后的值是64位的。 shell 的 printf 命令前导字符打印：《shell脚本学习指南》表7－4：printf 的标志中描述了格式参数中&rdquo;#&ldquo;号的意义，&quot;#&ldquo;可以用以输出前导&quot;0x&rdquo;(16进制)、&ldquo;0&rdquo;(8进制)
-x &amp; 0xFF 生成一个由x的最低有效字节组成的值
-$ printf &#34;%#x\n&#34; $(( 0x89ABCDEF &amp; 0xFF )) 0xef $ printf &#34;%#.8x\n&#34; $(( 0x89ABCDEF &amp; 0xFF )) 0x000000ef 以下x = 0x87654321 A.x的最低有效字节，其他位均置为0
-$ printf &#34;%#.8x\n&#34; $(( 0x87654321 &amp; 0xFF )) 0x00000021 $ printf &#34;%#.
+      环境  istio 1.6.3 k8s 1.16.3  场景 集群外运行着一个etcd集群 3.2.17 集群内有一个etcd客户端(v3 api)应用，开始工作良好。 某个时间点，发现所有这个应用都不能正常工作了，查看日志报错为：“Error: grpc: the client connection is closing”，通过sidecar.istio.io/inject: &quot;false&quot;关闭sidecar注入后，应用又可以正常工作。由于在这个时间区间进行过集中的大量业务部署，而且这些应用已经进入联调阶段，为避免影响进度，暂时关闭了namespace的sidecar注入label istio-injection=enabled。新建了一个namespace用于复现。
+为排除是应用代码的问题，这次换用etcdctl来进行测试，测试的结果仍然是：集群外正常，集群内注入sidecar异常，关闭注入后正常，现象与应用一致。可以断定是sidecar注入导致的。
+# etcdctl --endpoints=&#34;192.168.220.101:2379&#34; member list Error: grpc: the client connection is closing 从istio-proxy的日志上查找线索。istio 数据面调试指南 排查集群内的headless service 使用了2379端口的，找到一个，是prometheus-op
+$ kubectl get svc --all-namespaces |grep 2379 NAMESPACE NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) kube-system prometheus-prometheus-oper-kube-etcd ClusterIP None &lt;none&gt; 2379/TCP $ helm ls |grep prometheus NAME REVISION	UPDATED STATUS CHART APP VERSION	NAMESPACE prometheus 3 Thu Jul 2 16:32:15 2020	DEPLOYED	prometheus-operator-5.
     </div>
   </div>
 </div>
-</div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/cacti-source-code-insight/" class="link black dim">
-        cacti源码分析－数据采集
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      cacti用于监控系统的各项运行指标，提供了交互界面和图表，是一个整合工具集，它完成两个核心任务： 1)指标数据的采集，2) 将数据通过数图进行展示。其中图表的绘制、图表数据的存储是通过rrdtool工具实现的，《RRDtool简体中文教程》对rrdtool工具进行了介绍，是很好的资料。本文分析指标数据采集的实现。
-如何获取目标数据 我们需要按照目标数据的暴露方式去采集相应的数据. 基于主机(host)的数据，如：系统负载，网卡流量，磁盘IO，TCP连接等已通过SNMP标准化，需要使用SNMP方式获取。应用级的数据要按照应用暴露数据的方式去获取,如: 如果要监控nginx（stub_status）数据,该项数据是通过http方式暴露，需使用http获取数据;如果要监控mysql-server（show status）数据，需要可以连接到mysql服务器，并有权限打印数据。
-cacti由cron驱动 cacti不是一个daemon进程，它由cron驱动。通常我们需要配置如下的cron: 下面的典型配置为每5分钟运行一次cacti的轮换数据进程。
-*/5 * * * * /PATH/TO/php /PATH/TO/cacti/poller.php &gt; /dev/null 2&gt;&amp;1 cron任务的运行频率，影响cacti采集数据周期，但cron的运行频率，并不是cacti最终的采集频率。举例来说，如果cron的运行频率为每5分钟触发一次，但我们希望每分钟采集一次数据，cacti是可以做到的，这要求我们将cron的运行频率正确的配置到cacti，这样cacti会在一次cron进程生命周期内，尽可能的按照预期的频率，进行多次数据采集。
-实现 涉及 $cron_interval，$poller_interval 两项参数，比如cron的周期是5分钟，poller周期是1分钟，则cron触发的poller.php进程，要负责安排5次数据轮询，以满足poller粒度。
-$poller_runs = intval($cron_interval / $poller_interval); define(&#34;MAX_POLLER_RUNTIME&#34;, $poller_runs * $poller_interval - 2); // poller.php进程的最大运行时间（比计划任务周期少2秒） poller进程(poller.php) poller进程由cron启动，在其生命周期内，负责编排所有的数据采集任务.
-任务初始化 poller进程启动后，在进行一系列cacti的初始化后，从系统中检索出数据采集任务集，然后将它们持久化到数据库(poller_output表)中,每一项数据指标一条记录。
-并发控制 cacti提供了两种并发模型来提升数据采集的效率，cmd.php和spine。其中cmd.php是多进程模型，用php语言实现; spine是多线程模型，具体实现不详。这里我们只讨论cmd.php方式的并发。下面的引文来自cacti的配置界面说明，大意是说，当使用cmd.php抓取数据时，可以通过增加进程数来提高性能（多进程模型）；当使用spine时，应该通过增加“Maximum Threads per Process”的值，提升性能（多线程模型）。
- &ldquo;The number of concurrent processes to execute. Using a higher number when using cmd.php will improve performance. Performance improvements in spine are best resolved with the threads parameter&rdquo;
-    </div>
-  </div>
-</div>
-</div>
-      
-        <div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="https://potterhe.github.io/posts/kafka-awesome/" class="link black dim">
-        
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      ./bin/kafka-console-consumer.sh &ndash;bootstrap-server 172.21.64.106:9092 &ndash;topic jiedian_adapter_heartbeat &ndash;partition 3 &ndash;offset 14631069 &ndash;group cg-qiangh-tmp &ndash;max-messages 1 ./bin/kafka-console-consumer.sh &ndash;bootstrap-server 172.21.64.106:9092 &ndash;topic jiedian_adapter_heartbeat &ndash;partition 3 &ndash;offset 14631069 &ndash;group cg-qiangh-tmp &ndash;max-messages 1 ./bin/kafka-console-consumer.sh &ndash;bootstrap-server 172.21.64.106:9092 &ndash;topic jiedian_adapter_heartbeat &ndash;partition 3 &ndash;offset 14631069 &ndash;group cg-qiangh-tmp &ndash;property print.key=true &ndash;property &ldquo;key.separator=:&rdquo;
-org.apache.kafka.common.errors.RecordTooLargeException: There are some messages at [Partition=Offset]: {jiedian_adapter_heartbeat-3=14631069} whose size is larger than the fetch size 1048576 and hence cannot be ever returned. Increase the fetch size on the client (using max.
-    </div>
-  </div>
-</div>
-</div>
+
+        </div>
       
     </section>
-
-<ul class="pagination">
-    
-    <li class="page-item">
-        <a href="/posts/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
-    </li>
-    
-    <li class="page-item">
-    <a href="/posts/page/2/" class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-    </li>
-    
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/posts/">1</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item"><a class="page-link" href="/posts/page/2/">2</a></li>
-    
-    
-    
-    
-    
-    
-        
-        
-    
-    
-    <li class="page-item active"><a class="page-link" href="/posts/page/3/">3</a></li>
-    
-    
-    <li class="page-item disabled">
-    <a  class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-    </li>
-    
-    <li class="page-item">
-        <a href="/posts/page/3/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
-    </li>
-    
-</ul>
-
-</article>
+  </div>
 
     </main>
     <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">

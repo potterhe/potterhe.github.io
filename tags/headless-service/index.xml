@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Headless Service on Potterhe&#39;s Site</title>
+    <link>https://potterhe.github.io/tags/headless-service/</link>
+    <description>Recent content in Headless Service on Potterhe&#39;s Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 01 Jul 2020 10:00:00 +0800</lastBuildDate>
+    
+	<atom:link href="https://potterhe.github.io/tags/headless-service/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Istio 实战：因 Headless Service 导致的故障</title>
+      <link>https://potterhe.github.io/posts/istio-in-action-headless-service-troubleshooting/</link>
+      <pubDate>Wed, 01 Jul 2020 10:00:00 +0800</pubDate>
+      
+      <guid>https://potterhe.github.io/posts/istio-in-action-headless-service-troubleshooting/</guid>
+      <description>环境  istio 1.6.3 k8s 1.16.3  场景 集群外运行着一个etcd集群 3.2.17 集群内有一个etcd客户端(v3 api)应用，开始工作良好。 某个时间点，发现所有这个应用都不能正常工作了，查看日志报错为：“Error: grpc: the client connection is closing”，通过sidecar.istio.io/inject: &amp;quot;false&amp;quot;关闭sidecar注入后，应用又可以正常工作。由于在这个时间区间进行过集中的大量业务部署，而且这些应用已经进入联调阶段，为避免影响进度，暂时关闭了namespace的sidecar注入label istio-injection=enabled。新建了一个namespace用于复现。
+为排除是应用代码的问题，这次换用etcdctl来进行测试，测试的结果仍然是：集群外正常，集群内注入sidecar异常，关闭注入后正常，现象与应用一致。可以断定是sidecar注入导致的。
+# etcdctl --endpoints=&amp;#34;192.168.220.101:2379&amp;#34; member list Error: grpc: the client connection is closing 从istio-proxy的日志上查找线索。istio 数据面调试指南 排查集群内的headless service 使用了2379端口的，找到一个，是prometheus-op
+$ kubectl get svc --all-namespaces |grep 2379 NAMESPACE NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) kube-system prometheus-prometheus-oper-kube-etcd ClusterIP None &amp;lt;none&amp;gt; 2379/TCP $ helm ls |grep prometheus NAME REVISION	UPDATED STATUS CHART APP VERSION	NAMESPACE prometheus 3 Thu Jul 2 16:32:15 2020	DEPLOYED	prometheus-operator-5.</description>
+    </item>
+    
+  </channel>
+</rss>
