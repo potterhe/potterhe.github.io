@@ -170,10 +170,11 @@ $ istioctl manifest generate -f profile-override-default.yaml &gt; manifest-over
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      部署模型 Replicated control planes Shared control plane (single and multiple networks)  环境  istio 1.6.3 k8s 1.16.3  root-ca 为什么需要root-ca？多集群双向认证的必要条件，即使当前是单独部署，考虑到未来多集群的可能性，也应当做root-ca，intermediate-ca的处理。
+      ** 版本 1.8.0 官方文档certificate management 中的 “Plug in CA Certificates” 对此有了更好的描述。**
+ 部署模型 Replicated control planes Shared control plane (single and multiple networks)  环境  istio 1.6.3 k8s 1.16.3  root-ca 为什么需要root-ca？多集群双向认证的必要条件，即使当前是单独部署，考虑到未来多集群的可能性，也应当做root-ca，intermediate-ca的处理。
 官方文档有明确的提醒：不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
 直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
-$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.
+$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree .
     </div>
   </div>
 </div>
@@ -520,10 +521,11 @@ $ kubectl -n istio-system edit cm istio ...... # Set accessLogFile to empty stri
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      部署模型 Replicated control planes Shared control plane (single and multiple networks)  环境  istio 1.6.3 k8s 1.16.3  root-ca 为什么需要root-ca？多集群双向认证的必要条件，即使当前是单独部署，考虑到未来多集群的可能性，也应当做root-ca，intermediate-ca的处理。
+      ** 版本 1.8.0 官方文档certificate management 中的 “Plug in CA Certificates” 对此有了更好的描述。**
+ 部署模型 Replicated control planes Shared control plane (single and multiple networks)  环境  istio 1.6.3 k8s 1.16.3  root-ca 为什么需要root-ca？多集群双向认证的必要条件，即使当前是单独部署，考虑到未来多集群的可能性，也应当做root-ca，intermediate-ca的处理。
 官方文档有明确的提醒：不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
 直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
-$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.
+$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree .
     </div>
   </div>
 </div>
@@ -1241,10 +1243,11 @@ $poller_runs = intval($cron_interval / $poller_interval); define(&#34;MAX_POLLER
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      部署模型 Replicated control planes Shared control plane (single and multiple networks)  环境  istio 1.6.3 k8s 1.16.3  root-ca 为什么需要root-ca？多集群双向认证的必要条件，即使当前是单独部署，考虑到未来多集群的可能性，也应当做root-ca，intermediate-ca的处理。
+      ** 版本 1.8.0 官方文档certificate management 中的 “Plug in CA Certificates” 对此有了更好的描述。**
+ 部署模型 Replicated control planes Shared control plane (single and multiple networks)  环境  istio 1.6.3 k8s 1.16.3  root-ca 为什么需要root-ca？多集群双向认证的必要条件，即使当前是单独部署，考虑到未来多集群的可能性，也应当做root-ca，intermediate-ca的处理。
 官方文档有明确的提醒：不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
 直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
-$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.
+$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree .
     </div>
   </div>
 </div>
@@ -1266,10 +1269,11 @@ $ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      部署模型 Replicated control planes Shared control plane (single and multiple networks)  环境  istio 1.6.3 k8s 1.16.3  root-ca 为什么需要root-ca？多集群双向认证的必要条件，即使当前是单独部署，考虑到未来多集群的可能性，也应当做root-ca，intermediate-ca的处理。
+      ** 版本 1.8.0 官方文档certificate management 中的 “Plug in CA Certificates” 对此有了更好的描述。**
+ 部署模型 Replicated control planes Shared control plane (single and multiple networks)  环境  istio 1.6.3 k8s 1.16.3  root-ca 为什么需要root-ca？多集群双向认证的必要条件，即使当前是单独部署，考虑到未来多集群的可能性，也应当做root-ca，intermediate-ca的处理。
 官方文档有明确的提醒：不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
 直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
-$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.
+$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree .
     </div>
   </div>
 </div>
@@ -1347,10 +1351,11 @@ $ kubectl -n istio-system edit cm istio ...... # Set accessLogFile to empty stri
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      部署模型 Replicated control planes Shared control plane (single and multiple networks)  环境  istio 1.6.3 k8s 1.16.3  root-ca 为什么需要root-ca？多集群双向认证的必要条件，即使当前是单独部署，考虑到未来多集群的可能性，也应当做root-ca，intermediate-ca的处理。
+      ** 版本 1.8.0 官方文档certificate management 中的 “Plug in CA Certificates” 对此有了更好的描述。**
+ 部署模型 Replicated control planes Shared control plane (single and multiple networks)  环境  istio 1.6.3 k8s 1.16.3  root-ca 为什么需要root-ca？多集群双向认证的必要条件，即使当前是单独部署，考虑到未来多集群的可能性，也应当做root-ca，intermediate-ca的处理。
 官方文档有明确的提醒：不可将“sample”的root-ca用于生产，需要构建私有的root-ca。官方仓库有提供两个工具帮忙我们生成root-ca。
 直接用 Makefile samples/certs/Makefile, 这个文件在master分支是没有的，在发布tag上有。然后执行以下命令, 会在当前目录生成4个文件
-$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree . . ├── Makefile ├── root-ca.conf ├── root-cert.csr ├── root-cert.pem └── root-key.
+$ make root-ca generating root-key.pem Generating RSA private key, 4096 bit long modulus ..........................................................................++ ...........................................................++ e is 65537 (0x10001) generating root-cert.csr generating root-cert.pem Signature ok subject=/O=Istio/CN=Root CA Getting Private key $ tree .
     </div>
   </div>
 </div>
