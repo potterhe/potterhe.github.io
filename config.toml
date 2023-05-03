@@ -1,0 +1,11 @@
+baseURL = "https://potterhe.github.io/"
+languageCode = 'en-us'
+title = "Potterhe's Site"
+theme = 'ananke'
+
+Paginate = 10
+SectionPagesMenu = "main"
+
+[[params.ananke_socials]]
+name = "github"
+url = "https://github.com/potterhe"
